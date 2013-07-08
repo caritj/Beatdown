@@ -38,4 +38,23 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Game\Game.csproj">
+      <Project>{2DFF7BD2-1BF0-462F-8D3B-9D4597390E80}</Project>
+      <Name>Game</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Renderer\Renderer.csproj">
+      <Project>{9477242C-93AB-4C2A-9877-28E44AB05F14}</Project>
+      <Name>Renderer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="data\" />
+    <Folder Include="data\gui\" />
+    <Folder Include="data\mdl\" />
+    <Folder Include="data\shd\" />
+    <Folder Include="data\snd\" />
+    <Folder Include="data\tex\" />
+    <Folder Include="data\wld\" />
+  </ItemGroup>
 </Project>

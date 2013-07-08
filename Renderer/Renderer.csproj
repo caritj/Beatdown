@@ -30,10 +30,39 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="Gwen">
+      <HintPath>..\libs\Gwen.dll</HintPath>
+    </Reference>
+    <Reference Include="Gwen.Renderer.OpenTK">
+      <HintPath>..\libs\Gwen.Renderer.OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.Compatibility">
+      <HintPath>..\libs\OpenTK.Compatibility.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\libs\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderer.cs" />
+    <Compile Include="GUI.cs" />
+    <Compile Include="InterfaceElements\MainMenu.cs" />
+    <Compile Include="InterfaceElements\InGame.cs" />
+    <Compile Include="InterfaceElements\Lobby.cs" />
+    <Compile Include="InterfaceElements\Victory.cs" />
+    <Compile Include="GameObjects\IRender.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Game\Game.csproj">
+      <Project>{2DFF7BD2-1BF0-462F-8D3B-9D4597390E80}</Project>
+      <Name>Game</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="InterfaceElements\" />
+    <Folder Include="GameObjects\" />
+  </ItemGroup>
 </Project>

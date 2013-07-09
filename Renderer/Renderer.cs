@@ -22,6 +22,8 @@ namespace BeatDown.Renderer
 		protected Vector3 InGameCameraPosition= new Vector3(10,5,10);
 		protected Vector3 InGameCameraTarget = Vector3.Zero;
 		protected Matrix4 CameraMatrix;
+		private float rot = 0;
+		private float rotX = 0;
 
 		public static Render Instance = null;
 
@@ -72,7 +74,7 @@ namespace BeatDown.Renderer
 			//GL.Enable(EnableCap.Lighting);
 			//GL.Enable(EnableCap.Texture2D);
 			GL.Enable(EnableCap.Blend);
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.Zero);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
 
 			base.OnLoad(e);
@@ -95,12 +97,16 @@ namespace BeatDown.Renderer
 		protected override void OnUpdateFrame (FrameEventArgs e)
 		{
 			if (Keyboard [OpenTK.Input.Key.Left]) {
-				InGameCameraPosition.X += (float)Math.Sin (e.Time) * 5f;
-				InGameCameraPosition.Z += (float)Math.Cos (e.Time) * 5f;
+				rot+= 0.8f;
 			}
 			if (Keyboard [OpenTK.Input.Key.Right]) {
-				InGameCameraPosition.X -= (float)Math.Sin (e.Time) * 5f;
-				InGameCameraPosition.Z -= (float)Math.Cos (e.Time) * 5f;
+				rot-= 0.8f;
+			}
+			if (Keyboard [OpenTK.Input.Key.Up]) {
+				rotX+= 0.8f;
+			}
+			if (Keyboard [OpenTK.Input.Key.Down]) {
+				rotX-= 0.8f;
 			}
 
 			if (Keyboard [OpenTK.Input.Key.Escape]) {
@@ -127,9 +133,12 @@ namespace BeatDown.Renderer
 
 
 			//draw real data to the buffer.
+			GL.PushMatrix();
+			GL.Rotate(rot, UP);
+			GL.Rotate(rotX, Vector3.UnitZ);
 			GameObjects.WorldRenderer.RenderViewable(w);
 			GameObjects.BaseRender.RenderViewable(u);
-
+			GL.PopMatrix();
 			//draw gui to the buffer.
 			this.gui.OnStateChange(Beatdown.Game.State.States.INGAME);
 

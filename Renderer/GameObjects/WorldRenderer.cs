@@ -10,9 +10,10 @@ namespace BeatDown.Renderer.GameObjects
 			GL.PushMatrix ();
 				
 			GL.Translate (w.X, w.Y, w.Z);
+			GL.Translate(w.SizeX/-2f,0f,w.SizeZ/-2f);
+
 			GL.Rotate (w.Rotation, Renderer.Render.UP);
 			//GL.Scale (w.SizeX, w.SizeY, w.SizeZ);
-			GL.Translate(w.SizeX / -2f,0f,w.SizeZ / -2f);
 
 			for (int y = 0; y+1 < w.Heightmap.GetLength(0); y++) {
 
@@ -25,6 +26,7 @@ namespace BeatDown.Renderer.GameObjects
 					//TODO TEXTURING.
 					//TODO SIDES;
 					GL.Begin (BeginMode.Quads);
+
 
 					GL.Color3 (w.Color);
 					GL.Vertex3 ( x , w.Heightmap[y,x],  y);

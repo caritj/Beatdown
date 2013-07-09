@@ -40,7 +40,7 @@ namespace BeatDown.Game
 		public Unit ()
 		{
 			color = System.Drawing.Color.Aquamarine;
-			y =2;
+			y =1;
 		}
 	}
 }

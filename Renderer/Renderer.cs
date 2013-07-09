@@ -138,10 +138,16 @@ namespace BeatDown.Renderer
 			GL.Rotate(rotX, Vector3.UnitZ);
 			GameObjects.WorldRenderer.RenderViewable(w);
 			GameObjects.BaseRender.RenderViewable(u);
+
+			//show the axes 
+			this.drawAxes();
+
+		
 			GL.PopMatrix();
 			//draw gui to the buffer.
 			this.gui.OnStateChange(Beatdown.Game.State.States.INGAME);
-
+			this.drawAxes();
+		
 
 			//draw to screen
 			SwapBuffers();
@@ -154,6 +160,28 @@ namespace BeatDown.Renderer
 			skin.Dispose();
 			canvas.Dispose();
 			base.OnDisposed(e);
+
+		}
+		private void drawAxes(){
+			GL.PushMatrix();
+
+
+			GL.Translate(0f,2f,0f);
+			GL.Begin(BeginMode.Lines);
+			GL.Color3(1f,0f,0f);
+			GL.Vertex3(0f,0f,0f);
+			GL.Vertex3(1f,0f,0f);
+			
+			GL.Color3(0f,1f,0f);;
+			GL.Vertex3(0f,0f,0f);
+			GL.Vertex3(0f,1f,0f);
+
+			GL.Color3(0f,0f,1f);
+			GL.Vertex3(0f,0f,0f);
+			GL.Vertex3(0f,0f,1f);
+			GL.End();
+
+			GL.PopMatrix();
 
 		}
 	}

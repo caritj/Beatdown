@@ -1,10 +1,10 @@
 using System;
-
+using Gwen.Control;
 namespace Renderer.InterfaceElements
 {
-	public class PartyCompositor
+	public class PartyCompositor:Gwen.Control.DockBase
 	{
-		public PartyCompositor ()
+		public PartyCompositor (Base parent):base(parent)
 		{
 		}
 	}

@@ -1,11 +1,12 @@
 using System;
+using Gwen.Control;
 
 namespace Renderer.InterfaceElements
 {
-	public class Victory
+	public class Victory:DockBase
 	{
 		bool didWin = true;
-		public Victory ()
+		public Victory (Base parent):base(parent)
 		{
 		}
 	}

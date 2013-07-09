@@ -1,10 +1,11 @@
 using System;
+using Gwen.Control;
 
 namespace Renderer.InterfaceElements
 {
-	public class InGame
+	public class InGame:DockBase
 	{
-		public InGame ()
+		public InGame (Base parent):base(parent)
 		{
 		}
 	}

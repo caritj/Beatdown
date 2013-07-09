@@ -1,10 +1,10 @@
 using System;
-
+using Gwen.Control;
 namespace Renderer.InterfaceElements
 {
-	public class Lobby
+	public class Lobby:DockBase
 	{
-		public Lobby ()
+		public Lobby (Base parent):base(parent);
 		{
 		}
 	}

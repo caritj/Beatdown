@@ -1,8 +1,8 @@
 using System;
 using Gwen;
-using Renderer.InterfaceElements;
+using BeatDown.Renderer.InterfaceElements;
 
-namespace Renderer
+namespace BeatDown.Renderer
 {
 	public class GUI
 	{

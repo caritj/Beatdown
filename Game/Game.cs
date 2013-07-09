@@ -1,7 +1,7 @@
 using System;
 //using Game.Net;
 	
-namespace Game
+namespace BeatDown.Game
 {
 	public class Game:IDisposable
 	{

@@ -1,10 +1,10 @@
 using System;
 using Gwen.Control;
-namespace Renderer.InterfaceElements
+namespace BeatDown.Renderer.InterfaceElements
 {
 	public class Lobby:DockBase
 	{
-		public Lobby (Base parent):base(parent);
+		public Lobby (Base parent):base(parent)
 		{
 		}
 	}

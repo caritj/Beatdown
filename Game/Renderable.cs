@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
 
-namespace Game
+namespace BeatDown.Game
 {
 	public abstract class Renderable
 	{

@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{9477242C-93AB-4C2A-9877-28E44AB05F14}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Renderer</RootNamespace>
+    <RootNamespace>BeatDown.Renderer</RootNamespace>
     <AssemblyName>Renderer</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

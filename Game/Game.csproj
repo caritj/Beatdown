@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2DFF7BD2-1BF0-462F-8D3B-9D4597390E80}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Game</RootNamespace>
+    <RootNamespace>BeatDown.Game</RootNamespace>
     <AssemblyName>Game</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -38,6 +38,8 @@
     <Compile Include="Renderable.cs" />
     <Compile Include="World.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="State.cs" />
+    <Compile Include="Net.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

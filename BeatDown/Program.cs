@@ -1,5 +1,5 @@
 using System;
-using Game;
+using BeatDown.Game;
 
 namespace BeatDown
 {

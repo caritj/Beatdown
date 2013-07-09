@@ -2,14 +2,14 @@ using System;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using Gwen;
-using Game;
+using BeatDown.Game;
 
-namespace Renderer
+namespace BeatDown.Renderer
 {
 	public class Render:GameWindow
 	{
 		protected Game.Game theGame = null;
-		protected Game.Settings settings = null;
+		protected Settings settings = null;
 		protected GUI gui = null;
 
 		private Gwen.Input.OpenTK input;
@@ -19,6 +19,9 @@ namespace Renderer
 
 		public  static readonly Vector3 UP = Vector3.UnitY;
 
+		protected Vector3 InGameCameraPosition= new Vector3(5,5,5);
+		protected Vector3 InGameCameraTarget = Vector3.Zero;
+		protected Matrix4 CameraMatrix;
 
 		public static Render Instance = null;
 
@@ -80,6 +83,15 @@ namespace Renderer
 		protected override void OnRenderFrame (FrameEventArgs e)
 		{
 			base.OnRenderFrame(e);
+			this.Title = string.Format(" BEATDOWN : FPS:{0:F} mouse:{1},{2}", 1.0 / e.Time, Mouse.X, Mouse.Y);
+
+			//clear the buffer;
+			GL.ClearColor(0f,0f,0f,0f);
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+			//setup the camera
+			CameraMatrix = Matrix4.LookAt(InGameCameraPosition, InGameCameraTarget, UP);
+
 
 			//draw picking data to the buffer.
 

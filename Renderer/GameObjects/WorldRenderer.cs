@@ -1,7 +1,7 @@
 using System;
 using OpenTK.Graphics.OpenGL;
 
-namespace Renderer.GameObjects
+namespace BeatDown.Renderer.GameObjects
 {
 	public class WorldRenderer:BaseRender
 	{
@@ -45,7 +45,7 @@ namespace Renderer.GameObjects
 		
 		}
 		public static void RenderPickable(Game.World w){
-
+			//do nothing.
 		}
 	}
 }

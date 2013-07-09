@@ -2,7 +2,7 @@ using System;
 using Gwen;
 using Gwen.Control;
 
-namespace Renderer.InterfaceElements
+namespace BeatDown.Renderer.InterfaceElements
 {
 	public class MainMenu:Gwen.Control.DockBase
 	{

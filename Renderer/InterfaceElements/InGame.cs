@@ -1,7 +1,7 @@
 using System;
 using Gwen.Control;
 
-namespace Renderer.InterfaceElements
+namespace BeatDown.Renderer.InterfaceElements
 {
 	public class InGame:DockBase
 	{

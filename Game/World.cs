@@ -1,6 +1,6 @@
 using System;
 
-namespace Game
+namespace BeatDown.Game
 {
 	public class World:Renderable
 	{

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Game
+namespace BeatDown.Game
 {
 
 			public class Settings

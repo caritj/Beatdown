@@ -2,7 +2,7 @@ using System;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace Renderer.GameObjects
+namespace BeatDown.Renderer.GameObjects
 {
 	public abstract class BaseRender
 	{
@@ -19,27 +19,27 @@ namespace Renderer.GameObjects
 				
 				GL.Begin(BeginMode.QuadStrip);
 				GL.Color3(r.Color);
-				GL.Vertex3(r.SizeX/-2f,r.SizeY/-2f,r.SizeZ/-2f);
-				GL.Vertex3(r.SizeX/-2f,r.SizeY/-2f, r.SizeZ/2f);
-				GL.Vertex3(r.SizeX/-2f, r.SizeY/2f,r.SizeZ/-2f);
-				GL.Vertex3(r.SizeX/-2f, r.SizeY/2f, r.SizeZ/2f);
+				GL.Vertex3(r.SizeX/-2f,0,r.SizeZ/-2f);
+				GL.Vertex3(r.SizeX/-2f,0, r.SizeZ/2f);
+				GL.Vertex3(r.SizeX/-2f, r.SizeY,r.SizeZ/-2f);
+				GL.Vertex3(r.SizeX/-2f, r.SizeY, r.SizeZ/2f);
 
-				GL.Vertex3( r.SizeX/2f,  r.SizeY/2f,r.SizeZ/-2f);
-				GL.Vertex3( r.SizeX/2f,  r.SizeY/2f, r.SizeZ/2f);
+				GL.Vertex3( r.SizeX/2f,  r.SizeY,r.SizeZ/-2f);
+				GL.Vertex3( r.SizeX/2f,  r.SizeY, r.SizeZ/2f);
 
-				GL.Vertex3( r.SizeX/2f,r.SizeY/-2f, r.SizeZ/-2f);
-				GL.Vertex3( r.SizeX/2f,r.SizeY/-2f, r.SizeZ/2f);
+				GL.Vertex3( r.SizeX/2f,0, r.SizeZ/-2f);
+				GL.Vertex3( r.SizeX/2f,0, r.SizeZ/2f);
 
-				GL.Vertex3(r.SizeX/-2f,r.SizeY/-2f,r.SizeZ/-2f);
-				GL.Vertex3(r.SizeX/-2f,r.SizeY/-2f, r.SizeZ/2f);
+				GL.Vertex3(r.SizeX/-2f,0,r.SizeZ/-2f);
+				GL.Vertex3(r.SizeX/-2f,0, r.SizeZ/2f);
 
 				GL.End();
 
 				GL.Begin(BeginMode.Quads);
-				GL.Vertex3( r.SizeX/2f, r.SizeY/2f, r.SizeZ/2f);
-				GL.Vertex3( r.SizeX/2f,r.SizeY/-2f, r.SizeZ/2f);
-				GL.Vertex3(r.SizeX/-2f,r.SizeY/-2f, r.SizeZ/2f);
-				GL.Vertex3(r.SizeX/-2f, r.SizeY/2f, r.SizeZ/2f);
+				GL.Vertex3( r.SizeX/2f, r.SizeY, r.SizeZ/2f);
+				GL.Vertex3( r.SizeX/2f,r.SizeY, r.SizeZ/2f);
+				GL.Vertex3(r.SizeX/-2f,r.SizeY, r.SizeZ/2f);
+				GL.Vertex3(r.SizeX/-2f, r.SizeY, r.SizeZ/2f);
 				GL.End ();
 
 
@@ -56,27 +56,27 @@ namespace Renderer.GameObjects
 
 			GL.Begin(BeginMode.QuadStrip);
 			GL.Color3(ref r.glId);
-			GL.Vertex3(r.SizeX/-2f,r.SizeY/-2f,r.SizeZ/-2f);
-			GL.Vertex3(r.SizeX/-2f,r.SizeY/-2f, r.SizeZ/2f);
-			GL.Vertex3(r.SizeX/-2f, r.SizeY/2f,r.SizeZ/-2f);
-			GL.Vertex3(r.SizeX/-2f, r.SizeY/2f, r.SizeZ/2f);
+			GL.Vertex3(r.SizeX/-2f,0,r.SizeZ/-2f);
+			GL.Vertex3(r.SizeX/-2f,0, r.SizeZ/2f);
+			GL.Vertex3(r.SizeX/-2f, r.SizeY,r.SizeZ/-2f);
+			GL.Vertex3(r.SizeX/-2f, r.SizeY, r.SizeZ/2f);
 
-			GL.Vertex3( r.SizeX/2f,  r.SizeY/2f,r.SizeZ/-2f);
-			GL.Vertex3( r.SizeX/2f,  r.SizeY/2f, r.SizeZ/2f);
+			GL.Vertex3( r.SizeX/2f,  r.SizeY,r.SizeZ/-2f);
+			GL.Vertex3( r.SizeX/2f,  r.SizeY, r.SizeZ/2f);
 
-			GL.Vertex3( r.SizeX/2f,r.SizeY/-2f, r.SizeZ/-2f);
-			GL.Vertex3( r.SizeX/2f,r.SizeY/-2f, r.SizeZ/2f);
+			GL.Vertex3( r.SizeX/2f,0, r.SizeZ/-2f);
+			GL.Vertex3( r.SizeX/2f,0, r.SizeZ/2f);
 
-			GL.Vertex3(r.SizeX/-2f,r.SizeY/-2f,r.SizeZ/-2f);
-			GL.Vertex3(r.SizeX/-2f,r.SizeY/-2f, r.SizeZ/2f);
+			GL.Vertex3(r.SizeX/-2f,0,r.SizeZ/-2f);
+			GL.Vertex3(r.SizeX/-2f,0, r.SizeZ/2f);
 
 			GL.End();
 
 			GL.Begin(BeginMode.Quads);
-			GL.Vertex3( r.SizeX/2f, r.SizeY/2f, r.SizeZ/2f);
-			GL.Vertex3( r.SizeX/2f,r.SizeY/-2f, r.SizeZ/2f);
-			GL.Vertex3(r.SizeX/-2f,r.SizeY/-2f, r.SizeZ/2f);
-			GL.Vertex3(r.SizeX/-2f, r.SizeY/2f, r.SizeZ/2f);
+			GL.Vertex3( r.SizeX/2f, r.SizeY, r.SizeZ/2f);
+			GL.Vertex3( r.SizeX/2f, r.SizeY, r.SizeZ/-2f);
+			GL.Vertex3(r.SizeX/-2f, r.SizeY, r.SizeZ/-2f);
+			GL.Vertex3(r.SizeX/-2f, r.SizeY, r.SizeZ/2f);
 			GL.End ();
 
 

@@ -22,7 +22,7 @@
     <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>full</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -56,5 +56,9 @@
     <Folder Include="data\snd\" />
     <Folder Include="data\tex\" />
     <Folder Include="data\wld\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.ini" />
+    <None Include="resources.txt" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,17 @@
+#
+# This file controls what files are loaded at startup
+# Changes can be bad times (tm)
+#
+#	Expected Format:
+#	type@path
+# 	supported types: texture
+#	planned:shader,model,vbo,heightmap,world,model,sprite
+texture@no.png
+texture@pause.png
+texture@ex.png
+texture@grass.png
+texture@pause.png
+texture@townBubble.png
+texture@town.png
+texture@unit.png
+texture@squad.png

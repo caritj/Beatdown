@@ -12,14 +12,14 @@ namespace Renderer
 		InGame Game;
 
 
-		public GUI ()
+		public GUI (Game.Settings s,Gwen.Control.Canvas c)
 		{
-			Menu = new MainMenu ();
+			Menu = new MainMenu (c);
 
 		}
 
 		public void Layout(){
-
+		
 		}
 	}
 }

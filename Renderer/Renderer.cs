@@ -8,7 +8,7 @@ namespace Renderer
 {
 	public class Render:GameWindow
 	{
-		protected Game theGame = null;
+		protected Game.Game theGame = null;
 		protected Game.Settings settings = null;
 		protected GUI gui = null;
 
@@ -17,15 +17,15 @@ namespace Renderer
 		private Gwen.Skin.Base skin;
 		private Gwen.Control.Canvas canvas;
 
-		private Vector3 UP = Vector3.UnitY;
+		public  static readonly Vector3 UP = Vector3.UnitY;
 
 
 		public static Render Instance = null;
 
-		public Render (ref Game g, ref Settings s):base(Settings.GraphicsX, Settings.GraphicsY, OpenTK.Graphics.GraphicsMode.Default, "Raven"){
+		public Render (ref Game.Game g, ref Settings s):base(s.GraphicsX, s.GraphicsY, OpenTK.Graphics.GraphicsMode.Default, "Raven"){
 			theGame = g;
 			settings = s;
-			gui = new GUI (s);
+
 
 			//in case some one else wants to acess this bit.
 			Instance = this;
@@ -40,13 +40,17 @@ namespace Renderer
 
 			//setup GWEN
 			renderer = new Gwen.Renderer.OpenTK ();
-			skin = new Gwen.Skin.Base (renderer, Settings.GUI_DATA_DIR+"DefaultSkin.png");
+			skin = new Gwen.Skin.TexturedBase (renderer, Settings.GUI_DATA_DIR+"DefaultSkin.png");
 			canvas = new Gwen.Control.Canvas (skin);
 			canvas.SetSize(Width,Height);
 			canvas.ShouldDrawBackground =false;
 			canvas.BackgroundColor = System.Drawing.Color.Aqua;
 			input = new Gwen.Input.OpenTK (this);
 			input.Initialize(canvas);
+
+			//setup gui systems
+			gui = new GUI (settings, canvas);
+
 
 			//Decide what open gl capacities we want running.
 
@@ -65,6 +69,7 @@ namespace Renderer
 		{
 
 			gui.Layout();
+			canvas.SetSize(Width,Height);
 			base.OnResize(e);
 		}
 		protected override void OnUpdateFrame (FrameEventArgs e)
@@ -74,7 +79,7 @@ namespace Renderer
 
 		protected override void OnRenderFrame (FrameEventArgs e)
 		{
-			base.OnRenderFrame();
+			base.OnRenderFrame(e);
 
 			//draw picking data to the buffer.
 
@@ -92,6 +97,7 @@ namespace Renderer
 			renderer.Dispose();
 			skin.Dispose();
 			canvas.Dispose();
+			base.OnDisposed(e);
 
 		}
 	}

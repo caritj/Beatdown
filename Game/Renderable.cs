@@ -6,19 +6,19 @@ namespace Game
 	public abstract class Renderable
 	{
 
-		int x;
-		int y;
-		int z;
+		protected int x;
+		protected int y;
+		protected int z;
 
-		int sizeX;
-		int sizeY;
-		int sizeZ;
+		protected int sizeX;
+		protected int sizeY;
+		protected int sizeZ;
 
-		double rotation = 0;
+		protected double rotation = 0;
 
-		Color color = Color.HotPink;
+		protected Color color = Color.HotPink;
 
-		bool hidden = false;
+		protected bool hidden = false;
 
 		public int X{get{return x; }}
 		public int Y{get{return y; }}
@@ -28,7 +28,7 @@ namespace Game
 		public int SizeY{get{ return sizeY; }}
 		public int SizeZ{get{ return sizeZ; }}
 
-		public double Rotation{ get { return rotation; } }
+		public float Rotation{ get { return (float)rotation; } }
 
 		public System.Drawing.Color Color{get{return color; }}
 
@@ -48,6 +48,8 @@ namespace Game
 			hidden = true;
 		}
 
+		//this si teh id asssoicated with the  object by open gl.
+		public int  glId =0;
 
 
 

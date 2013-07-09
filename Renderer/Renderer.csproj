@@ -54,6 +54,7 @@
     <Compile Include="InterfaceElements\Victory.cs" />
     <Compile Include="GameObjects\BaseRender.cs" />
     <Compile Include="InterfaceElements\PartyCompositor.cs" />
+    <Compile Include="GameObjects\WorldRenderer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

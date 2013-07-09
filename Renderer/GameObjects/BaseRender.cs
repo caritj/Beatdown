@@ -8,12 +8,12 @@ namespace Renderer.GameObjects
 	{
 		protected int glId;
 
-		public void RenderViewable(Game.Renderable r){
+		public static void RenderViewable(Game.Renderable r){
 			//dpo things in a isolate envorinment
 			GL.PushMatrix();
 				
 				GL.Translate(r.X,r.Y,r.Z);
-				GL.Rotate(r.Rotation);
+				GL.Rotate((float)r.Rotation, Renderer.Render.UP);
 				GL.Scale(r.SizeX, r.SizeY, r.SizeZ);
 
 				
@@ -45,17 +45,17 @@ namespace Renderer.GameObjects
 
 			GL.PopMatrix();
 		}
-		public void RenderViewable(Game.Renderable r){
+		public static void RenderPickable(Game.Renderable r){
 			//dpo things in a isolate envorinment
 			GL.PushMatrix();
 
 			GL.Translate(r.X,r.Y,r.Z);
-			GL.Rotate(r.Rotation);
+			GL.Rotate(r.Rotation, Renderer.Render.UP);
 			GL.Scale(r.SizeX, r.SizeY, r.SizeZ);
 
 
 			GL.Begin(BeginMode.QuadStrip);
-			GL.Color3(this.glId);
+			GL.Color3(ref r.glId);
 			GL.Vertex3(r.SizeX/-2f,r.SizeY/-2f,r.SizeZ/-2f);
 			GL.Vertex3(r.SizeX/-2f,r.SizeY/-2f, r.SizeZ/2f);
 			GL.Vertex3(r.SizeX/-2f, r.SizeY/2f,r.SizeZ/-2f);

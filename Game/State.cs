@@ -7,10 +7,10 @@ namespace Beatdown.Game
 	{
 		public int SelectedId = -1;
 		public int HoveredId = -1;
-		public enum States{INITMENU,INITGAME,LOAD,MAINMENU,TOWN,MAP,COMBAT,PLANNER};
+		public enum States{INGAME,MENU,VICTORY,DEFEAT,LOBBY,LOADING};
 		public bool InProgress =false;
 
-		private States current = States.INITMENU;
+		private States current = States.LOADING;
 		private bool paused= true;
 		private bool wasPaused =true;
 		DateTime startDate = new DateTime (2077, 07, 23);
@@ -46,26 +46,6 @@ namespace Beatdown.Game
 		//METHODS=====================================================c
 		public void ChangeState(States s){
 
-
-			if (this.Current == States.MAP) {
-				wasPaused = Paused;
-			}
-
-			if (current != s) {
-				//TODO there may be some cleanup and logging here.
-
-				// change the state
-				current = s;
-
-				switch (s) {
-					case States .MAP:
-					Paused = wasPaused;
-					break;
-					case States.INITGAME:
-						time.Reset ();
-						break;
-				}
-			}
 		}
 	}
 }

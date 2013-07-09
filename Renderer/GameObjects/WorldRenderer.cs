@@ -11,34 +11,59 @@ namespace BeatDown.Renderer.GameObjects
 				
 			GL.Translate (w.X, w.Y, w.Z);
 			GL.Rotate (w.Rotation, Renderer.Render.UP);
-			GL.Scale (w.SizeX, w.SizeY, w.SizeZ);
+			//GL.Scale (w.SizeX, w.SizeY, w.SizeZ);
+			GL.Translate(w.SizeX / -2f,0f,w.SizeZ / -2f);
+
+			for (int y = 0; y+1 < w.Heightmap.GetLength(0); y++) {
 
 
 
-			for (int i = 0; i < w.Heightmap.GetLength(0); i++) {
-				GL.Begin (BeginMode.QuadStrip);
 
-				GL.Color3 (w.Color);
-
-				for(int j = 0; j<w.Heightmap.GetLength(1)-1;i++){
+				for(int x = 0; x +1 <w.Heightmap.GetLength(1);x++){
 
 
 					//TODO TEXTURING.
-					GL.Vertex3 (w.SizeX / 2f + j , 0, w.SizeZ / -2f);
-					GL.Vertex3 (w.SizeX / 2f + j , 0, w.SizeZ / 2f +1);
+					//TODO SIDES;
+					GL.Begin (BeginMode.Quads);
 
-					GL.Vertex3 (w.SizeX / -2f + j , w.Heightmap[i,j], w.SizeZ / -2f + i);
-					GL.Vertex3 (w.SizeX / -2f + j , w.Heightmap[i,j], w.SizeZ / -2f + i+1);
-					GL.Vertex3 (w.SizeX / -2f + j +1, w.Heightmap[i,j], w.SizeZ / -2f + i+1);
-					GL.Vertex3 (w.SizeX / -2f + j +1, w.Heightmap[i,j], w.SizeZ / -2f + i);
+					GL.Color3 (w.Color);
+					GL.Vertex3 ( x , w.Heightmap[y,x],  y);
+					GL.Vertex3 ( x , w.Heightmap[y,x], y+1);
+					GL.Vertex3 (x +1, w.Heightmap[y,x],y+1);
+					GL.Vertex3 ( x +1, w.Heightmap[y,x], y);
 
-					GL.Vertex3 (w.SizeX / 2f + j +1, 0, w.SizeZ / -2f);
-					GL.Vertex3 (w.SizeX / 2f + j +1, 0, w.SizeZ / 2f +1);
+					
 
+					GL.End ();
+
+
+					GL.Begin(BeginMode.QuadStrip);
+					GL.Color3(w.SideColor);
+
+					GL.Vertex3(x,0,y);
+					GL.Vertex3(x,w.Heightmap[y,x],y);
+
+					GL.Vertex3(x+1,0,y);
+					GL.Vertex3(x+1,w.Heightmap[y,x],y);
+					
+
+					GL.Vertex3(x+1,0,y+1);
+					GL.Vertex3(x+1,w.Heightmap[y,x],y+1);
+
+
+					GL.Vertex3(x,0,y+1);
+					GL.Vertex3(x,w.Heightmap[y,x],y+1);
+
+					GL.Vertex3(x,0,y);
+					GL.Vertex3(x,w.Heightmap[y,x],y);
+
+
+					GL.End();
+
+			
 
 
 				}
-				GL.End ();
 			}
 
 			GL.PopMatrix();

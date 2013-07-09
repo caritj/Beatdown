@@ -1,11 +1,12 @@
 using System;
 //using Game.Net;
+using Beatdown.Game;
 	
 namespace BeatDown.Game
 {
 	public class Game:IDisposable
 	{
-		
+		public static State State = new State();
 //		private Server server;
 		
 		public Game (Settings s)
@@ -34,10 +35,11 @@ namespace BeatDown.Game
 	
 	
 	
-	public class Unit
+	public class Unit:Renderable
 	{
 		public Unit ()
 		{
+			color = System.Drawing.Color.Aquamarine;
 		}
 	}
 }

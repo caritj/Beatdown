@@ -8,9 +8,9 @@ namespace BeatDown.Renderer
 {
 	public class Render:GameWindow
 	{
-		protected Game.Game theGame = null;
-		protected Settings settings = null;
-		protected GUI gui = null;
+		public Game.Game theGame = null;
+		public  Settings settings = null;
+		public GUI gui = null;
 
 		private Gwen.Input.OpenTK input;
 		private Gwen.Renderer.OpenTK renderer;
@@ -19,11 +19,18 @@ namespace BeatDown.Renderer
 
 		public  static readonly Vector3 UP = Vector3.UnitY;
 
-		protected Vector3 InGameCameraPosition= new Vector3(5,5,5);
+		protected Vector3 InGameCameraPosition= new Vector3(10,5,10);
 		protected Vector3 InGameCameraTarget = Vector3.Zero;
 		protected Matrix4 CameraMatrix;
 
 		public static Render Instance = null;
+
+
+		#region test data
+		Game.World w = new World();
+		Game.Unit u = new Unit();
+
+		#endregion
 
 		public Render (ref Game.Game g, ref Settings s):base(s.GraphicsX, s.GraphicsY, OpenTK.Graphics.GraphicsMode.Default, "Raven"){
 			theGame = g;
@@ -50,17 +57,22 @@ namespace BeatDown.Renderer
 			canvas.BackgroundColor = System.Drawing.Color.Aqua;
 			input = new Gwen.Input.OpenTK (this);
 			input.Initialize(canvas);
+			SharedResources.GUIFont = new Gwen.Font(renderer, "arial",16);
+
 
 			//setup gui systems
 			gui = new GUI (settings, canvas);
 
+		
 
 			//Decide what open gl capacities we want running.
 
 			GL.Enable(EnableCap.DepthTest);
-			GL.Enable(EnableCap.Texture2D);
+			GL.Enable(EnableCap.CullFace);
+			//GL.Enable(EnableCap.Lighting);
+			//GL.Enable(EnableCap.Texture2D);
 			GL.Enable(EnableCap.Blend);
-			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcColor);
+			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.Zero);
 
 
 			base.OnLoad(e);
@@ -70,6 +82,11 @@ namespace BeatDown.Renderer
 		}
 		protected override void OnResize (EventArgs e)
 		{
+			GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
+
+			Matrix4 projection = Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, Width / (float)Height, 1.0f, 64.0f);
+			GL.MatrixMode(MatrixMode.Projection);
+			GL.LoadMatrix(ref projection);
 
 			gui.Layout();
 			canvas.SetSize(Width,Height);
@@ -77,6 +94,18 @@ namespace BeatDown.Renderer
 		}
 		protected override void OnUpdateFrame (FrameEventArgs e)
 		{
+			if (Keyboard [OpenTK.Input.Key.Left]) {
+				InGameCameraPosition.X += (float)Math.Sin (e.Time) * 5f;
+				InGameCameraPosition.Z += (float)Math.Cos (e.Time) * 5f;
+			}
+			if (Keyboard [OpenTK.Input.Key.Right]) {
+				InGameCameraPosition.X -= (float)Math.Sin (e.Time) * 5f;
+				InGameCameraPosition.Z -= (float)Math.Cos (e.Time) * 5f;
+			}
+
+			if (Keyboard [OpenTK.Input.Key.Escape]) {
+				this.Exit();
+			}
 			base.OnUpdateFrame(e);
 		}
 
@@ -91,13 +120,19 @@ namespace BeatDown.Renderer
 
 			//setup the camera
 			CameraMatrix = Matrix4.LookAt(InGameCameraPosition, InGameCameraTarget, UP);
-
+			GL.MatrixMode(MatrixMode.Modelview);
+			GL.LoadMatrix(ref CameraMatrix);
 
 			//draw picking data to the buffer.
 
+
 			//draw real data to the buffer.
+			GameObjects.WorldRenderer.RenderViewable(w);
+			GameObjects.BaseRender.RenderViewable(u);
 
 			//draw gui to the buffer.
+			this.gui.OnStateChange(Beatdown.Game.State.States.INGAME);
+
 
 			//draw to screen
 			SwapBuffers();

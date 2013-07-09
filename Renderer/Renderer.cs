@@ -55,8 +55,8 @@ namespace BeatDown.Renderer
 			skin = new Gwen.Skin.TexturedBase (renderer, Settings.GUI_DATA_DIR+"DefaultSkin.png");
 			canvas = new Gwen.Control.Canvas (skin);
 			canvas.SetSize(Width,Height);
-			canvas.ShouldDrawBackground =false;
-			canvas.BackgroundColor = System.Drawing.Color.Aqua;
+			canvas.ShouldDrawBackground =true;
+			canvas.BackgroundColor = System.Drawing.Color.OrangeRed;
 			input = new Gwen.Input.OpenTK (this);
 			input.Initialize(canvas);
 			SharedResources.GUIFont = new Gwen.Font(renderer, "arial",16);
@@ -76,6 +76,8 @@ namespace BeatDown.Renderer
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
+			//TODO RM DEBUG DATA
+			this.gui.OnStateChange(Beatdown.Game.State.States.INGAME);
 
 			base.OnLoad(e);
 
@@ -117,36 +119,49 @@ namespace BeatDown.Renderer
 
 		protected override void OnRenderFrame (FrameEventArgs e)
 		{
-			base.OnRenderFrame(e);
-			this.Title = string.Format(" BEATDOWN : FPS:{0:F} mouse:{1},{2}", 1.0 / e.Time, Mouse.X, Mouse.Y);
+			base.OnRenderFrame (e);
+			this.Title = string.Format (" BEATDOWN : FPS:{0:F} mouse:{1},{2}", 1.0 / e.Time, Mouse.X, Mouse.Y);
 
 			//clear the buffer;
-			GL.ClearColor(0f,0f,0f,0f);
-			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			ClearBuffer ();
 
 			//setup the camera
-			CameraMatrix = Matrix4.LookAt(InGameCameraPosition, InGameCameraTarget, UP);
-			GL.MatrixMode(MatrixMode.Modelview);
-			GL.LoadMatrix(ref CameraMatrix);
+			CameraMatrix = Matrix4.LookAt (InGameCameraPosition, InGameCameraTarget, UP);
+			GL.MatrixMode (MatrixMode.Modelview);
+			GL.LoadMatrix (ref CameraMatrix);
+
+
+			//rotate the world. (instead of moving the camera);
+			GL.PushMatrix ();
+			GL.Rotate (rot, UP);
+			GL.Rotate (rotX, Vector3.UnitZ);
 
 			//draw picking data to the buffer.
+			GameObjects.BaseRender.RenderPickable (u);
+
+			//get the selected object;
+			int num = PickObject ();
+
+			//clear the buffer;
+			ClearBuffer();
 
 
 			//draw real data to the buffer.
-			GL.PushMatrix();
-			GL.Rotate(rot, UP);
-			GL.Rotate(rotX, Vector3.UnitZ);
 			GameObjects.WorldRenderer.RenderViewable(w);
 			GameObjects.BaseRender.RenderViewable(u);
 
-			//show the axes 
-			this.drawAxes();
+			//show the axes in teh rotate context
+			this.drawAxes(0f,2f,0f);
+
+			GL.PopMatrix();
+
+			//draw gui to the buffer.
+			gui.Render(canvas);
 
 		
-			GL.PopMatrix();
-			//draw gui to the buffer.
-			this.gui.OnStateChange(Beatdown.Game.State.States.INGAME);
-			this.drawAxes();
+
+			//show teh oprigin
+			this.drawAxes(0,0,0);
 		
 
 			//draw to screen
@@ -162,11 +177,11 @@ namespace BeatDown.Renderer
 			base.OnDisposed(e);
 
 		}
-		private void drawAxes(){
+		private void drawAxes(float x, float y, float z){
 			GL.PushMatrix();
 
 
-			GL.Translate(0f,2f,0f);
+			GL.Translate(x,y,z);
 			GL.Begin(BeginMode.Lines);
 			GL.Color3(1f,0f,0f);
 			GL.Vertex3(0f,0f,0f);
@@ -182,6 +197,25 @@ namespace BeatDown.Renderer
 			GL.End();
 
 			GL.PopMatrix();
+
+		}
+
+		private void ClearBuffer(){
+			GL.ClearColor(0f,0f,0f,0f);
+			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+		}
+
+		private int PickObject(){
+
+			int glId = -1;
+			byte[] pixel = new byte[3];
+			int[] viewport = new int[4];
+			GL.GetInteger(GetPName.Viewport,viewport);
+			GL.ReadPixels(Mouse.X,viewport[3] - Mouse.Y, 1,1, PixelFormat.Rgb,PixelType.UnsignedByte, pixel);
+			glId = (int)pixel[0] +(((int)pixel[1]<<8)+((int) pixel[2] <<16));
+
+			return glId;
 
 		}
 	}

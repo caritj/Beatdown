@@ -9,6 +9,12 @@ namespace BeatDown.Renderer.InterfaceElements
 		public Victory (Base parent):base(parent)
 		{
 		}
+		protected override void Render (Gwen.Skin.Base skin)
+		{
+
+
+			base.Render (skin);
+		}
 	}
 }
 

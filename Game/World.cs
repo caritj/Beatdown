@@ -13,7 +13,7 @@ namespace BeatDown.Game
 		public World ()
 		{
 			this.sizeX = WORLD_SIZE;
-			this.sizeY = WORLD_SIZE/5;
+			this.sizeY = WORLD_SIZE/5;//UP
 
 			this.sizeZ = WORLD_SIZE;
 			Random r = new Random ();

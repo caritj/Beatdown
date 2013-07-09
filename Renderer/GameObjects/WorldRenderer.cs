@@ -9,8 +9,11 @@ namespace BeatDown.Renderer.GameObjects
 		{
 			GL.PushMatrix ();
 				
-			GL.Translate (w.X, w.Y, w.Z);
-			GL.Translate(w.SizeX/-2f,0f,w.SizeZ/-2f);
+			GL.Translate (
+				w.X + w.SizeX/-2f -.5, 
+				w.Y, 
+				w.Z+w.SizeZ/-2f -.5);
+
 
 			GL.Rotate (w.Rotation, Renderer.Render.UP);
 			//GL.Scale (w.SizeX, w.SizeY, w.SizeZ);
@@ -72,7 +75,7 @@ namespace BeatDown.Renderer.GameObjects
 		
 		}
 		public static void RenderPickable(Game.World w){
-			//do nothing.
+			// NOPE.
 		}
 	}
 }

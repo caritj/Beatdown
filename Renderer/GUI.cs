@@ -1,5 +1,6 @@
 using System;
 using Gwen;
+using OpenTK.Graphics.OpenGL;
 using BeatDown.Renderer.InterfaceElements;
 
 namespace BeatDown.Renderer
@@ -24,6 +25,23 @@ namespace BeatDown.Renderer
 
 		public void Layout(){
 		
+		}
+		public void Render (Gwen.Control.Canvas canvas )
+		{
+
+			GL.PushMatrix ();
+				GL.LoadIdentity();
+				GL.MatrixMode(MatrixMode.Projection);
+				GL.Ortho(0.0, canvas.Width, canvas.Height, 0, 0, -1);
+
+				GL.LoadIdentity();
+				//GL.Scale (2f/canvas.Width,-2f/canvas.Height,-2f/canvas.Height);
+				//GL.Translate(canvas.Width/-2f,canvas.Height/-2f,0);
+
+				canvas.RenderCanvas ();
+
+
+			GL.PopMatrix();
 		}
 		public void OnStateChange(Beatdown.Game.State.States state){
 			Menu.Hide();

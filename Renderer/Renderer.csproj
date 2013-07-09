@@ -21,7 +21,7 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -52,7 +52,8 @@
     <Compile Include="InterfaceElements\InGame.cs" />
     <Compile Include="InterfaceElements\Lobby.cs" />
     <Compile Include="InterfaceElements\Victory.cs" />
-    <Compile Include="GameObjects\IRender.cs" />
+    <Compile Include="GameObjects\BaseRender.cs" />
+    <Compile Include="InterfaceElements\PartyCompositor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -64,5 +65,8 @@
   <ItemGroup>
     <Folder Include="InterfaceElements\" />
     <Folder Include="GameObjects\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="todo.txt" />
   </ItemGroup>
 </Project>

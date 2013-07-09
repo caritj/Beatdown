@@ -1,0 +1,7 @@
+
+Hashtable of units
+ descends from renderable 
+Map{
+	2d array the world. height map
+}
+

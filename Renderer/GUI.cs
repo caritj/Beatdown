@@ -14,6 +14,8 @@ namespace Renderer
 
 		public GUI ()
 		{
+			Menu = new MainMenu ();
+
 		}
 
 		public void Layout(){

@@ -1,12 +1,12 @@
 using System;
-using Game.Net;
+//using Game.Net;
 	
 namespace Game
 {
 	public class Game
 	{
 		
-		private Server server;
+//		private Server server;
 		
 		public Game ()
 		{

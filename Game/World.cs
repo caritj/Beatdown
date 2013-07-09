@@ -13,15 +13,15 @@ namespace BeatDown.Game
 		public World ()
 		{
 			this.sizeX = WORLD_SIZE;
-			this.sizeY = WORLD_SIZE;
+			this.sizeY = WORLD_SIZE/5;
 
-			this.sizeZ = WORLD_SIZE/5;
+			this.sizeZ = WORLD_SIZE;
 			Random r = new Random ();
 			this.color = System.Drawing.Color.Green; 
 
 			for (int i = 0; i < this.Heightmap.GetLength(0); i++) {
 				for (int j = 0; j < this.Heightmap.GetLength(1); j++) {
-					Heightmap [i, j] = r.Next (0, sizeZ);
+					Heightmap [i, j] = r.Next (0, sizeY);
 				}
 			}
 		}

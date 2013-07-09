@@ -5,3 +5,4 @@ Map{
 	2d array the world. height map
 }
 
+GUI is inverted. balls.

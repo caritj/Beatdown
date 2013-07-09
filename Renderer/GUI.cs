@@ -32,16 +32,20 @@ namespace BeatDown.Renderer
 			GL.PushMatrix ();
 				GL.LoadIdentity();
 				GL.MatrixMode(MatrixMode.Projection);
-				GL.Ortho(0.0, canvas.Width, canvas.Height, 0, 0, -1);
+				GL.Ortho(0.0, canvas.Width, canvas.Height, 0, -1, 0);
 
 				GL.LoadIdentity();
-				//GL.Scale (2f/canvas.Width,-2f/canvas.Height,-2f/canvas.Height);
-				//GL.Translate(canvas.Width/-2f,canvas.Height/-2f,0);
+				GL.Scale (2f/canvas.Width, 2f/canvas.Height, 1f);
 
+				GL.Translate(canvas.Width/-2f,canvas.Height/-2f, 0);
+				
+
+				//GL.Scale(-1f,1f,1f);
+			//	GL.Translate(canvas.Width,0f,0f);
 				canvas.RenderCanvas ();
 
-
 			GL.PopMatrix();
+
 		}
 		public void OnStateChange(Beatdown.Game.State.States state){
 			Menu.Hide();

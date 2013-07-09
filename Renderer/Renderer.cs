@@ -55,7 +55,7 @@ namespace BeatDown.Renderer
 			skin = new Gwen.Skin.TexturedBase (renderer, Settings.GUI_DATA_DIR+"DefaultSkin.png");
 			canvas = new Gwen.Control.Canvas (skin);
 			canvas.SetSize(Width,Height);
-			canvas.ShouldDrawBackground =true;
+			canvas.ShouldDrawBackground =false;
 			canvas.BackgroundColor = System.Drawing.Color.OrangeRed;
 			input = new Gwen.Input.OpenTK (this);
 			input.Initialize(canvas);
@@ -125,39 +125,39 @@ namespace BeatDown.Renderer
 			//clear the buffer;
 			ClearBuffer ();
 
-			//setup the camera
-			CameraMatrix = Matrix4.LookAt (InGameCameraPosition, InGameCameraTarget, UP);
-			GL.MatrixMode (MatrixMode.Modelview);
-			GL.LoadMatrix (ref CameraMatrix);
-
-
-			//rotate the world. (instead of moving the camera);
 			GL.PushMatrix ();
-			GL.Rotate (rot, UP);
-			GL.Rotate (rotX, Vector3.UnitZ);
-
-			//draw picking data to the buffer.
-			GameObjects.BaseRender.RenderPickable (u);
-
-			//get the selected object;
-			int num = PickObject ();
-
-			//clear the buffer;
-			ClearBuffer();
+				//setup the camera
+				CameraMatrix = Matrix4.LookAt (InGameCameraPosition, InGameCameraTarget, UP);
+				GL.MatrixMode (MatrixMode.Modelview);
+				GL.LoadMatrix (ref CameraMatrix);
 
 
-			//draw real data to the buffer.
-			GameObjects.WorldRenderer.RenderViewable(w);
-			GameObjects.BaseRender.RenderViewable(u);
+				//rotate the world. (instead of moving the camera);
 
-			//show the axes in teh rotate context
-			this.drawAxes(0f,2f,0f);
+				GL.Rotate (rot, UP);
+				GL.Rotate (rotX, Vector3.UnitZ);
+
+				//draw picking data to the buffer.
+				GameObjects.BaseRender.RenderPickable (u);
+
+				//get the selected object;
+				int num = PickObject ();
+
+				//clear the buffer;
+				ClearBuffer();
+
+
+				//draw real data to the buffer.
+				GameObjects.WorldRenderer.RenderViewable(w);
+				GameObjects.BaseRender.RenderViewable(u);
+
+				//show the axes in teh rotate context
+				this.drawAxes(0f,2f,0f);
 
 			GL.PopMatrix();
 
 			//draw gui to the buffer.
 			gui.Render(canvas);
-
 		
 
 			//show teh oprigin

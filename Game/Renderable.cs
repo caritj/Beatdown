@@ -6,13 +6,13 @@ namespace BeatDown.Game
 	public abstract class Renderable
 	{
 
-		protected int x;
-		protected int y;
-		protected int z;
+		protected int x=0;
+		protected int y=0;
+		protected int z=0;
 
-		protected int sizeX;
-		protected int sizeY;
-		protected int sizeZ;
+		protected int sizeX=1;
+		protected int sizeY=1;
+		protected int sizeZ=1;
 
 		protected double rotation = 0;
 
@@ -23,6 +23,7 @@ namespace BeatDown.Game
 		public int X{get{return x; }}
 		public int Y{get{return y; }}
 		public int Z{get{return z; }}
+
 
 		public int SizeX{get{ return sizeX; }}
 		public int SizeY{get{ return sizeY; }}

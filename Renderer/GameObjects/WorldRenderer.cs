@@ -10,9 +10,9 @@ namespace BeatDown.Renderer.GameObjects
 			GL.PushMatrix ();
 				
 			GL.Translate (
-				w.X + w.SizeX/-2f -.5, 
+				w.X  -.5, 
 				w.Y, 
-				w.Z+w.SizeZ/-2f -.5);
+				w.Z -.5);
 
 
 			GL.Rotate (w.Rotation, Renderer.Render.UP);
@@ -75,8 +75,71 @@ namespace BeatDown.Renderer.GameObjects
 		
 		}
 		public static void RenderPickable(Game.World w){
-			// NOPE.
+			GL.PushMatrix ();
+				
+			GL.Translate (
+				w.X  -.5, 
+				w.Y, 
+				w.Z-.5);
+
+			int _color = 1;
+			GL.Rotate (w.Rotation, Renderer.Render.UP);
+			//GL.Scale (w.SizeX, w.SizeY, w.SizeZ);
+			for (int y = 0; y+1 < w.Heightmap.GetLength(0); y++) {
+				for(int x = 0; x +1 <w.Heightmap.GetLength(1);x++){
+					GL.Color4(1f,1f,1f,1f);
+					_color = w.Heightmap.GetLength(1) * y  + x+1;
+
+					byte[] color =PickingColorfromInt(_color);
+					GL.Color3(color);
+
+					//TODO TEXTURING.
+					//TODO SIDES;
+					GL.Begin (BeginMode.Quads);
+
+
+
+
+
+					GL.Vertex3 ( x , w.Heightmap[y,x],  y);
+					GL.Vertex3 ( x , w.Heightmap[y,x], y+1);
+					GL.Vertex3 (x +1, w.Heightmap[y,x],y+1);
+					GL.Vertex3 ( x +1, w.Heightmap[y,x], y);
+
+					
+
+					GL.End ();
+
+					//TODO match sides to the correct number
+					GL.Begin(BeginMode.QuadStrip);
+				
+					GL.Vertex3(x,0,y);
+					GL.Vertex3(x,w.Heightmap[y,x],y);
+
+					GL.Vertex3(x+1,0,y);
+					GL.Vertex3(x+1,w.Heightmap[y,x],y);
+					
+
+					GL.Vertex3(x+1,0,y+1);
+					GL.Vertex3(x+1,w.Heightmap[y,x],y+1);
+
+
+					GL.Vertex3(x,0,y+1);
+					GL.Vertex3(x,w.Heightmap[y,x],y+1);
+
+					GL.Vertex3(x,0,y);
+					GL.Vertex3(x,w.Heightmap[y,x],y);
+
+
+					GL.End();
+
+				}
+			}
+
+			GL.PopMatrix();
 		}
+
+
 	}
 }
 

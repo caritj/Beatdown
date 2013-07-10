@@ -12,7 +12,7 @@ namespace BeatDown.Renderer.InterfaceElements
 
 		public InGame (Base parent):base(parent)
 		{
-			this.Dock = Gwen.Pos.Bottom;
+			this.Dock = Gwen.Pos.Fill;
 			this.SetSize(parent.Width, 64);
 
 			menu = new Button(this);
@@ -48,7 +48,7 @@ namespace BeatDown.Renderer.InterfaceElements
 
 		protected override void Render (Gwen.Skin.Base skin)
 		{
-			remainingActions.Text = String.Format("Actions:{0}","xxx");
+			remainingActions.Text = String.Format("Actions:{0}@{1}",Game.Selection.HoveredId, Game.Selection.Maploc);
 
 			base.Render (skin);
 		}

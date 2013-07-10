@@ -4,7 +4,7 @@ namespace BeatDown.Game
 {
 	public class World:Renderable
 	{
-		const int WORLD_SIZE  =10;
+		public const int WORLD_SIZE  =10;
 		public int[,] Heightmap = new int[WORLD_SIZE,WORLD_SIZE];
 
 		protected System.Drawing.Color sideColor = System.Drawing.Color.Tan;
@@ -25,8 +25,8 @@ namespace BeatDown.Game
 				}
 			}
 		}
-		public int HeightAt(int x, int y){
-			return Heightmap[y,x];
+		public int HeightAt(int x, int z){
+			return Heightmap[z,x];
 		}
 
 	}

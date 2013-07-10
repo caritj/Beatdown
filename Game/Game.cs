@@ -41,6 +41,7 @@ namespace BeatDown.Game
 		{
 			color = System.Drawing.Color.Aquamarine;
 			y =1;
+			glId =1;
 		}
 	}
 }

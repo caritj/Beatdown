@@ -1,5 +1,6 @@
 using System;
 using OpenTK;
+using OpenTK.Input;
 using OpenTK.Graphics.OpenGL;
 using Gwen;
 using BeatDown.Game;
@@ -99,20 +100,29 @@ namespace BeatDown.Renderer
 		protected override void OnUpdateFrame (FrameEventArgs e)
 		{
 			if (Keyboard [OpenTK.Input.Key.Left]) {
-				rot+= 0.8f;
+				rot += 0.8f;
 			}
 			if (Keyboard [OpenTK.Input.Key.Right]) {
-				rot-= 0.8f;
+				rot -= 0.8f;
 			}
 			if (Keyboard [OpenTK.Input.Key.Up]) {
-				rotX+= 0.8f;
+				rotX += 0.8f;
 			}
 			if (Keyboard [OpenTK.Input.Key.Down]) {
-				rotX-= 0.8f;
+				rotX -= 0.8f;
 			}
 
-			if (Keyboard [OpenTK.Input.Key.Escape]) {
-				this.Exit();
+			if (Keyboard [OpenTK.Input.Key.ControlLeft] && Keyboard [OpenTK.Input.Key.C]) {
+				this.Exit ();
+			}
+
+			if (Mouse [MouseButton.Left] && Game.Selection.Maploc >0) {
+				Console.WriteLine("moving");
+				int x = (Game.Selection.Maploc-1)%Game.World.WORLD_SIZE;
+				int z = (int)Math.Floor ((double)(Game.Selection.Maploc-1)/Game.World.WORLD_SIZE);
+				u.MoveTo(x,w.HeightAt(x,z),z,0.0d);
+				Console.WriteLine(String.Format("u at:{0},{1},{2} r:{3}",u.X,u.Y, u.Z, u.Rotation));
+				             
 			}
 			base.OnUpdateFrame(e);
 		}
@@ -123,7 +133,7 @@ namespace BeatDown.Renderer
 			this.Title = string.Format (" BEATDOWN : FPS:{0:F} mouse:{1},{2}", 1.0 / e.Time, Mouse.X, Mouse.Y);
 
 			//clear the buffer;
-			ClearBuffer ();
+			ClearBuffer (0f,0f,0f,0f);
 
 			GL.PushMatrix ();
 				//setup the camera
@@ -133,19 +143,11 @@ namespace BeatDown.Renderer
 
 
 				//rotate the world. (instead of moving the camera);
-
 				GL.Rotate (rot, UP);
 				GL.Rotate (rotX, Vector3.UnitZ);
 
 				//draw picking data to the buffer.
-				GameObjects.BaseRender.RenderPickable (u);
-
-				//get the selected object;
-				int num = PickObject ();
-
-				//clear the buffer;
-				ClearBuffer();
-
+				DrawAndPick();
 
 				//draw real data to the buffer.
 				GameObjects.WorldRenderer.RenderViewable(w);
@@ -156,16 +158,16 @@ namespace BeatDown.Renderer
 
 			GL.PopMatrix();
 
+			//show the origin
+			this.drawAxes(0,0,0);
+
 			//draw gui to the buffer.
 			gui.Render(canvas);
 		
 
-			//show teh oprigin
-			this.drawAxes(0,0,0);
-		
-
 			//draw to screen
 			SwapBuffers();
+
 		
 		}
 
@@ -200,8 +202,8 @@ namespace BeatDown.Renderer
 
 		}
 
-		private void ClearBuffer(){
-			GL.ClearColor(0f,0f,0f,0f);
+		private void ClearBuffer(float r, float g, float b, float a){
+			GL.ClearColor(r,g,b,a);
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 		}
@@ -217,6 +219,30 @@ namespace BeatDown.Renderer
 
 			return glId;
 
+		}
+
+		private void DrawAndPick(){
+			GL.PushAttrib(AttribMask.EnableBit | AttribMask.ColorBufferBit);
+			GL.Disable(EnableCap.CullFace);
+			GL.Disable(EnableCap.Blend);
+
+			//DRAW TEH GAME OBJECTS
+			GameObjects.BaseRender.RenderPickable (u);
+
+			//get the selected object;
+			Game.Selection.HoveredId = PickObject ();
+
+			ClearBuffer(0f,0f,0f,0f);
+			//DRAW TEH WORLD
+			GameObjects.WorldRenderer.RenderPickable(w);
+			Game.Selection.Maploc = PickObject();
+			
+
+			//clear the buffer;
+			ClearBuffer (0.9f,1f,0.9f,0f);
+
+			GL.Enable(EnableCap.CullFace);
+			GL.Enable(EnableCap.Blend);
 		}
 	}
 }

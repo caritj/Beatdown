@@ -74,7 +74,7 @@ namespace BeatDown.Renderer.GameObjects
 				
 				GL.Translate(r.X,r.Y,r.Z);
 				GL.Rotate((float)r.Rotation, Renderer.Render.UP);
-				GL.Scale(.75f,.75f,.75f);
+				//GL.Scale(.75f,.75f,.75f);//Dont scale teh clicing thing sowe occupy thew whole tile
 				GL.Translate(r.SizeX/-2f, 0f, r.SizeZ/-2f);
 				
 					

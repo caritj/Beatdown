@@ -6,5 +6,12 @@ Map{
 }
 
 GUI is inverted. balls.
+we need a way to take a glId and get a unit from teh game
+
+also teams.
+
+a way to iterate the units in teh game
+
+
 
 

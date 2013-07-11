@@ -20,8 +20,9 @@ namespace BeatDown.Renderer
 
 		public  static readonly Vector3 UP = Vector3.UnitY;
 
-		protected Vector3 InGameCameraPosition= new Vector3(10,5,10);
-		protected Vector3 InGameCameraTarget = Vector3.Zero;
+		protected Vector3 InGameCameraTarget = new Vector3(Game.World.WORLD_SIZE/2, 0, Game.World.WORLD_SIZE/2);
+		protected Vector3 InGameCameraPosition= new Vector3(Game.World.WORLD_SIZE,Game.World.WORLD_SIZE,Game.World.WORLD_SIZE);
+		
 		protected Matrix4 CameraMatrix;
 		private float rot = 0;
 		private float rotX = 0;
@@ -32,6 +33,7 @@ namespace BeatDown.Renderer
 		#region test data
 		Game.World w = new World();
 		Game.Unit u = new Unit();
+		Game.Unit u2 ;//= new Unit(3,w.HeightAt(3,3),3,2);
 
 		#endregion
 
@@ -46,6 +48,9 @@ namespace BeatDown.Renderer
 			//TODO setup camera
 
 			//TODO bind events.
+
+			//todo remove this
+			u2 = new Unit(3,w.HeightAt(3,3),3,2);
 		}
 
 		protected override void OnLoad (EventArgs e)
@@ -100,16 +105,16 @@ namespace BeatDown.Renderer
 		protected override void OnUpdateFrame (FrameEventArgs e)
 		{
 			if (Keyboard [OpenTK.Input.Key.Left]) {
-				rot += 0.8f;
+				rot += 0.01f;
 			}
 			if (Keyboard [OpenTK.Input.Key.Right]) {
-				rot -= 0.8f;
+				rot -= 0.01f;
 			}
 			if (Keyboard [OpenTK.Input.Key.Up]) {
-				rotX += 0.8f;
+				rotX += 0.01f;
 			}
 			if (Keyboard [OpenTK.Input.Key.Down]) {
-				rotX -= 0.8f;
+				rotX -= 0.01f;
 			}
 
 			if (Keyboard [OpenTK.Input.Key.ControlLeft] && Keyboard [OpenTK.Input.Key.C]) {
@@ -117,13 +122,29 @@ namespace BeatDown.Renderer
 			}
 
 			if (Mouse [MouseButton.Left] && Game.Selection.Maploc >0) {
-				Console.WriteLine("moving");
-				int x = (Game.Selection.Maploc-1)%Game.World.WORLD_SIZE;
-				int z = (int)Math.Floor ((double)(Game.Selection.Maploc-1)/Game.World.WORLD_SIZE);
-				u.MoveTo(x,w.HeightAt(x,z),z,0.0d);
-				Console.WriteLine(String.Format("u at:{0},{1},{2} r:{3}",u.X,u.Y, u.Z, u.Rotation));
+				if(Game.Selection.HoveredId == 0){
+					Console.WriteLine("moving");
+					int x = (Game.Selection.Maploc-1)%Game.World.WORLD_SIZE;
+					int z = (int)Math.Floor ((double)(Game.Selection.Maploc-1)/Game.World.WORLD_SIZE);
+					u.MoveTo(x,w.HeightAt(x,z),z,0.0d);
+					Console.WriteLine(String.Format("u at:{0},{1},{2} r:{3}",u.X,u.Y, u.Z, u.Rotation));
+				}
+				else{
+					//if this is on our team
+
+					//do selection
+					Game.Selection.SelectedId = Game.Selection.HoveredId;
+
+					//else
+
+					//Attacks!
+				}
 				             
 			}
+
+			//TRIGGER UNIT UPDATES
+
+
 			base.OnUpdateFrame(e);
 		}
 
@@ -136,15 +157,24 @@ namespace BeatDown.Renderer
 			ClearBuffer (0f,0f,0f,0f);
 
 			GL.PushMatrix ();
+
+
 				//setup the camera
+				InGameCameraPosition = Vector3.Add (new Vector3(
+					(float)Math.Sin(rot)*Game.World.WORLD_SIZE, 
+					Game.World.WORLD_SIZE, 
+					(float)Math.Cos(rot)*Game.World.WORLD_SIZE
+				),InGameCameraTarget);
+				
 				CameraMatrix = Matrix4.LookAt (InGameCameraPosition, InGameCameraTarget, UP);
 				GL.MatrixMode (MatrixMode.Modelview);
 				GL.LoadMatrix (ref CameraMatrix);
 
+				
 
-				//rotate the world. (instead of moving the camera);
-				GL.Rotate (rot, UP);
-				GL.Rotate (rotX, Vector3.UnitZ);
+				
+				
+
 
 				//draw picking data to the buffer.
 				DrawAndPick();
@@ -152,6 +182,7 @@ namespace BeatDown.Renderer
 				//draw real data to the buffer.
 				GameObjects.WorldRenderer.RenderViewable(w);
 				GameObjects.BaseRender.RenderViewable(u);
+				GameObjects.BaseRender.RenderViewable(u2);
 
 				//show the axes in teh rotate context
 				this.drawAxes(0f,2f,0f);
@@ -228,6 +259,7 @@ namespace BeatDown.Renderer
 
 			//DRAW TEH GAME OBJECTS
 			GameObjects.BaseRender.RenderPickable (u);
+			GameObjects.BaseRender.RenderPickable (u2);
 
 			//get the selected object;
 			Game.Selection.HoveredId = PickObject ();

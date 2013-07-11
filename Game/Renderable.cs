@@ -49,7 +49,7 @@ namespace BeatDown.Game
 			hidden = true;
 		}
 
-		//this si teh id asssoicated with the  object by open gl.
+		//this is the id asssoicated with the object by open gl picking.
 		public int  glId =0;
 
 

@@ -10,10 +10,11 @@ namespace BeatDown.Game
 		protected System.Drawing.Color sideColor = System.Drawing.Color.Tan;
 		public System.Drawing.Color SideColor{ get { return sideColor; } }
 
+
 		public World ()
 		{
 			this.sizeX = WORLD_SIZE;
-			this.sizeY = WORLD_SIZE/5;//UP
+			this.sizeY = WORLD_SIZE/3;//UP
 
 			this.sizeZ = WORLD_SIZE;
 			Random r = new Random ();

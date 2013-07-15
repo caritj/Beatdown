@@ -15,12 +15,12 @@ namespace Beatdown.Game
 		private bool wasPaused =true;
 		DateTime startDate = new DateTime (2077, 07, 23);
 		public DateTime StartDate{ get { return startDate; } }
-		public DateTime CurrentDate{get{return startDate.AddMinutes (Time);}}
+		//public DateTime CurrentDate{get{return startDate.AddMinutes (Time);}}
 
 
-		private Stopwatch time = new Stopwatch();
+		//private Stopwatch time = new Stopwatch();
 		//PROPERTIES==================================================a
-		public bool Paused {
+		/*public bool Paused {
 			get{ return paused; }
 			set { 
 				paused = value; 
@@ -32,6 +32,7 @@ namespace Beatdown.Game
 			}
 		}
 		public double Time{get{return time.ElapsedMilliseconds;}}
+		*/
 		public States Current{
 			get{return current;}
 		}

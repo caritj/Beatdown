@@ -61,5 +61,7 @@
   <ItemGroup>
     <None Include="config.ini" />
     <None Include="resources.txt" />
+    <None Include="data\arial.ttf" />
+    <None Include="data\gui\DefaultSkin.png" />
   </ItemGroup>
 </Project>

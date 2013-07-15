@@ -1,5 +1,8 @@
 using System;
+<<<<<<< HEAD
 using OpenTK.Input;
+=======
+>>>>>>> 1f6fe601d7a43924dc38e233b5d18a940fcff71e
 
 namespace BeatDown.Renderer
 {
@@ -28,7 +31,6 @@ namespace BeatDown.Renderer
 
 		public static void OnKeyUp(object sender, KeyboardKeyEventArgs e){
 
-		}
 
 	}
 }

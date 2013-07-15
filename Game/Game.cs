@@ -6,9 +6,10 @@ namespace BeatDown.Game
 {
 	public class Game:IDisposable
 	{
+
 		public static State State = new State();
-//		private Server server;
-		
+		public Manager UnitManager = new Manager();
+
 		public Game (Settings s)
 		{
 		}

@@ -2,7 +2,7 @@
 *.sln
 *.pidb
 *.userprefs
-/bin
+bin/
 
 # Compiled source #
 ###################

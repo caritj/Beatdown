@@ -47,7 +47,15 @@ namespace BeatDown.Renderer
 
 			//TODO setup camera
 
-			//TODO bind events.
+			//bind events to the input handler.
+			Mouse.ButtonUp += InputHandler.OnMouseUp;
+			Mouse.ButtonDown += InputHandler.OnMouseDown;
+			Mouse.WheelChanged += InputHandler.OnMouseWheeled;
+
+			Keyboard.KeyDown+= InputHandler.OnKeyDown;
+			Keyboard.KeyUp+=InputHandler.OnKeyUp;
+
+
 
 			//todo remove this
 			u2 = new Unit(3,w.HeightAt(3,3),3,2);
@@ -65,6 +73,7 @@ namespace BeatDown.Renderer
 			canvas.BackgroundColor = System.Drawing.Color.OrangeRed;
 			input = new Gwen.Input.OpenTK (this);
 			input.Initialize(canvas);
+
 			SharedResources.GUIFont = new Gwen.Font(renderer, "arial",16);
 
 
@@ -110,14 +119,9 @@ namespace BeatDown.Renderer
 			if (Keyboard [OpenTK.Input.Key.Right]) {
 				rot -= 0.01f;
 			}
-			if (Keyboard [OpenTK.Input.Key.Up]) {
-				rotX += 0.01f;
-			}
-			if (Keyboard [OpenTK.Input.Key.Down]) {
-				rotX -= 0.01f;
-			}
 
-			if (Keyboard [OpenTK.Input.Key.ControlLeft] && Keyboard [OpenTK.Input.Key.C]) {
+
+			if ((Keyboard [OpenTK.Input.Key.ControlLeft] && Keyboard [OpenTK.Input.Key.C])||Keyboard[OpenTK.Input.Key.Escape]) {
 				this.Exit ();
 			}
 

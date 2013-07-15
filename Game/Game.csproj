@@ -42,6 +42,8 @@
     <Compile Include="Net.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Selection.cs" />
+    <Compile Include="Manager.cs" />
+    <Compile Include="Unit.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -16,6 +16,6 @@ a way to iterate the units in teh game
 
 
 
-see if we can hack gwen to accpet a fontfamily instead ofa string font.
+see if we can hack gwen to accept a fontfamily instead of a string.
 
 

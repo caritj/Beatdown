@@ -120,20 +120,10 @@ namespace BeatDown.Renderer
 			if (Keyboard [OpenTK.Input.Key.Right]) {
 				rot -= 0.01f;
 			}
-<<<<<<< HEAD
 
 
 			if ((Keyboard [OpenTK.Input.Key.ControlLeft] && Keyboard [OpenTK.Input.Key.C])||Keyboard[OpenTK.Input.Key.Escape]) {
-=======
-			if (Keyboard [OpenTK.Input.Key.Up]) {
-				rotX += 0.01f;
-			}
-			if (Keyboard [OpenTK.Input.Key.Down]) {
-				rotX -= 0.01f;
-			}
 
-			if (Keyboard [OpenTK.Input.Key.ControlLeft] && Keyboard [OpenTK.Input.Key.C]) {
->>>>>>> 1f6fe601d7a43924dc38e233b5d18a940fcff71e
 				this.Exit ();
 			}
 

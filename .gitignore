@@ -1,3 +1,9 @@
+*.csproj
+*.sln
+*.pidb
+*.userprefs
+/bin
+
 # Compiled source #
 ###################
 *.com

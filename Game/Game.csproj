@@ -44,9 +44,13 @@
     <Compile Include="Selection.cs" />
     <Compile Include="Manager.cs" />
     <Compile Include="Unit.cs" />
+    <Compile Include="Astar\AStar.cs" />
+    <Compile Include="Astar\INode.cs" />
+    <Compile Include="WorldNode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="data\" />
+    <Folder Include="Astar\" />
   </ItemGroup>
 </Project>

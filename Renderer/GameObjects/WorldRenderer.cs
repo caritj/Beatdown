@@ -32,18 +32,18 @@ namespace BeatDown.Renderer.GameObjects
 
 
 					GL.Color3 (w.Color);
-					if(w.Heightmap[y,x] >0){
+					if(w.Heightmap[y,x].Y >0){
 						System.Drawing.Color c = System.Drawing.Color.FromArgb(
 							(int)w.Color.A, 
-							(int)w.Color.R+10* w.Heightmap[y,x], 
-							(int)w.Color.G+10* w.Heightmap[y,x], 
-							(int)w.Color.B+10* w.Heightmap[y,x]);
+							(int)w.Color.R+10* w.Heightmap[y,x].Y, 
+							(int)w.Color.G+10* w.Heightmap[y,x].Y, 
+							(int)w.Color.B+10* w.Heightmap[y,x].Y);
 						GL.Color3(c);
 					}
-					GL.Vertex3 ( x , w.Heightmap[y,x],  y);
-					GL.Vertex3 ( x , w.Heightmap[y,x], y+1);
-					GL.Vertex3 (x +1, w.Heightmap[y,x],y+1);
-					GL.Vertex3 ( x +1, w.Heightmap[y,x], y);
+					GL.Vertex3 ( x , w.Heightmap[y,x].Y,  y);
+					GL.Vertex3 ( x , w.Heightmap[y,x].Y, y+1);
+					GL.Vertex3 (x +1, w.Heightmap[y,x].Y,y+1);
+					GL.Vertex3 ( x +1, w.Heightmap[y,x].Y, y);
 
 					
 
@@ -54,21 +54,21 @@ namespace BeatDown.Renderer.GameObjects
 					GL.Color3(w.SideColor);
 
 					GL.Vertex3(x,0,y);
-					GL.Vertex3(x,w.Heightmap[y,x],y);
+					GL.Vertex3(x,w.Heightmap[y,x].Y,y);
 
 					GL.Vertex3(x+1,0,y);
-					GL.Vertex3(x+1,w.Heightmap[y,x],y);
+					GL.Vertex3(x+1,w.Heightmap[y,x].Y,y);
 					
 
 					GL.Vertex3(x+1,0,y+1);
-					GL.Vertex3(x+1,w.Heightmap[y,x],y+1);
+					GL.Vertex3(x+1,w.Heightmap[y,x].Y,y+1);
 
 
 					GL.Vertex3(x,0,y+1);
-					GL.Vertex3(x,w.Heightmap[y,x],y+1);
+					GL.Vertex3(x,w.Heightmap[y,x].Y,y+1);
 
 					GL.Vertex3(x,0,y);
-					GL.Vertex3(x,w.Heightmap[y,x],y);
+					GL.Vertex3(x,w.Heightmap[y,x].Y,y);
 
 
 					GL.End();
@@ -109,10 +109,10 @@ namespace BeatDown.Renderer.GameObjects
 
 
 
-					GL.Vertex3 ( x , w.Heightmap[y,x],  y);
-					GL.Vertex3 ( x , w.Heightmap[y,x], y+1);
-					GL.Vertex3 (x +1, w.Heightmap[y,x],y+1);
-					GL.Vertex3 ( x +1, w.Heightmap[y,x], y);
+					GL.Vertex3 ( x , w.Heightmap[y,x].Y,  y);
+					GL.Vertex3 ( x , w.Heightmap[y,x].Y, y+1);
+					GL.Vertex3 (x +1, w.Heightmap[y,x].Y,y+1);
+					GL.Vertex3 ( x +1, w.Heightmap[y,x].Y, y);
 
 					
 
@@ -122,21 +122,21 @@ namespace BeatDown.Renderer.GameObjects
 					GL.Begin(BeginMode.QuadStrip);
 				
 					GL.Vertex3(x,0,y);
-					GL.Vertex3(x,w.Heightmap[y,x],y);
+					GL.Vertex3(x,w.Heightmap[y,x].Y,y);
 
 					GL.Vertex3(x+1,0,y);
-					GL.Vertex3(x+1,w.Heightmap[y,x],y);
+					GL.Vertex3(x+1,w.Heightmap[y,x].Y,y);
 					
 
 					GL.Vertex3(x+1,0,y+1);
-					GL.Vertex3(x+1,w.Heightmap[y,x],y+1);
+					GL.Vertex3(x+1,w.Heightmap[y,x].Y,y+1);
 
 
 					GL.Vertex3(x,0,y+1);
-					GL.Vertex3(x,w.Heightmap[y,x],y+1);
+					GL.Vertex3(x,w.Heightmap[y,x].Y,y+1);
 
 					GL.Vertex3(x,0,y);
-					GL.Vertex3(x,w.Heightmap[y,x],y);
+					GL.Vertex3(x,w.Heightmap[y,x].Y,y);
 
 
 					GL.End();

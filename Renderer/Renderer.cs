@@ -79,7 +79,7 @@ namespace BeatDown.Renderer
 
 
 			//setup gui systems
-			gui = new GUI (settings, canvas);
+			//gui = new GUI (settings, canvas);
 
 		
 
@@ -93,7 +93,7 @@ namespace BeatDown.Renderer
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
 			//TODO RM DEBUG DATA
-			this.gui.OnStateChange(Beatdown.Game.State.States.INGAME);
+			//this.gui.OnStateChange(Beatdown.Game.State.States.INGAME);
 
 			base.OnLoad(e);
 
@@ -108,7 +108,7 @@ namespace BeatDown.Renderer
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadMatrix(ref projection);
 
-			gui.Layout();
+			//gui.Layout();
 			canvas.SetSize(Width,Height);
 			base.OnResize(e);
 		}
@@ -199,7 +199,7 @@ namespace BeatDown.Renderer
 			this.drawAxes(0,0,0);
 
 			//draw gui to the buffer.
-			gui.Render(canvas);
+			//gui.Render(canvas);
 		
 
 			//draw to screen

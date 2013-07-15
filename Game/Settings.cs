@@ -20,7 +20,7 @@ namespace BeatDown.Game
 				public bool ShowFPS=true;
 
 				public bool VSync = true;
-				public static System.Drawing.Font DefaultFont = new System.Drawing.Font ("Arial", 1f);
+				//public static System.Drawing.Font DefaultFont = new System.Drawing.Font ("Arial", 1f);
 
 				public string TextureDirectory =root+"data/tex/";
 				public string SoundDirectory =root+"data/snd/";

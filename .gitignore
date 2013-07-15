@@ -1,3 +1,42 @@
+<<<<<<< HEAD
+=======
+*.csproj
+*.sln
+*.pidb
+*.userprefs
+/bin
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+>>>>>>> 9d23ba5c1c38b0e5ca36923aba349c5acba045d1
 .DS_Store
 .DS_Store?
 ._*

@@ -5,6 +5,17 @@ namespace BeatDown.Game
 {
 	public abstract class Renderable
 	{
+		public class coords{
+		public int X;
+		public int Y;
+		public int Z;
+
+			public coords(int x,  int y, int z){
+				X=x;
+				Y=y;
+				Z=z;
+			}
+		}
 
 		protected int x=0;
 		protected int y=0;
@@ -55,5 +66,7 @@ namespace BeatDown.Game
 
 
 	}
+
+
 }
 

@@ -12,8 +12,7 @@ namespace BeatDown.Game
 		protected System.Drawing.Color sideColor = System.Drawing.Color.Tan;
 		public System.Drawing.Color SideColor{ get { return sideColor; } }
 
-		protected AStar.AStar Astar;
-
+	
 		public World ()
 		{
 			this.sizeX = WORLD_SIZE;
@@ -33,12 +32,26 @@ namespace BeatDown.Game
 			return Heightmap[z,x].Y;
 		}
 		public List<coords>GetPath(int StartX, int StartZ, int EndX, int EndZ){
+			return GetPath(new WorldNode(StartX, this.HeightAt(StartX,StartZ),StartZ), new WorldNode(EndX, this.HeightAt(EndX,EndZ),EndZ));
+		}
+		public List<coords>GetPath (WorldNode start, WorldNode end)
+		{
 			//TODO a*
-			List<coords> output = new List<coords>();
+			List<coords> output = new List<coords> ();
+			AStar.AStar astar = new AStar (start, end);
+			AStar.State s = astar.Run ();
+			//TRanslate to coords
+			if (s == BeatDown.Game.AStar.State.GoalFound) {
+				List<BeatDown.Game.AStar.INode> data = astar.GetPath ();
+				if(data!=null){
+					foreach(BeatDown.Game.AStar.INode node in data){
+						output.Add(new coords(node.X,node.Y, node.Z));
+					}
+				}
+			}
 
-			output.Add (new coords(StartX, this.HeightAt(StartX,StartZ), StartZ));
-
-			output.Add (new coords(EndX,this.HeightAt(StartX,EndZ), EndZ));
+				
+			
 
 			return output;
 		}

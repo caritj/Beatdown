@@ -218,7 +218,7 @@ namespace BeatDown.Game.AStar
 		/// Will return a partial path if the algorithm has not finished yet.
 		/// </summary>
 		/// <returns>Returns null if the algorithm has never been run.</returns>
-		public IEnumerable<INode> GetPath()
+		public List<INode> GetPath()
 		{
 			if (current != null)
 			{

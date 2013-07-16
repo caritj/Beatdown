@@ -5,21 +5,15 @@ namespace BeatDown.Game
 {
 	public abstract class Renderable
 	{
-		public class coords{
-		public int X;
-		public int Y;
-		public int Z;
+	
+		public  int X{get{return position.X; }}
+		public  int Y{get{return position.Y; }}
+		public  int Z{get{return position.Z; }}
 
-			public coords(int x,  int y, int z){
-				X=x;
-				Y=y;
-				Z=z;
-			}
-		}
+		
 
-		protected int x=0;
-		protected int y=0;
-		protected int z=0;
+		protected Coords position = new Coords(0,0,0);
+		public Coords Position { get { return this.position; } }
 
 		protected int sizeX=1;
 		protected int sizeY=1;
@@ -31,11 +25,7 @@ namespace BeatDown.Game
 
 		protected bool hidden = false;
 
-		public int X{get{return x; }}
-		public int Y{get{return y; }}
-		public int Z{get{return z; }}
-
-
+		
 		public int SizeX{get{ return sizeX; }}
 		public int SizeY{get{ return sizeY; }}
 		public int SizeZ{get{ return sizeZ; }}
@@ -47,9 +37,7 @@ namespace BeatDown.Game
 		public bool Visible{ get { return ! hidden; } }
 
 		public void MoveTo(int X, int Y, int Z, double Rotation){
-			x = X;
-			y = Y;
-			z = Z;
+			position = new Coords(X,Y,Z);
 			rotation = Rotation;
 		}
 

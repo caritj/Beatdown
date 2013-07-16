@@ -37,13 +37,13 @@ namespace BeatDown.Game
 			return new Coords (x, HeightAt (x, z), z);
 		}
 
-		public List<coords>GetPath(int StartX, int StartZ, int EndX, int EndZ){
+		public List<Coords>GetPath(int StartX, int StartZ, int EndX, int EndZ){
 			return GetPath(new WorldNode(this, StartX, this.HeightAt(StartX,StartZ),StartZ), new WorldNode(this, EndX, this.HeightAt(EndX,EndZ),EndZ));
 		}
-		public List<coords>GetPath (WorldNode start, WorldNode end)
+		public List<Coords>GetPath (WorldNode start, WorldNode end)
 		{
 			//TODO a*
-			List<coords> output = new List<coords> ();
+			List<Coords> output = new List<Coords> ();
 			if (this.AStar == null) {
 				this.AStar = new AStar (start, end);
 			} else {
@@ -56,7 +56,7 @@ namespace BeatDown.Game
 				List<INode> data = this.AStar.GetPath ();
 				if(data!=null){
 					foreach(INode node in data){
-						output.Add(new coords(node.X,node.Y, node.Z));
+						output.Add(new Coords(node.X,node.Y, node.Z));
 					}
 				}
 			}

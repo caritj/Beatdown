@@ -4,6 +4,8 @@ using OpenTK.Input;
 using OpenTK.Graphics.OpenGL;
 using Gwen;
 using BeatDown.Game;
+using System.Collections.Generic;
+using BeatDown.Renderer.GameObjects;
 
 namespace BeatDown.Renderer
 {
@@ -30,12 +32,7 @@ namespace BeatDown.Renderer
 		public static Render Instance = null;
 
 
-		#region test data
-		public Game.World w = new World();
-		Game.Unit u = new Unit();
-		Game.Unit u2 = new Unit();
 
-		#endregion
 
 		public Render (ref Game.Game g, ref Settings s):base(s.GraphicsX, s.GraphicsY, OpenTK.Graphics.GraphicsMode.Default, "Raven"){
 			theGame = g;
@@ -54,8 +51,6 @@ namespace BeatDown.Renderer
 
 			Keyboard.KeyDown+= InputHandler.OnKeyDown;
 			Keyboard.KeyUp+=InputHandler.OnKeyUp;
-
-
 
 
 
@@ -126,27 +121,7 @@ namespace BeatDown.Renderer
 				this.Exit ();
 			}
 
-			if (Mouse [MouseButton.Left] && Game.Selection.Maploc >0) {
-				if(Game.Selection.HoveredId == 0){
-					//Console.WriteLine("moving");
-					//int x = (Game.Selection.Maploc-1)%Game.World.WORLD_SIZE;
-					//int z = (int)Math.Floor ((double)(Game.Selection.Maploc-1)/Game.World.WORLD_SIZE);
-				//	u.MoveTo(x,w.HeightAt(x,z),z,0.0d);
 
-					//Console.WriteLine(String.Format("u at:{0},{1},{2} r:{3}",u.X,u.Y, u.Z, u.Rotation));
-				}
-				else{
-					//if this is on our team
-
-					//do selection
-					Game.Selection.SelectedId = Game.Selection.HoveredId;
-
-					//else
-
-					//Attacks!
-				}
-				             
-			}
 
 			//TRIGGER UNIT UPDATES
 
@@ -176,19 +151,17 @@ namespace BeatDown.Renderer
 				GL.MatrixMode (MatrixMode.Modelview);
 				GL.LoadMatrix (ref CameraMatrix);
 
-				
-
-				
-				
 
 
 				//draw picking data to the buffer.
 				DrawAndPick();
 
 				//draw real data to the buffer.
-				GameObjects.WorldRenderer.RenderViewable(w);
-				GameObjects.UnitRenderer.RenderViewable(u);
-				GameObjects.BaseRender.RenderViewable(u2);
+				WorldRenderer.RenderViewable(theGame.Manager.World);
+				foreach (KeyValuePair<int, Unit> unit in theGame.Manager.Units) {
+				Console.WriteLine(unit.Value.Name);
+					BaseRender.RenderViewable(unit.Value);
+				}
 
 				//show the axes in teh rotate context
 				this.drawAxes(0f,2f,0f);
@@ -258,22 +231,23 @@ namespace BeatDown.Renderer
 
 		}
 
-		private void DrawAndPick(){
-			GL.PushAttrib(AttribMask.EnableBit | AttribMask.ColorBufferBit);
-			GL.Disable(EnableCap.CullFace);
-			GL.Disable(EnableCap.Blend);
+		private void DrawAndPick ()
+		{
+			GL.PushAttrib (AttribMask.EnableBit | AttribMask.ColorBufferBit);
+			GL.Disable (EnableCap.CullFace);
+			GL.Disable (EnableCap.Blend);
 
-			//DRAW TEH GAME OBJECTS
-			GameObjects.BaseRender.RenderPickable (u);
-			GameObjects.BaseRender.RenderPickable (u2);
+			//DRAW THE GAME OBJECTS
+			foreach (KeyValuePair<int, Unit> unit in theGame.Manager.Units) {
+				BaseRender.RenderPickable(unit.Value);
+			}
 
 			//get the selected object;
 			Game.Selection.HoveredId = PickObject ();
 
 			ClearBuffer(0f,0f,0f,0f);
-			//DRAW TEH WORLD
-			GameObjects.WorldRenderer.RenderPickable(w);
-			Game.Selection.Maploc = PickObject();
+			//DRAW THE WORLD
+			WorldRenderer.RenderPickable(theGame.Manager.World);
 			
 
 			//clear the buffer;

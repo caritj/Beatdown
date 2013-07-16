@@ -131,7 +131,7 @@ namespace BeatDown.Game.Pathfinding
 			current = start;
 			this.goal = goal;
 			openList.Add(0,current);
-			current.SetOpenList(true);
+			//current.SetOpenList(true);
 		}
 
 		/// <summary>
@@ -180,9 +180,9 @@ namespace BeatDown.Game.Pathfinding
 
 			// Remove from the open list and place on the closed list 
 			// since this node is now being searched.
-			current.SetOpenList(false);
+			//current.SetOpenList(false);
 			closedList.Add(current.TotalCost, current);
-			current.SetClosedList(true);
+			//current.SetClosedList(true);
 
 			// Found the goal, stop searching.
 			if (current.IsGoal(goal))
@@ -206,7 +206,7 @@ namespace BeatDown.Game.Pathfinding
 				child.SetMovementCost(current);
 				child.SetEstimatedCost(goal);
 				openList.Add(child.TotalCost, child);
-				child.SetOpenList(true);
+				//child.SetOpenList(true);
 			}
 
 			// This step did not find the goal so return status of still searching.

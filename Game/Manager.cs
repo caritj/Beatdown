@@ -41,7 +41,7 @@ namespace BeatDown.Game
 
 		public IDictionary<Int32, Unit> Units
 		{
-			get{return this.Units;}
+			get{return this.units;}
 		}
 
 		public World World {

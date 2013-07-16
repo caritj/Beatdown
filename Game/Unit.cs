@@ -35,7 +35,7 @@ namespace BeatDown.Game
 
 		public Unit (string name, Coords coords, int team)
 		{
-
+			this.name= name;
 			this.position = coords;
 			this.team = team;
 			this.maxSlope = 1;

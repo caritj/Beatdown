@@ -3,7 +3,7 @@ using OpenTK;
 using OpenTK.Input;
 using OpenTK.Graphics.OpenGL;
 using BeatDown.Game;
-using Game.Planning;
+using BeatDown.Game.Planning;
 using System.Collections.Generic;
 
 namespace BeatDown.Renderer.GameObjects
@@ -36,14 +36,17 @@ namespace BeatDown.Renderer.GameObjects
 						GL.PopMatrix();
 					}
 				}*/
-				int x = (Game.Selection.Maploc-1)%Game.World.WORLD_SIZE;
-				int z = (int)Math.Floor ((double)(Game.Selection.Maploc-1)/Game.World.WORLD_SIZE);
-				List<Renderable.coords> Coords = Renderer.Render.Instance.w.GetPath(u.X, u.Z, x,z);
-				Console.WriteLine("drawpath to "+x+","+z+" is "+Coords.Count);
+
+				List<Renderable.coords> Coords = Render.Instance.theGame.Manager.World.GetPath(u.X, u.Z, Game.Selection.MapX,Game.Selection.MapZ);
+				//Console.WriteLine("drawpath to "+x+","+z+" is "+Coords.Count);
 				GL.PushMatrix();
 					GL.Translate(0,1,0);
+				if(Coords.Count> u.ActionPoints){
 					GL.Color3(1.0f,0.0f,0.0f);
-					
+				}
+				else{
+						GL.Color3(0.0f,1.0f,0.0f);
+				}
 						for(int i = 1; i < Coords.Count;i++){
 							
 				//	Console.WriteLine(String.Format("Lines: {0},{1},{2}",Coords[i].X,Coords[i].Y, Coords[i].Z));

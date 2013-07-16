@@ -7,7 +7,9 @@ namespace BeatDown.Game
 {
 	public class Unit:Renderable
 	{
-
+		public new int X{get{return position.X; }}
+		public new int Y{get{return position.Y; }}
+		public new int Z{get{return position.Z; }}
 
 
 		public Decimal APCost_HorzMove{ get { return APCost_HorzMove; } }
@@ -35,7 +37,7 @@ namespace BeatDown.Game
 
 		public Unit (string name, Coords coords, int team)
 		{
-
+			this.name= name;
 			this.position = coords;
 			this.team = team;
 			this.maxSlope = 1;

@@ -8,7 +8,7 @@ namespace BeatDown.Game
 	{
 
 		public static State State = new State();
-		public Manager UnitManager = new Manager();
+		public Manager Manager = new Manager();
 
 		public Game (Settings s)
 		{

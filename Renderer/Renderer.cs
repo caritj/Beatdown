@@ -159,7 +159,6 @@ namespace BeatDown.Renderer
 				//draw real data to the buffer.
 				WorldRenderer.RenderViewable(theGame.Manager.World);
 				foreach (KeyValuePair<int, Unit> unit in theGame.Manager.Units) {
-				Console.WriteLine(unit.Value.Name);
 					BaseRender.RenderViewable(unit.Value);
 				}
 

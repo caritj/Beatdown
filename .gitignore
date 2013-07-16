@@ -1,10 +1,9 @@
-<<<<<<< HEAD
-=======
 *.csproj
 *.sln
 *.pidb
 *.userprefs
 bin/
+Game/SortedList.cs
 
 # Compiled source #
 ###################

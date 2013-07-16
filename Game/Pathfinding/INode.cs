@@ -26,7 +26,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
 
-namespace BeatDown.Game.AStar
+namespace BeatDown.Game.Pathfinding
 {
 	/// <summary>
 	/// The A* algorithm takes a starting node and a goal node and searchings from

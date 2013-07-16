@@ -8,12 +8,12 @@ namespace BeatDown.Renderer
 	{
 
 		public static void OnMouseUp(object sender, MouseButtonEventArgs args){
-				
+			SharedResources.MouseIsDown=false;
 		}
 
 		public static void OnMouseDown(object sender, MouseButtonEventArgs args){
 
-
+			SharedResources.MouseIsDown=true;
 
 		}
 

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using BeatDown.Game.AStar;
+using BeatDown.Game.Pathfinding;
 
 namespace BeatDown.Game
 {
-	public class WorldNode:BeatDown.Game.AStar.INode
+	public class WorldNode:BeatDown.Game.Pathfinding.INode
 	{
 
 
@@ -31,27 +31,27 @@ namespace BeatDown.Game
 			owner =w;
 		}
 		
-		bool BeatDown.Game.AStar.INode.IsOpenList (IEnumerable<BeatDown.Game.AStar.INode> openList)
+		bool INode.IsOpenList (IEnumerable<INode> openList)
 		{
 			return isOpenList;
 		}
 
-		void BeatDown.Game.AStar.INode.SetOpenList (bool value)
+		void INode.SetOpenList (bool value)
 		{
 			isOpenList =value;
 		}
 
-		bool BeatDown.Game.AStar.INode.IsClosedList (IEnumerable<BeatDown.Game.AStar.INode> closedList)
+		bool INode.IsClosedList (IEnumerable<INode> closedList)
 		{
 			return isClosedList;
 		}
 
-		void BeatDown.Game.AStar.INode.SetClosedList (bool value)
+		void INode.SetClosedList (bool value)
 		{
 			isClosedList = value;
 		}
 
-		void BeatDown.Game.AStar.INode.SetMovementCost (BeatDown.Game.AStar.INode parent)
+		void INode.SetMovementCost (INode parent)
 		{
 			//allow climbing but make it expensive.
 			int deltaY = parent.Y - this.Y;
@@ -68,13 +68,13 @@ namespace BeatDown.Game
 			}
 		}
 
-		void BeatDown.Game.AStar.INode.SetEstimatedCost (BeatDown.Game.AStar.INode goal)
+		void INode.SetEstimatedCost (INode goal)
 		{
 
 			this.EstimatedCost = Math.Abs(this.X - goal.X) + Math.Abs(this.Z - goal.Z);
 		}
 
-		bool BeatDown.Game.AStar.INode.IsGoal (BeatDown.Game.AStar.INode goal)
+		bool INode.IsGoal (INode goal)
 		{
 			return goal.X == this.X &&this.Z==goal.Z;
 		}
@@ -83,12 +83,12 @@ namespace BeatDown.Game
 
 
 
-		BeatDown.Game.AStar.INode INode.Parent {
+		INode INode.Parent {
 			get;
 			set; 
 		}
 
-		IEnumerable<BeatDown.Game.AStar.INode> INode.Children {
+		IEnumerable<INode> INode.Children {
 			get
 			{
 				var children = new List<WorldNode>();
@@ -96,11 +96,11 @@ namespace BeatDown.Game
 				for (int i = 0; i < childXPos.Length; i++)
 				{
 					// skip any nodes out of bounds.
-					if (X + childXPos[i] >= BeatDown.Game.World.WORLD_SIZE || Y + childYPos[i] >= BeatDown.Game.World.WORLD_SIZE)
+					if (X + childXPos[i] >= BeatDown.Game.World.WORLD_SIZE || Z + childYPos[i] >= BeatDown.Game.World.WORLD_SIZE)
 						continue;
-					if (X + childXPos[i] < 0 || Y + childYPos[i] < 0)
+					if (X + childXPos[i] < 0 || Z + childYPos[i] < 0)
 						continue;
-
+				//	Console.WriteLine ("C:"+(Z + childYPos[i])+","+(X + childXPos[i]));
 					children.Add( owner.Heightmap[Z + childYPos[i],X + childXPos[i]]);
 				}
 

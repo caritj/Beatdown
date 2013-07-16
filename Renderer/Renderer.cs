@@ -25,15 +25,15 @@ namespace BeatDown.Renderer
 		
 		protected Matrix4 CameraMatrix;
 		private float rot = 0;
-		private float rotX = 0;
+
 
 		public static Render Instance = null;
 
 
 		#region test data
-		Game.World w = new World();
+		public Game.World w = new World();
 		Game.Unit u = new Unit();
-		Game.Unit u2 ;//= new Unit(3,w.HeightAt(3,3),3,2);
+		Game.Unit u2 = new Unit();
 
 		#endregion
 
@@ -58,8 +58,7 @@ namespace BeatDown.Renderer
 
 
 
-			//todo remove this
-			u2 = new Unit(3,w.HeightAt(3,3),3,2);
+
 		}
 
 		protected override void OnLoad (EventArgs e)
@@ -129,11 +128,12 @@ namespace BeatDown.Renderer
 
 			if (Mouse [MouseButton.Left] && Game.Selection.Maploc >0) {
 				if(Game.Selection.HoveredId == 0){
-					Console.WriteLine("moving");
-					int x = (Game.Selection.Maploc-1)%Game.World.WORLD_SIZE;
-					int z = (int)Math.Floor ((double)(Game.Selection.Maploc-1)/Game.World.WORLD_SIZE);
-					u.MoveTo(x,w.HeightAt(x,z),z,0.0d);
-					Console.WriteLine(String.Format("u at:{0},{1},{2} r:{3}",u.X,u.Y, u.Z, u.Rotation));
+					//Console.WriteLine("moving");
+					//int x = (Game.Selection.Maploc-1)%Game.World.WORLD_SIZE;
+					//int z = (int)Math.Floor ((double)(Game.Selection.Maploc-1)/Game.World.WORLD_SIZE);
+				//	u.MoveTo(x,w.HeightAt(x,z),z,0.0d);
+
+					//Console.WriteLine(String.Format("u at:{0},{1},{2} r:{3}",u.X,u.Y, u.Z, u.Rotation));
 				}
 				else{
 					//if this is on our team
@@ -187,7 +187,7 @@ namespace BeatDown.Renderer
 
 				//draw real data to the buffer.
 				GameObjects.WorldRenderer.RenderViewable(w);
-				GameObjects.BaseRender.RenderViewable(u);
+				GameObjects.UnitRenderer.RenderViewable(u);
 				GameObjects.BaseRender.RenderViewable(u2);
 
 				//show the axes in teh rotate context

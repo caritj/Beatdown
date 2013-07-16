@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using BeatDown.Game.Pathfinding;
 
 namespace BeatDown.Game
 {
@@ -12,7 +12,7 @@ namespace BeatDown.Game
 		protected System.Drawing.Color sideColor = System.Drawing.Color.Tan;
 		public System.Drawing.Color SideColor{ get { return sideColor; } }
 
-	
+		AStar AStar = null;
 		public World ()
 		{
 			this.sizeX = WORLD_SIZE;
@@ -32,26 +32,28 @@ namespace BeatDown.Game
 			return Heightmap[z,x].Y;
 		}
 		public List<coords>GetPath(int StartX, int StartZ, int EndX, int EndZ){
-			return GetPath(new WorldNode(StartX, this.HeightAt(StartX,StartZ),StartZ), new WorldNode(EndX, this.HeightAt(EndX,EndZ),EndZ));
+			return GetPath(new WorldNode(this, StartX, this.HeightAt(StartX,StartZ),StartZ), new WorldNode(this, EndX, this.HeightAt(EndX,EndZ),EndZ));
 		}
 		public List<coords>GetPath (WorldNode start, WorldNode end)
 		{
 			//TODO a*
 			List<coords> output = new List<coords> ();
-			AStar.AStar astar = new AStar (start, end);
-			AStar.State s = astar.Run ();
+			if (this.AStar == null) {
+				this.AStar = new AStar (start, end);
+			} else {
+				this.AStar.Reset(start, end);
+			}
+			State s = this.AStar.Run ();
+			Console.WriteLine(s);
 			//TRanslate to coords
-			if (s == BeatDown.Game.AStar.State.GoalFound) {
-				List<BeatDown.Game.AStar.INode> data = astar.GetPath ();
+			if (s == State.GoalFound) {
+				List<INode> data = this.AStar.GetPath ();
 				if(data!=null){
-					foreach(BeatDown.Game.AStar.INode node in data){
+					foreach(INode node in data){
 						output.Add(new coords(node.X,node.Y, node.Z));
 					}
 				}
 			}
-
-				
-			
 
 			return output;
 		}

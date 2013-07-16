@@ -26,7 +26,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 using System.Collections.Generic;
 
-namespace BeatDown.Game.AStar
+namespace BeatDown.Game.Pathfinding
 {
 	/// <summary>
 	/// AStar algorithm states while searching for the goal.
@@ -169,7 +169,7 @@ namespace BeatDown.Game.AStar
 				openList.RemoveAt(0);
 
 				// This node has already been searched, check the next one.
-				if (current.IsClosedList(ClosedList))
+				if (closedList.ContainsValue(current))
 				{
 					continue;
 				}
@@ -197,7 +197,7 @@ namespace BeatDown.Game.AStar
 				// If the child has already been searched (closed list) or is on
 				// the open list to be searched then do not modify its movement cost
 				// or estimated cost since they have already been set previously.
-				if (child.IsOpenList(OpenList) || child.IsClosedList(ClosedList))
+				if (openList.ContainsValue(child) || closedList.ContainsValue(child))
 				{
 					continue;
 				}
@@ -230,7 +230,7 @@ namespace BeatDown.Game.AStar
 					next = next.Parent;
 				}
 				path.Reverse();
-				return path.ToArray();
+				return path;
 			}
 			return null;
 		}

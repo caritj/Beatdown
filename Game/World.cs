@@ -31,6 +31,12 @@ namespace BeatDown.Game
 		public int HeightAt(int x, int z){
 			return Heightmap[z,x].Y;
 		}
+
+		public Coords GetCoords(int x, int z)
+		{
+			return new Coords (x, HeightAt (x, z), z);
+		}
+
 		public List<coords>GetPath(int StartX, int StartZ, int EndX, int EndZ){
 			return GetPath(new WorldNode(this, StartX, this.HeightAt(StartX,StartZ),StartZ), new WorldNode(this, EndX, this.HeightAt(EndX,EndZ),EndZ));
 		}

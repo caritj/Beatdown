@@ -1,38 +1,44 @@
 using System;
-using Game.Planning;
+using BeatDown.Game.Planning;
+using BeatDown.Game;
 using System.Collections.Generic;
 
 namespace BeatDown.Game
 {
 	public class Unit:Renderable
 	{
-		int team = 0;
-		public int Team{ get { return team; } }
+
+
 
 		public Decimal APCost_HorzMove{ get { return APCost_HorzMove; } }
 		public Decimal APCost_VertMove{ get { return APCost_VertMove; } }
 
-		public int MaxSlope;
+
 
 		public int ActionPoints { get { return ActionPoints; } }
 
-		public Coords Position;
+
 		public List<ITask> Plan;
 
-		public Unit ()
+		protected string name;
+		public string Name{ get { return this.name; } }
+
+		protected int team;
+		public int Team{ get { return team; } }
+
+		protected Coords position;
+		public Coords Position { get { return this.position; } }
+
+		protected int maxSlope;
+		public int MaxSlope { get { return this.maxSlope; } }
+
+
+		public Unit (string name, Coords coords, int team)
 		{
-			color = System.Drawing.Color.Aquamarine;
-			this.Position = new Coords(1,1,1);
-			glId =1;
-			this.MaxSlope = 1;
-		}
-		public Unit (Coords coords, int Team)
-		{
-			color = System.Drawing.Color.Crimson;
-			this.Position = coords;
-			team = Team;
-			glId =2;
-			this.MaxSlope = 1;
+
+			this.position = coords;
+			this.team = team;
+			this.maxSlope = 1;
 		}
 
 		public void EndTurn()

@@ -11,8 +11,6 @@ namespace Beatdown.Game
 		public bool InProgress =false;
 
 		private States current = States.LOADING;
-		private bool paused= true;
-		private bool wasPaused =true;
 		DateTime startDate = new DateTime (2077, 07, 23);
 		public DateTime StartDate{ get { return startDate; } }
 		//public DateTime CurrentDate{get{return startDate.AddMinutes (Time);}}

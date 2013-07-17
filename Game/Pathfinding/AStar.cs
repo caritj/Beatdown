@@ -86,6 +86,10 @@ namespace BeatDown.Game.Pathfinding
 		/// </summary>
 		private INode goal;
 
+		private INode start;
+		public INode Goal;
+		public INode Start;
+
 		/// <summary>
 		/// Gets the current amount of steps that the algorithm has performed.
 		/// </summary>
@@ -124,14 +128,19 @@ namespace BeatDown.Game.Pathfinding
 		/// </summary>
 		/// <param name="start">The starting node for the AStar algorithm.</param>
 		/// <param name="goal">The goal node for the AStar algorithm.</param>
-		public void Reset(INode start, INode goal)
+		public void Reset (INode start, INode goal)
 		{
-			openList.Clear();
-			closedList.Clear();
-			current = start;
-			this.goal = goal;
-			openList.Add(0,current);
-			//current.SetOpenList(true);
+			if (this.start != start || this.Goal != goal) {
+				openList.Clear ();
+				closedList.Clear ();
+				current = start;
+				this.goal = goal;
+				this.start = start;
+				openList.Add (0, current);
+				//current.SetOpenList(true);
+			}
+
+
 		}
 
 		/// <summary>

@@ -45,6 +45,7 @@ namespace BeatDown.Renderer
 							}
 							else{
 								//attack?
+
 							}
 						}
 					}

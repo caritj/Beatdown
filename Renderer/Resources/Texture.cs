@@ -9,6 +9,7 @@ namespace  BeatDown.Renderer.Resources
 	public class Texture : Resource
 	{
 		public static Font font= new Font("Arial", 24f);
+
 		protected Bitmap bmp;
 		public Texture (Bitmap bmp){
 			Type = Types.TEXTURE;

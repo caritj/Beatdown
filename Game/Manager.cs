@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using ZMQ;
 
 namespace BeatDown.Game
 {

@@ -73,7 +73,7 @@ namespace BeatDown.Renderer
 
 
 			//setup gui systems
-			//gui = new GUI (settings, canvas);
+			gui = new GUI (settings, canvas);
 
 		
 
@@ -102,7 +102,7 @@ namespace BeatDown.Renderer
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadMatrix(ref projection);
 
-			//gui.Layout();
+			gui.Layout();
 			canvas.SetSize(Width,Height);
 			base.OnResize(e);
 		}
@@ -169,10 +169,10 @@ namespace BeatDown.Renderer
 			GL.PopMatrix();
 
 			//show the origin
-			this.drawAxes(0,0,0);
+			//this.drawAxes(0,0,0);
 
 			//draw gui to the buffer.
-			//gui.Render(canvas);
+			gui.Render(canvas);
 		
 
 			//draw to screen
@@ -189,7 +189,7 @@ namespace BeatDown.Renderer
 			base.OnDisposed(e);
 
 		}
-		private void drawAxes(float x, float y, float z){
+		public void drawAxes(float x, float y, float z){
 			GL.PushMatrix();
 
 

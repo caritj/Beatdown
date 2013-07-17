@@ -1,5 +1,6 @@
 using System;
 using Gwen.Control;
+using BeatDown.Game;
 
 namespace BeatDown.Renderer.InterfaceElements
 {
@@ -9,6 +10,7 @@ namespace BeatDown.Renderer.InterfaceElements
 		Button menu;
 		Button endTurn;
 		Label remainingActions;
+		Label selectedName;
 
 		public InGame (Base parent):base(parent)
 		{
@@ -35,11 +37,19 @@ namespace BeatDown.Renderer.InterfaceElements
 
 			remainingActions = new Label(this);
 			remainingActions.Alignment = Gwen.Pos.Left;
-			remainingActions.SetPosition(0,0);
+			remainingActions.SetPosition(0,24);
 			remainingActions.AutoSizeToContents= true;
 			remainingActions.Font = SharedResources.GUIFont;
 			remainingActions.TextColor = System.Drawing.Color.White;
-			remainingActions.Text = "Actions:";
+			remainingActions.Text = "";
+
+			selectedName = new Label(this);
+			selectedName.Alignment = Gwen.Pos.Left;
+			selectedName.SetPosition(0,0);
+			selectedName.AutoSizeToContents= true;
+			selectedName.Font = SharedResources.GUIFont;
+			selectedName.TextColor = System.Drawing.Color.White;
+			selectedName.Text = "";
 		}
 		protected override void Layout (Gwen.Skin.Base skin)
 		{
@@ -48,7 +58,15 @@ namespace BeatDown.Renderer.InterfaceElements
 
 		protected override void Render (Gwen.Skin.Base skin)
 		{
-			remainingActions.Text = String.Format("Actions:{0}@{1}",Game.Selection.HoveredId, Game.Selection.Maploc);
+			if(Game.Selection.SelectedId == Game.Selection.NONE){
+				remainingActions.Text = "";
+				selectedName.Text ="";
+			}
+			else{
+				Unit selected =Game.Game.Instance.Manager.Units[Game.Selection.SelectedId];
+				remainingActions.Text = "Actions:" +selected.ActionPoints;
+				selectedName.Text =selected.Name;
+			}
 
 			base.Render (skin);
 		}

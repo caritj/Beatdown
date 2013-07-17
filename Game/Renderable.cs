@@ -37,7 +37,12 @@ namespace BeatDown.Game
 		public bool Visible{ get { return ! hidden; } }
 
 		public void MoveTo(int X, int Y, int Z, double Rotation){
+
 			position = new Coords(X,Y,Z);
+			rotation = Rotation;
+		}
+		public void MoveTo(Coords loc, double Rotation){
+			position = loc;
 			rotation = Rotation;
 		}
 

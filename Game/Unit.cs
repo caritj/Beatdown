@@ -14,8 +14,8 @@ namespace BeatDown.Game
 		public Decimal APCost_VertMove{ get { return APCost_VertMove; } }
 
 
-
-		public int ActionPoints { get { return ActionPoints; } }
+		protected int actionPoints =5;
+		public int ActionPoints { get { return actionPoints; } }
 
 
 		public List<ITask> Plan;

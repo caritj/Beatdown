@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-
+using System.Collections.Generic;
 namespace BeatDown.Game
 {
 
@@ -25,7 +24,7 @@ namespace BeatDown.Game
 
 	public class Manager:IManager {
 
-		protected Int32 currentGLID = 0;
+		protected Int32 currentGLID = 1;	//cannot be 0 based or we cant tell the difference from nothing.
 		protected IDictionary<Int32, Unit> units = new Dictionary<Int32, Unit>();
 		protected IDictionary<string, Int32> unitNames = new Dictionary<string, Int32>();
 		protected World world;
@@ -50,7 +49,7 @@ namespace BeatDown.Game
 		public int AddUnit(Unit unit)
 		{
 			Int32 glID = getGLID();
-
+			unit.glId = glID;
 			this.units.Add (glID, unit);
 			this.unitNames.Add (unit.Name, glID);
 

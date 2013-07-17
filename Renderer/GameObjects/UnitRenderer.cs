@@ -12,11 +12,12 @@ namespace BeatDown.Renderer.GameObjects
 	{
 		public static void RenderViewable (Unit u)
 		{
-
+			//Console.WriteLine(String.Format("Drawunit{0} {1} == {2} {3} != {4} = {5}",SharedResources.MouseIsDown,u.glId ,Game.Selection.SelectedId ,Game.Selection.Maploc , Game.Selection.NONE, SharedResources.MouseIsDown && u.glId == Game.Selection.SelectedId && Game.Selection.Maploc != Game.Selection.NONE));
 			//draw the path to the hovered location.
 			if (SharedResources.MouseIsDown && 
 				u.glId == Game.Selection.SelectedId 
-				&& Game.Selection.Maploc != 0) {
+				&& Game.Selection.Maploc != Game.Selection.NONE) {
+
 				/*foreach(ITask task in u.Plan){
 					if(task is Path){
 						Path p = (Path)task;
@@ -46,16 +47,14 @@ namespace BeatDown.Renderer.GameObjects
 				}
 				else{
 						GL.Color3(0.0f,1.0f,0.0f);
-						for(int i = 1; i < Coords.Count;i++){
+				}
+				for(int i = 1; i < Coords.Count;i++){
 							
-				//	Console.WriteLine(String.Format("Lines: {0},{1},{2}",Coords[i].X,Coords[i].Y, Coords[i].Z));
+					//	Console.WriteLine(String.Format("Lines: {0},{1},{2}",Coords[i].X,Coords[i].Y, Coords[i].Z));
 					GL.Begin(BeginMode.Lines);
 							GL.Vertex3(Coords[i].X,Coords[i].Y, Coords[i].Z);
 							GL.Vertex3(Coords[i-1].X,Coords[i-1].Y, Coords[i-1].Z);
 					GL.End ();
-					}
-
-
 				}
 
 				GL.PopMatrix();	

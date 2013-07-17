@@ -50,7 +50,7 @@ namespace BeatDown.Game
 				this.AStar.Reset(start, end);
 			}
 			State s = this.AStar.Run ();
-			Console.WriteLine(s);
+			//Console.WriteLine(s);
 			//TRanslate to coords
 			if (s == State.GoalFound) {
 				List<INode> data = this.AStar.GetPath ();

@@ -49,10 +49,10 @@ namespace BeatDown.Game
 			} else {
 				this.AStar.Reset(start, end);
 			}
-			State s = this.AStar.Run ();
+			Pathfinding.State s = this.AStar.Run ();
 			//Console.WriteLine(s);
 			//TRanslate to coords
-			if (s == State.GoalFound) {
+			if (s == Pathfinding.State.GoalFound) {
 				List<INode> data = this.AStar.GetPath ();
 				if(data!=null){
 					foreach(INode node in data){

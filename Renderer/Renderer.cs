@@ -92,6 +92,7 @@ namespace BeatDown.Renderer
 			base.OnLoad(e);
 
 			//TODO Tell the game Load finished
+			Game.Game.State.ChangeState(Game.State.States.INGAME);
 
 		}
 		protected override void OnResize (EventArgs e)
@@ -121,7 +122,7 @@ namespace BeatDown.Renderer
 				this.Exit ();
 			}
 
-
+			gui.CheckForStateChange(Game.Game.State.Current);
 
 			//TRIGGER UNIT UPDATES
 

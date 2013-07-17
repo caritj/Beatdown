@@ -1,6 +1,7 @@
 using System;
 using Gwen;
 using OpenTK.Graphics.OpenGL;
+using BeatDown.Game;
 using BeatDown.Renderer.InterfaceElements;
 
 namespace BeatDown.Renderer
@@ -11,6 +12,9 @@ namespace BeatDown.Renderer
 		Lobby Lobby;
 		Victory Victory;
 		InGame Game;
+		Loading Loading;
+
+		public State.States lastState = BeatDown.Game.Game.State.Current;
 
 
 		public GUI (Game.Settings s,Gwen.Control.Canvas c)
@@ -19,7 +23,7 @@ namespace BeatDown.Renderer
 			Lobby = new BeatDown.Renderer.InterfaceElements.Lobby(c);
 			Victory = new BeatDown.Renderer.InterfaceElements.Victory(c);
 			Game = new InGame(c);
-
+			Loading = new BeatDown.Renderer.InterfaceElements.Loading(c);
 
 		}
 
@@ -50,34 +54,46 @@ namespace BeatDown.Renderer
 
 
 		}
-		public void OnStateChange(Beatdown.Game.State.States state){
+		public void CheckForStateChange (State.States state)
+		{
+			if (state != this.lastState) {
+				OnStateChange(state);
+
+			}
+		}
+		public void OnStateChange(State.States state){
+
+
 			Menu.Hide();
 			Lobby.Hide ();
 			Victory.Hide ();
 			Game.Hide ();
+			Loading.Hide();
 
 			switch(state){
-				case Beatdown.Game.State.States.MENU:
+				case State.States.MENU:
 					Menu.Show();
 					break;
 			
-				case Beatdown.Game.State.States.INGAME:
+				case State.States.INGAME:
 					Game.Show();
 					break;
 		
-				case Beatdown.Game.State.States.DEFEAT:
-				case Beatdown.Game.State.States.VICTORY:
+				case State.States.DEFEAT:
+				case State.States.VICTORY:
 					Victory.Show();
 					break;
 			
-				case Beatdown.Game.State.States.LOBBY:
+				case State.States.LOBBY:
 					Lobby.Show ();
 					break;
 		
-				case Beatdown.Game.State.States.LOADING:
+				case State.States.LOADING:
 				default:
+					Loading.Show();
 				break;
 			}
+			lastState = state;
 		}
 	}
 }

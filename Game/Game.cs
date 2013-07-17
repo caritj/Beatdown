@@ -1,6 +1,6 @@
 using System;
 //using Game.Net;
-using Beatdown.Game;
+
 	
 namespace BeatDown.Game
 {

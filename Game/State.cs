@@ -1,12 +1,11 @@
 using System;
 using System.Diagnostics;
 
-namespace Beatdown.Game
+namespace BeatDown.Game
 {
 	public class State
 	{
-		public int SelectedId = -1;
-		public int HoveredId = -1;
+
 		public enum States{INGAME,MENU,VICTORY,DEFEAT,LOBBY,LOADING};
 		public bool InProgress =false;
 
@@ -44,7 +43,8 @@ namespace Beatdown.Game
 
 		//METHODS=====================================================c
 		public void ChangeState(States s){
-
+			current = s;
+			Console.WriteLine("state changed to " +s);
 		}
 	}
 }

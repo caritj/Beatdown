@@ -12,7 +12,7 @@ namespace BeatDown.Game
 
 		public static int MapX{get{return (Maploc-1)%World.WORLD_SIZE;}}
 		public static int MapZ{ get { return  (int)Math.Floor ((double)(Maploc - 1) / World.WORLD_SIZE); } }
-		public static Coords MapCoords {	get{return new Coords(MapX,1,MapZ);}}
+		public static Coords MapCoords {	get{return new Coords(MapX,Game.Instance.Manager.World.HeightAt(MapX,MapZ),MapZ);}}
 	}
 }
 

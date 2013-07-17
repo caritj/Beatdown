@@ -155,11 +155,12 @@ namespace BeatDown.Renderer
 
 				//draw picking data to the buffer.
 				DrawAndPick();
-
+				//Console.WriteLine(String.Format ("h:{0}, s:{1} m:{2}",Game.Selection.HoveredId, Game.Selection.SelectedId, Game.Selection.Maploc));
+			
 				//draw real data to the buffer.
 				WorldRenderer.RenderViewable(theGame.Manager.World);
 				foreach (KeyValuePair<int, Unit> unit in theGame.Manager.Units) {
-					BaseRender.RenderViewable(unit.Value);
+					UnitRenderer.RenderViewable(unit.Value);
 				}
 
 				//show the axes in teh rotate context
@@ -248,7 +249,7 @@ namespace BeatDown.Renderer
 			//DRAW THE WORLD
 			WorldRenderer.RenderPickable(theGame.Manager.World);
 			
-
+			Game.Selection.Maploc = PickObject ();
 			//clear the buffer;
 			ClearBuffer (0.9f,1f,0.9f,0f);
 

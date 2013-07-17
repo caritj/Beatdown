@@ -6,12 +6,14 @@ namespace BeatDown.Game
 {
 	public class Game:IDisposable
 	{
+		public static Game Instance;
 
 		public static State State = new State();
 		public Manager Manager = new Manager();
 
 		public Game (Settings s)
 		{
+			Instance =this;
 		}
 		
 		public static Game Create (Settings s)

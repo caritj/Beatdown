@@ -9,25 +9,27 @@ namespace BeatDown.Renderer
 	
 
 		public static void OnMouseUp (object sender, MouseButtonEventArgs args)
-			{
+		{
+			SharedResources.MouseIsDown = false;
 
-				SharedResources.MouseIsDown = false;
-
-				//select with left click
-				if (args.Button == MouseButton.Left) {
-					Game.Selection.SelectedId = Game.Selection.HoveredId;
-				}
-				//act with right click
-				if (args.Button == MouseButton.Right) {
-					if (Game.Selection.HoveredId == 0) {
+			//select with left click
+			if (args.Button == MouseButton.Left) {
+				Game.Selection.SelectedId = Game.Selection.HoveredId;
+			}
+			//act with right click
+			if (args.Button == MouseButton.Right) {
+				if (Game.Selection.SelectedId != Game.Selection.NONE) {
+					if (Game.Selection.HoveredId == 0 && Game.Selection.Maploc > 0) {
 						//move order
-					//	Renderer.Render.Instance.theGame.Manager.GetUnitByName (Game.Selection.SelectedId.ToString).MoveTo (Game.Selection.MapCoords);
+						//TODO can move to.here
+						Renderer.Render.Instance.theGame.Manager.Units [Game.Selection.SelectedId].MoveTo (Game.Selection.MapCoords, 0d);
 					} else {
 						//attack order?
 						//see whats up.
 						
 					}
 				}
+			}
 		
 		}
 

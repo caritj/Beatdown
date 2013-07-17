@@ -4,7 +4,7 @@
 *.userprefs
 bin/
 Game/SortedList.cs
-
+packages/
 # Compiled source #
 ###################
 *.com

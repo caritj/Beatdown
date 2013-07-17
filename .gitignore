@@ -5,6 +5,8 @@
 bin/
 Game/SortedList.cs
 packages/
+packages.config
+
 # Compiled source #
 ###################
 *.com

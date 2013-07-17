@@ -1,5 +1,6 @@
 using System;
 using OpenTK.Input;
+using BeatDown.Game;
 
 
 namespace BeatDown.Renderer
@@ -19,14 +20,33 @@ namespace BeatDown.Renderer
 			//act with right click
 			if (args.Button == MouseButton.Right) {
 				if (Game.Selection.SelectedId != Game.Selection.NONE) {
-					if (Game.Selection.HoveredId == 0 && Game.Selection.Maploc > 0) {
+
+					Unit selected = Game.Game.Instance.Manager.Units [Game.Selection.SelectedId];
+
+					if (Game.Selection.HoveredId == Game.Selection.NONE ) {
 						//move order
-						//TODO can move to.here
-						Renderer.Render.Instance.theGame.Manager.Units [Game.Selection.SelectedId].MoveTo (Game.Selection.MapCoords, 0d);
+						if( Game.Selection.Maploc > 0){
+							//TODO can move to.here
+							selected.MoveTo (Game.Selection.MapCoords, 0d);
+
+							//this should deduct action points.
+							if(selected.ActionPoints ==0){
+								Game.Selection.SelectedId = Game.Selection.NONE;
+							}
+						}
 					} else {
-						//attack order?
-						//see whats up.
+						//did we click a unit?
+						if(Game.Selection.HoveredId != Game.Selection.NONE){
+							Unit target = Game.Game.Instance.Manager.Units [Game.Selection.HoveredId];
 						
+							if(target.Team == selected.Team){
+								//aid?
+
+							}
+							else{
+								//attack?
+							}
+						}
 					}
 				}
 			}

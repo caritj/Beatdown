@@ -13,6 +13,8 @@ namespace BeatDown.Renderer
 		{
 			SharedResources.MouseIsDown = false;
 
+			Console.WriteLine(String.Format("Mouseup {0} {1} {2}",Game.Selection.HoveredId, Game.Selection.Maploc, Game.Selection.SelectedId));
+
 			//select with left click
 			if (args.Button == MouseButton.Left) {
 				Game.Selection.SelectedId = Game.Selection.HoveredId;
@@ -45,6 +47,9 @@ namespace BeatDown.Renderer
 							}
 							else{
 								//attack?
+								if(selected.CanAttack(target)){
+									target.TakeDamage(2);
+								}
 
 							}
 						}

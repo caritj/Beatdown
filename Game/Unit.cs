@@ -109,6 +109,22 @@ namespace BeatDown.Game
 			}
 		}
 
+
+		public void TakeDamage (int damage)
+		{
+			//TODO this should del in damage types and perhaps arm type aty some points
+			this.health -= damage;
+
+			if (health < 0) {
+				Game.Instance.Manager.Units.Remove(this.glId);
+			}
+		}
+		public bool CanAttack(Unit target){
+			return 	Math.Abs(target.X- this.X) <=1 && 
+			   		Math.Abs(target.Y- this.Y) <=1 &&
+					Math.Abs(target.Z- this.Z) <=1;
+		}
+
 	}
 }
 

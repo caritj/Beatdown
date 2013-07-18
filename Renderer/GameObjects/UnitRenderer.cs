@@ -12,6 +12,10 @@ namespace BeatDown.Renderer.GameObjects
 	{
 		public static void RenderViewable (Unit u)
 		{
+			if (u.Health < 0) {
+				return;
+			}
+
 			//Console.WriteLine(String.Format("Drawunit{0} {1} == {2} {3} != {4} = {5}",SharedResources.MouseIsDown,u.glId ,Game.Selection.SelectedId ,Game.Selection.Maploc , Game.Selection.NONE, SharedResources.MouseIsDown && u.glId == Game.Selection.SelectedId && Game.Selection.Maploc != Game.Selection.NONE));
 			//draw the path to the hovered location.
 			if (SharedResources.MouseIsDown && 

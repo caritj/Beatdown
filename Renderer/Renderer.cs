@@ -55,10 +55,7 @@ namespace BeatDown.Renderer
 
 
 		}
-		private void thisisdumb (Gwen.Control.Base control, EventArgs args)
-		{
-			Console.WriteLine("XXXX");
-		}
+
 		protected override void OnLoad (EventArgs e)
 		{
 
@@ -73,8 +70,6 @@ namespace BeatDown.Renderer
 			canvas.ShouldDrawBackground =false;
 			canvas.BackgroundColor = System.Drawing.Color.OrangeRed;
 
-			canvas.Clicked +=thisisdumb;
-			
 
 			SharedResources.GUIFont = new Gwen.Font(renderer, "arial",16);
 

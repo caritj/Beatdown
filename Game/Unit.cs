@@ -26,7 +26,8 @@ namespace BeatDown.Game
 		protected int team;
 		public int Team{ get { return team; } }
 
-
+		protected int health =5;
+		public int Health {get{ return health;}}
 
 		protected int maxSlope;
 		public int MaxSlope { get { return this.maxSlope; } }

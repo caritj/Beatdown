@@ -14,10 +14,9 @@ namespace BeatDown.Renderer.InterfaceElements
 
 		public InGame (Base parent):base(parent)
 		{
-			this.Dock = Gwen.Pos.Top;
-			this.SetSize(parent.Width, 64);
-			this.Clicked += OnMenuClicked;
-
+			this.Dock = Gwen.Pos.Fill;
+			this.SetSize(parent.Width, parent.Height);
+			this.Clicked+= OnEndTurnClicked;
 			menu = new Button(this);
 			menu.Alignment = Gwen.Pos.Right;
 			menu.SetPosition(Width - 128,0);
@@ -25,7 +24,7 @@ namespace BeatDown.Renderer.InterfaceElements
 			menu.Font = SharedResources.GUIFont;
 			menu.TextColor = System.Drawing.Color.White;
 			menu.Text = "MENU";
-			menu.Clicked += OnMenuClicked;
+			menu.Pressed += OnMenuClicked;
 
 
 			endTurn = new Button(this);
@@ -35,7 +34,7 @@ namespace BeatDown.Renderer.InterfaceElements
 			endTurn.Font = SharedResources.GUIFont;
 			endTurn.TextColor = System.Drawing.Color.White;
 			endTurn.Text = "END TURN";
-			endTurn.Clicked += OnEndTurnClicked;
+			endTurn.Released += OnEndTurnClicked;
 
 
 			remainingActions = new Label(this);
@@ -81,6 +80,7 @@ namespace BeatDown.Renderer.InterfaceElements
 		}
 		protected void OnEndTurnClicked(Base control, EventArgs args){
 			//TODO
+			Console.WriteLine("/released");
 		}
 	}
 }

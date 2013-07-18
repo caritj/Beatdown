@@ -55,7 +55,10 @@ namespace BeatDown.Renderer
 
 
 		}
-
+		private void thisisdumb (Gwen.Control.Base control, EventArgs args)
+		{
+			Console.WriteLine("XXXX");
+		}
 		protected override void OnLoad (EventArgs e)
 		{
 
@@ -63,11 +66,15 @@ namespace BeatDown.Renderer
 			renderer = new Gwen.Renderer.OpenTK ();
 			skin = new Gwen.Skin.TexturedBase (renderer, Settings.GUI_DATA_DIR+"DefaultSkin.png");
 			canvas = new Gwen.Control.Canvas (skin);
+			input = new Gwen.Input.OpenTK (this);
+			input.Initialize(canvas);
+
 			canvas.SetSize(Width,Height);
 			canvas.ShouldDrawBackground =false;
 			canvas.BackgroundColor = System.Drawing.Color.OrangeRed;
-			input = new Gwen.Input.OpenTK (this);
-			input.Initialize(canvas);
+
+			canvas.Clicked +=thisisdumb;
+			
 
 			SharedResources.GUIFont = new Gwen.Font(renderer, "arial",16);
 
@@ -103,7 +110,7 @@ namespace BeatDown.Renderer
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadMatrix(ref projection);
 
-			gui.Layout();
+			//gui.Layout();
 			canvas.SetSize(Width,Height);
 			base.OnResize(e);
 		}

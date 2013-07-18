@@ -26,6 +26,10 @@ namespace BeatDown.Renderer
 			Loading = new BeatDown.Renderer.InterfaceElements.Loading(c);
 
 		}
+		public bool WasClicked (int MouseX, int MouseY)
+		{
+			return false;
+		}
 
 		public void Layout(){
 		
@@ -37,7 +41,7 @@ namespace BeatDown.Renderer
 				GL.Disable(EnableCap.CullFace);
 				GL.LoadIdentity();
 				GL.MatrixMode(MatrixMode.Projection);
-				GL.Ortho( -1, 1, -1, 1, -1, 1);
+				GL.Ortho( 0, canvas.Width, 0, canvas.Height, -1, 1);
 
 				GL.LoadIdentity();
 				GL.Scale (2f/canvas.Width, -2f/canvas.Height, 1f);
@@ -57,6 +61,7 @@ namespace BeatDown.Renderer
 		public void CheckForStateChange (State.States state)
 		{
 			if (state != this.lastState) {
+				Console.WriteLine("GUI STATECHANGED");
 				OnStateChange(state);
 
 			}

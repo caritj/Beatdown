@@ -29,6 +29,8 @@ namespace BeatDown.Game
 		protected IDictionary<string, Int32> unitNames = new Dictionary<string, Int32>();
 		protected World world;
 
+
+
 		public Manager()
 		{
 			this.world = new World ();
@@ -88,6 +90,14 @@ namespace BeatDown.Game
 
 			}
 
+		}
+		public void AddToRemovalQueue(int i){
+
+		}
+
+		public void Update(double time)
+		{
+			//Remvoe teh removal queue
 		}
 
 	}

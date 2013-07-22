@@ -2,12 +2,15 @@ using System;
 using BeatDown.Game.Planning;
 using BeatDown.Game;
 using System.Collections.Generic;
+using BeatDown.Combat;
 
 namespace BeatDown.Game
 {
 	public class Unit:Renderable
 	{
 
+		public Weapon Weapon;
+		public Armor Armor;
 
 
 		public Decimal APCost_HorzMove{ get { return APCost_HorzMove; } }
@@ -115,15 +118,22 @@ namespace BeatDown.Game
 			//TODO this should del in damage types and perhaps arm type aty some points
 			this.health -= damage;
 
+
+		}
+		public bool CanAttack(Unit target){
+			return 	this.Weapon.InRange(this.Position, target.Position);
+		}		
+
+
+		public void Update (double time)
+		{
+		 //does nothing
 			if (health < 0) {
 				Game.Instance.Manager.Units.Remove(this.glId);
 			}
+
 		}
-		public bool CanAttack(Unit target){
-			return 	Math.Abs(target.X- this.X) <=1 && 
-			   		Math.Abs(target.Y- this.Y) <=1 &&
-					Math.Abs(target.Z- this.Z) <=1;
-		}
+
 
 	}
 }

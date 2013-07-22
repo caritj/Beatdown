@@ -119,14 +119,17 @@ namespace BeatDown.Renderer
 			}
 
 
-			if ((Keyboard [OpenTK.Input.Key.ControlLeft] && Keyboard [OpenTK.Input.Key.C])||Keyboard[OpenTK.Input.Key.Escape]) {
+			if ((Keyboard [OpenTK.Input.Key.ControlLeft] && Keyboard [OpenTK.Input.Key.C]) || Keyboard [OpenTK.Input.Key.Escape]) {
 
 				this.Exit ();
 			}
 
-			gui.CheckForStateChange(Game.Game.State.Current);
+			gui.CheckForStateChange (Game.Game.State.Current);
 
 			//TRIGGER UNIT UPDATES
+			foreach (KeyValuePair<int, Unit> unit in theGame.Manager.Units) {
+				unit.Value.Update(e.Time);
+			}
 
 
 			base.OnUpdateFrame(e);
@@ -254,7 +257,7 @@ namespace BeatDown.Renderer
 			
 			Game.Selection.Maploc = PickObject ();
 			//clear the buffer;
-			ClearBuffer (0.9f,1f,0.9f,0f);
+			ClearBuffer (0.5f,.5f,0.5f,0f);
 
 			GL.Enable(EnableCap.CullFace);
 			GL.Enable(EnableCap.Blend);

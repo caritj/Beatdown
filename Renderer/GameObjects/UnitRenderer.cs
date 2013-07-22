@@ -63,6 +63,8 @@ namespace BeatDown.Renderer.GameObjects
 
 				GL.PopMatrix();	
 
+
+
 			}
 
 
@@ -124,6 +126,8 @@ namespace BeatDown.Renderer.GameObjects
 
 				}
 			}
+			WeaponRenderer.RenderViewable(u.Weapon);
+
 			GL.PopMatrix();
 		}
 

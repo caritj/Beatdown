@@ -9,8 +9,8 @@ namespace BeatDown.Game
 	public class Unit:Renderable
 	{
 
-		public Weapon Weapon;
-		public Armor Armor;
+		public Weapon Weapon = new BeatDown.Combat.Weapons.Fists();
+		public Armor Armor = new BeatDown.Combat.Armors.None();
 
 
 		public Decimal APCost_HorzMove{ get { return APCost_HorzMove; } }
@@ -113,23 +113,35 @@ namespace BeatDown.Game
 		}
 
 
-		public void TakeDamage (int damage)
+		public void TakeDamage (int damage, Weapon.DamageTypes type)
 		{
+			int reducedDamage = Armor.GetReducedDamage(damage,type);
 			//TODO this should del in damage types and perhaps arm type aty some points
-			this.health -= damage;
+			this.health -= reducedDamage;
 
 
 		}
+		public void TakeDamage (int damage)
+		{
+			this.TakeDamage(damage, BeatDown.Combat.Weapon.DamageTypes.GENERIC);
+		}
+
 		public bool CanAttack(Unit target){
 			return 	this.Weapon.InRange(this.Position, target.Position);
-		}		
+		}	
+		public bool DidHit (Unit target, Weapon w)
+		{
+			//TODO ACTION POINTS
+			return true;
+
+		}
 
 
 		public void Update (double time)
 		{
 		 //does nothing
 			if (health < 0) {
-				Game.Instance.Manager.Units.Remove(this.glId);
+				Game.Instance.Manager.AddToRemovalQueue(this.glId);
 			}
 
 		}

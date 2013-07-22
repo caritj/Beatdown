@@ -3,7 +3,7 @@ using BeatDown.Game;
 
 namespace BeatDown.Combat
 {
-	public abstract class Weapon
+	public abstract class Weapon:Renderable
 	{
 		public enum WeaponType
 		{
@@ -20,9 +20,16 @@ namespace BeatDown.Combat
 			DRAMA,
 			FIRE,
 			DISINTERGRATION,
-			MAGIC
+			MAGIC,
+			GENERIC
 
 		}
+		protected bool usesAmmo = false;
+		public bool UsesAmmo { get { return usesAmmo; } }
+
+		protected int remainingAmmo  =1;
+		public int RemainingAmmo { get { return remainingAmmo; } }
+
 
 		protected WeaponType weaponType = WeaponType.MELEE;
 		public WeaponType Type {get{ return weaponType;}}
@@ -33,10 +40,10 @@ namespace BeatDown.Combat
 		protected int range =1;
 		public int Range{get{return range;}}
 
-		protected int minDamage;
+		protected int minDamage=1;
 		public int MinDamage{ get { return minDamage; } }
 
-		protected int maxDamage;
+		protected int maxDamage=5;
 		public int MaxDamage{ get { return maxDamage; } }
 
 		public bool InRange(Coords origin, Coords target){
@@ -58,6 +65,31 @@ namespace BeatDown.Combat
 
 			return inRange;
 		}
+
+
+		public void Fire (Unit Shooter, Unit Target)
+		{
+			if (Shooter.CanAttack(Target) ) {
+				if (usesAmmo) {
+					remainingAmmo--;
+				}
+
+				//skills and what not
+				if(Shooter.DidHit(Target, this)){
+
+					//Calculate Damage
+					int dam = maxDamage;
+					//apply to the Target
+					Target.TakeDamage(maxDamage, this.damageType);
+
+				}
+
+
+			}
+
+
+		}
+
 
 
 

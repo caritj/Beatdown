@@ -29,7 +29,7 @@ namespace BeatDown.Game
 		protected IDictionary<string, Int32> unitNames = new Dictionary<string, Int32>();
 		protected World world;
 
-
+		protected List<Int32> removalQueue = new List<Int32>();
 
 		public Manager()
 		{
@@ -91,13 +91,23 @@ namespace BeatDown.Game
 			}
 
 		}
-		public void AddToRemovalQueue(int i){
-
+		public void AddToRemovalQueue (int i)
+		{
+			if (!removalQueue.Contains (i)) {
+				removalQueue.Add(i);
+			}
 		}
 
-		public void Update(double time)
+		public void Update (double time)
 		{
 			//Remvoe teh removal queue
+			foreach (int i in removalQueue) {
+				if(units.ContainsKey(i)){
+					units.Remove(i);
+				}
+			}
+
+			removalQueue.Clear();
 		}
 
 	}

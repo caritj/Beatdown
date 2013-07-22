@@ -23,7 +23,7 @@ namespace BeatDown.Renderer
 		public  static readonly Vector3 UP = Vector3.UnitY;
 
 		protected Vector3 InGameCameraTarget = new Vector3(Game.World.WORLD_SIZE/2, 0, Game.World.WORLD_SIZE/2);
-		protected Vector3 InGameCameraPosition= new Vector3(Game.World.WORLD_SIZE,Game.World.WORLD_SIZE,Game.World.WORLD_SIZE);
+		protected Vector3 InGameCameraPosition= new Vector3(Game.World.WORLD_SIZE+1,Game.World.WORLD_SIZE+1,Game.World.WORLD_SIZE+1);
 		
 		protected Matrix4 CameraMatrix;
 		private float rot = 0;
@@ -112,10 +112,10 @@ namespace BeatDown.Renderer
 		protected override void OnUpdateFrame (FrameEventArgs e)
 		{
 			if (Keyboard [OpenTK.Input.Key.Left]) {
-				rot += 0.01f;
+				rot += 0.05f;
 			}
 			if (Keyboard [OpenTK.Input.Key.Right]) {
-				rot -= 0.01f;
+				rot -= 0.05f;
 			}
 
 
@@ -130,7 +130,7 @@ namespace BeatDown.Renderer
 			foreach (KeyValuePair<int, Unit> unit in theGame.Manager.Units) {
 				unit.Value.Update(e.Time);
 			}
-
+			theGame.Manager.Update(e.Time);
 
 			base.OnUpdateFrame(e);
 		}

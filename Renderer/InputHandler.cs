@@ -29,7 +29,7 @@ namespace BeatDown.Renderer
 						//move order
 						if( Game.Selection.Maploc > 0){
 							//TODO can move to.here
-							selected.MoveTo (Game.Selection.MapCoords, 0d);
+							selected.MoveTo (Game.Selection.MapCoords, Game.Selection.MapCoords.Direction(selected.Position));
 
 							//this should deduct action points.
 							if(selected.ActionPoints ==0){

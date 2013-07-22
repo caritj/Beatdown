@@ -84,7 +84,7 @@ namespace BeatDown.Renderer.GameObjects
 			GL.PushMatrix ();
 			{
 				GL.Translate (u.X, u.Y, u.Z);
-				GL.Rotate ((float)u.Rotation, Renderer.Render.UP);
+				GL.Rotate (u.Rotation*360/6.283f, Renderer.Render.UP);
 				GL.Scale (.75f, .75f, .75f);
 				GL.Translate (u.SizeX / -2f, 0f, u.SizeZ / -2f);
 					

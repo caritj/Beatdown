@@ -39,10 +39,9 @@ namespace BeatDown.Renderer
 			settings = s;
 
 
-			//in case some one else wants to acess this bit.
+			//in case some one else wants to acess this bit.Untitled event
 			Instance = this;
 
-			//TODO setup camera
 
 			//bind events to the input handler.
 			Mouse.ButtonUp += InputHandler.OnMouseUp;
@@ -52,6 +51,9 @@ namespace BeatDown.Renderer
 			Keyboard.KeyDown+= InputHandler.OnKeyDown;
 			Keyboard.KeyUp+=InputHandler.OnKeyUp;
 
+			//setup vertex buttfer objects. heh
+			BaseRender.Init();
+			UnitRenderer.Init();
 
 
 		}

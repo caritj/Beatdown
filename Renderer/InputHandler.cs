@@ -56,14 +56,15 @@ namespace BeatDown.Renderer
 					}
 				}
 			}
-		
+			Renderer.Render.Instance.gui.Input.ProcessMouseMessage(args);
+
 		}
 
 		public static void OnMouseDown (object sender, MouseButtonEventArgs args)
 		{
 			//switch( Render.Instance.theGame.State//
 			SharedResources.MouseIsDown = true;
-
+			Renderer.Render.Instance.gui.Input.ProcessMouseMessage(args);
 
 		}
 
@@ -72,14 +73,16 @@ namespace BeatDown.Renderer
 		}
 
 		public static void OnMouseWheeled(object sender, MouseWheelEventArgs args){
+			Renderer.Render.Instance.gui.Input.ProcessMouseMessage(args);
 
 		}
 
 		public static void OnKeyDown(object sender, KeyboardKeyEventArgs e){
-
+			Renderer.Render.Instance.gui.Input.ProcessKeyDown(e);
 		}
 
 		public static void OnKeyUp (object sender, KeyboardKeyEventArgs e){
+			Renderer.Render.Instance.gui.Input.ProcessKeyUp(e);
 
 		}
 

@@ -1,4 +1,5 @@
 using System;
+using Gwen;
 
 using OpenTK.Graphics.OpenGL;
 using BeatDown.Game;
@@ -14,16 +15,32 @@ namespace BeatDown.Renderer
 		InGame Game;
 		Loading Loading;
 
+		public static Gwen.Font Font = null;
+
+
+		public Gwen.Input.OpenTK Input =new Gwen.Input.OpenTK(Renderer.Render.Instance);
+		Gwen.Renderer.OpenTK renderer = new Gwen.Renderer.OpenTK();
+		Gwen.Skin.Base skin;
+		public Gwen.Control.Canvas Canvas;
+
+
 		public State.States lastState = BeatDown.Game.Game.State.Current;
 
 
 		public GUI (Settings s)
 		{
-			Menu = new MainMenu ();
-			Lobby = new BeatDown.Renderer.InterfaceElements.Lobby();
-			Victory = new BeatDown.Renderer.InterfaceElements.Victory();
-			Game = new InGame();
-			Loading = new BeatDown.Renderer.InterfaceElements.Loading();
+			if (Font == null) {
+				Font = new Gwen.Font(renderer, "arial", 16);
+			}
+			skin = new Gwen.Skin.TexturedBase(renderer, s.GuiDirectory+"DefaultSkin.png");
+			Canvas = new Gwen.Control.Canvas(skin);
+			Input.Initialize(Canvas);
+
+			Menu = new MainMenu (Canvas);
+			Lobby = new BeatDown.Renderer.InterfaceElements.Lobby(Canvas);
+			Victory = new BeatDown.Renderer.InterfaceElements.Victory(Canvas);
+			Game = new InGame(Canvas);
+			Loading = new BeatDown.Renderer.InterfaceElements.Loading(Canvas);
 
 		}
 		public bool WasClicked (int MouseX, int MouseY)
@@ -41,10 +58,10 @@ namespace BeatDown.Renderer
 				GL.Disable(EnableCap.CullFace);
 				GL.LoadIdentity();
 				GL.MatrixMode(MatrixMode.Projection);
-				//GL.Ortho( 0, canvas.Width, 0, canvas.Height, -1, 1);
+				GL.Ortho( 0, Canvas.Width, 0, Canvas.Height, -1, 1);
 
 				GL.LoadIdentity();
-			//	GL.Scale (2f/canvas.Width, -2f/canvas.Height, 1f);
+				GL.Scale (2f/Canvas.Width, -2f/Canvas.Height, 1f);
 				
 
 			//	GL.Translate(canvas.Width/-2f,canvas.Height/-2f, 0);
@@ -61,7 +78,7 @@ namespace BeatDown.Renderer
 		public void CheckForStateChange (State.States state)
 		{
 			if (state != this.lastState) {
-				Console.WriteLine("GUI STATECHANGED");
+				Console.WriteLine("GUI STATECHANGED to "+ state);
 				OnStateChange(state);
 
 			}
@@ -69,7 +86,7 @@ namespace BeatDown.Renderer
 		public void OnStateChange(State.States state){
 
 
-		/*	Menu.Hide();
+			Menu.Hide();
 			Lobby.Hide ();
 			Victory.Hide ();
 			Game.Hide ();
@@ -98,7 +115,7 @@ namespace BeatDown.Renderer
 					Loading.Show();
 				break;
 			}
-			lastState = state;*/
+			lastState = state;
 		}
 	}
 }

@@ -11,7 +11,7 @@ namespace BeatDown.Renderer.GameObjects
 	public class UnitRenderer:BaseRender
 	{
 	
-		public static void Init ()
+		public new static void Init ()
 		{
 			//loads the VBOS
 		/*	if (Vbos.Count == 0) {

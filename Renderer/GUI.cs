@@ -33,8 +33,15 @@ namespace BeatDown.Renderer
 				Font = new Gwen.Font(renderer, "arial", 16);
 			}
 			skin = new Gwen.Skin.TexturedBase(renderer, s.GuiDirectory+"DefaultSkin.png");
+
 			Canvas = new Gwen.Control.Canvas(skin);
 			Input.Initialize(Canvas);
+
+			Canvas.SetSize(Renderer.Render.Instance.Width, Renderer.Render.Instance.Height);
+			Canvas.ShouldDrawBackground =true;
+			Canvas.BackgroundColor = System.Drawing.Color.OrangeRed;
+
+
 
 			Menu = new MainMenu (Canvas);
 			Lobby = new BeatDown.Renderer.InterfaceElements.Lobby(Canvas);
@@ -48,28 +55,27 @@ namespace BeatDown.Renderer
 			return false;
 		}
 
-		public void Layout(){
+		public void Layout(int Width, int Height){
+			Canvas.SetSize(Width,Height);
 		
 		}
 		public void Render ( )
 		{
-
 			GL.PushMatrix ();
 				GL.Disable(EnableCap.CullFace);
 				GL.LoadIdentity();
 				GL.MatrixMode(MatrixMode.Projection);
 				GL.Ortho( 0, Canvas.Width, 0, Canvas.Height, -1, 1);
 
-				GL.LoadIdentity();
+				
 				GL.Scale (2f/Canvas.Width, -2f/Canvas.Height, 1f);
 				
 
-			//	GL.Translate(canvas.Width/-2f,canvas.Height/-2f, 0);
+				GL.Translate(Canvas.Width/-2f,Canvas.Height/-2f, -0.5);
 				
-
-				//GL.Scale(-1f,1f,1f);
-			//	GL.Translate(canvas.Width,0f,0f);
-
+			Renderer.Render.Instance.drawAxes(0,0,0);
+				
+				Canvas.RenderCanvas();
 				GL.Enable(EnableCap.CullFace);
 			GL.PopMatrix();
 

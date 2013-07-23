@@ -34,10 +34,8 @@ namespace BeatDown.Renderer
 			theGame = g;
 			settings = s;
 
-
 			//in case some one else wants to acess this bit.Untitled event
 			Instance = this;
-
 
 			//bind events to the input handler.
 			Mouse.ButtonUp += InputHandler.OnMouseUp;
@@ -51,14 +49,10 @@ namespace BeatDown.Renderer
 			BaseRender.Init();
 			UnitRenderer.Init();
 
-
 		}
 
 		protected override void OnLoad (EventArgs e)
 		{
-
-			//setup GWEN
-
 
 			//setup gui systems
 			gui = new GUI (settings);
@@ -91,7 +85,7 @@ namespace BeatDown.Renderer
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadMatrix(ref projection);
 
-			//gui.Layout();
+			gui.Layout(Width,Height);
 		
 			base.OnResize(e);
 		}

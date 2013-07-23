@@ -14,9 +14,11 @@ namespace BeatDown.Renderer.InterfaceElements
 
 		public InGame (Base parent):base(parent)
 		{
-			this.Dock = Gwen.Pos.Fill;
-			this.SetSize(parent.Width, parent.Height);
+			this.Dock = Gwen.Pos.Top;
+			this.SetSize(parent.Width, 64);
 			this.Clicked+= OnEndTurnClicked;
+
+
 			menu = new Button(this);
 			menu.Alignment = Gwen.Pos.Right;
 			menu.SetPosition(Width - 128,0);

@@ -54,13 +54,13 @@ namespace BeatDown.Game
 		void INode.SetMovementCost (INode parent)
 		{
 			//allow climbing but make it expensive.
-			int deltaY = parent.Y - this.Y;
+			int deltaY = (int)Math.Abs (parent.Y - this.Y);
 
 			if (deltaY <= 0) {
 				this.MovementCost = parent.MovementCost + 1;
 			} else {
 				if(deltaY >1){
-					this.MovementCost = parent.MovementCost +500;
+					this.MovementCost = parent.MovementCost + 1000000;
 				}
 				else{
 					this.MovementCost = parent.MovementCost +2;

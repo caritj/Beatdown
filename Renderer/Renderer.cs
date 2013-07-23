@@ -2,7 +2,7 @@ using System;
 using OpenTK;
 using OpenTK.Input;
 using OpenTK.Graphics.OpenGL;
-using Gwen;
+
 using BeatDown.Game;
 using System.Collections.Generic;
 using BeatDown.Renderer.GameObjects;
@@ -15,10 +15,6 @@ namespace BeatDown.Renderer
 		public  Settings settings = null;
 		public GUI gui = null;
 
-		private Gwen.Input.OpenTK input;
-		private Gwen.Renderer.OpenTK renderer;
-		private Gwen.Skin.Base skin;
-		private Gwen.Control.Canvas canvas;
 
 		public  static readonly Vector3 UP = Vector3.UnitY;
 
@@ -62,22 +58,10 @@ namespace BeatDown.Renderer
 		{
 
 			//setup GWEN
-			renderer = new Gwen.Renderer.OpenTK ();
-			skin = new Gwen.Skin.TexturedBase (renderer, Settings.GUI_DATA_DIR+"DefaultSkin.png");
-			canvas = new Gwen.Control.Canvas (skin);
-			input = new Gwen.Input.OpenTK (this);
-			input.Initialize(canvas);
-
-			canvas.SetSize(Width,Height);
-			canvas.ShouldDrawBackground =false;
-			canvas.BackgroundColor = System.Drawing.Color.OrangeRed;
-
-
-			SharedResources.GUIFont = new Gwen.Font(renderer, "arial",16);
 
 
 			//setup gui systems
-			gui = new GUI (settings, canvas);
+			gui = new GUI (settings);
 
 		
 
@@ -108,7 +92,7 @@ namespace BeatDown.Renderer
 			GL.LoadMatrix(ref projection);
 
 			//gui.Layout();
-			canvas.SetSize(Width,Height);
+		
 			base.OnResize(e);
 		}
 		protected override void OnUpdateFrame (FrameEventArgs e)
@@ -180,7 +164,7 @@ namespace BeatDown.Renderer
 			//this.drawAxes(0,0,0);
 
 			//draw gui to the buffer.
-			gui.Render(canvas);
+			gui.Render();
 		
 
 			//draw to screen
@@ -191,9 +175,7 @@ namespace BeatDown.Renderer
 
 		protected override void OnDisposed (EventArgs e)
 		{
-			renderer.Dispose();
-			skin.Dispose();
-			canvas.Dispose();
+
 			base.OnDisposed(e);
 
 		}

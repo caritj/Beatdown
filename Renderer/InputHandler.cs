@@ -48,8 +48,8 @@ namespace BeatDown.Renderer
 							else{
 								//attack?
 								if(selected.CanAttack(target)){
-									target.TakeDamage(2);
-								}
+									target.TakeDamage(selected.Weapon.MaxDamage);
+									new Resources.Texture(selected.Weapon.MaxDamage.ToString(), System.Drawing.Brushes.Red, 24,24);								}
 
 							}
 						}

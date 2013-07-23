@@ -7,6 +7,7 @@ namespace BeatDown.Combat
 	{
 		public enum WeaponType
 		{
+
 			MELEE,
 			PROJECILE,
 			MAGIC,

@@ -1,5 +1,5 @@
 using System;
-using Gwen;
+
 using OpenTK.Graphics.OpenGL;
 using BeatDown.Game;
 using BeatDown.Renderer.InterfaceElements;
@@ -17,13 +17,13 @@ namespace BeatDown.Renderer
 		public State.States lastState = BeatDown.Game.Game.State.Current;
 
 
-		public GUI (Game.Settings s,Gwen.Control.Canvas c)
+		public GUI (Settings s)
 		{
-			Menu = new MainMenu (c);
-			Lobby = new BeatDown.Renderer.InterfaceElements.Lobby(c);
-			Victory = new BeatDown.Renderer.InterfaceElements.Victory(c);
-			Game = new InGame(c);
-			Loading = new BeatDown.Renderer.InterfaceElements.Loading(c);
+			Menu = new MainMenu ();
+			Lobby = new BeatDown.Renderer.InterfaceElements.Lobby();
+			Victory = new BeatDown.Renderer.InterfaceElements.Victory();
+			Game = new InGame();
+			Loading = new BeatDown.Renderer.InterfaceElements.Loading();
 
 		}
 		public bool WasClicked (int MouseX, int MouseY)
@@ -34,25 +34,25 @@ namespace BeatDown.Renderer
 		public void Layout(){
 		
 		}
-		public void Render (Gwen.Control.Canvas canvas )
+		public void Render ( )
 		{
 
 			GL.PushMatrix ();
 				GL.Disable(EnableCap.CullFace);
 				GL.LoadIdentity();
 				GL.MatrixMode(MatrixMode.Projection);
-				GL.Ortho( 0, canvas.Width, 0, canvas.Height, -1, 1);
+				//GL.Ortho( 0, canvas.Width, 0, canvas.Height, -1, 1);
 
 				GL.LoadIdentity();
-				GL.Scale (2f/canvas.Width, -2f/canvas.Height, 1f);
+			//	GL.Scale (2f/canvas.Width, -2f/canvas.Height, 1f);
 				
 
-				GL.Translate(canvas.Width/-2f,canvas.Height/-2f, 0);
+			//	GL.Translate(canvas.Width/-2f,canvas.Height/-2f, 0);
 				
 
 				//GL.Scale(-1f,1f,1f);
 			//	GL.Translate(canvas.Width,0f,0f);
-				canvas.RenderCanvas ();
+
 				GL.Enable(EnableCap.CullFace);
 			GL.PopMatrix();
 
@@ -69,7 +69,7 @@ namespace BeatDown.Renderer
 		public void OnStateChange(State.States state){
 
 
-			Menu.Hide();
+		/*	Menu.Hide();
 			Lobby.Hide ();
 			Victory.Hide ();
 			Game.Hide ();
@@ -98,7 +98,7 @@ namespace BeatDown.Renderer
 					Loading.Show();
 				break;
 			}
-			lastState = state;
+			lastState = state;*/
 		}
 	}
 }

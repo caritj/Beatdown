@@ -15,7 +15,7 @@ namespace BeatDown.Renderer.InterfaceElements
 			message.Alignment = Gwen.Pos.Center;
 
 			message.AutoSizeToContents = true;
-			message.Font = GUI.Font;
+			//message.Font = GUI.Font;
 			message.TextColor = System.Drawing.Color.White;
 			if (didWin) {
 				message.Text = "VICTORY";

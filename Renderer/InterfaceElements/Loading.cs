@@ -15,7 +15,7 @@ namespace BeatDown.Renderer.InterfaceElements
 			loading.Alignment = Gwen.Pos.Center;
 			loading.SetPosition(Width/2, Height/2);
 			loading.AutoSizeToContents= true;
-			loading.Font = GUI.Font;
+		//	loading.Font = GUI.Font;
 			loading.TextColor = System.Drawing.Color.White;
 			loading.Text = "LOADING";
 		}

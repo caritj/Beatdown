@@ -1,27 +1,17 @@
 using System;
-using Gwen;
 
 using OpenTK.Graphics.OpenGL;
 using BeatDown.Game;
 using BeatDown.Renderer.InterfaceElements;
+using System.Collections.Generic;
+using OpenTK.Input;
 
 namespace BeatDown.Renderer
 {
 	public class GUI
 	{
-		MainMenu Menu;
-		Lobby Lobby;
-		Victory Victory;
-		InGame Game;
-		Loading Loading;
-
-		public static Gwen.Font Font = null;
-
-
-		public Gwen.Input.OpenTK Input =new Gwen.Input.OpenTK(Renderer.Render.Instance);
-		Gwen.Renderer.OpenTK renderer = new Gwen.Renderer.OpenTK();
-		Gwen.Skin.Base skin;
-		public Gwen.Control.Canvas Canvas;
+		protected Dictionary<Game.State.States, InterfaceElement> Interfaces = new Dictionary<Game.State.States, InterfaceElement>();
+		
 
 
 		public State.States lastState = BeatDown.Game.Game.State.Current;
@@ -29,53 +19,48 @@ namespace BeatDown.Renderer
 
 		public GUI (Settings s)
 		{
-			if (Font == null) {
-				Font = new Gwen.Font(renderer, "arial", 16);
-			}
-			skin = new Gwen.Skin.TexturedBase(renderer, s.GuiDirectory+"DefaultSkin.png");
 
-			Canvas = new Gwen.Control.Canvas(skin);
-			Input.Initialize(Canvas);
-
-			Canvas.SetSize(Renderer.Render.Instance.Width, Renderer.Render.Instance.Height);
-			Canvas.ShouldDrawBackground =true;
-			Canvas.BackgroundColor = System.Drawing.Color.OrangeRed;
-
-
-
-			Menu = new MainMenu (Canvas);
-			Lobby = new BeatDown.Renderer.InterfaceElements.Lobby(Canvas);
-			Victory = new BeatDown.Renderer.InterfaceElements.Victory(Canvas);
-			Game = new InGame(Canvas);
-			Loading = new BeatDown.Renderer.InterfaceElements.Loading(Canvas);
-
+			Interfaces.Add(State.States.INGAME, new InGame());
 		}
 		public bool WasClicked (int MouseX, int MouseY)
 		{
+			if (Interfaces.ContainsKey (lastState)) {
+
+				return Interfaces [lastState].WasClicked(MouseX,MouseY);
+			}
 			return false;
 		}
 
+		public void MouseUp (MouseButtonEventArgs args)
+		{
+			if (Interfaces.ContainsKey (lastState)) {
+
+				Interfaces [lastState].MouseUp(args);
+			}
+		}
 		public void Layout(int Width, int Height){
-			Canvas.SetSize(Width,Height);
+		
 		
 		}
-		public void Render ( )
+		public void Render ()
 		{
 			GL.PushMatrix ();
-				GL.Disable(EnableCap.CullFace);
-				GL.LoadIdentity();
-				GL.MatrixMode(MatrixMode.Projection);
-				GL.Ortho( 0, Canvas.Width, 0, Canvas.Height, -1, 1);
+				GL.Disable (EnableCap.CullFace);
+				GL.LoadIdentity ();
+				GL.MatrixMode (MatrixMode.Projection);
+				GL.Ortho (0, Renderer.Render.Instance.Width, 0, Renderer.Render.Instance.Height, -1, 1);
 
-				
-				GL.Scale (2f/Canvas.Width, -2f/Canvas.Height, 1f);
-				
+				GL.LoadIdentity ();
+				GL.Scale (2f / Renderer.Render.Instance.Width, -2f / Renderer.Render.Instance.Height, 1f);
+					
 
-				GL.Translate(Canvas.Width/-2f,Canvas.Height/-2f, -0.5);
-				
-			Renderer.Render.Instance.drawAxes(0,0,0);
-				
-				Canvas.RenderCanvas();
+				GL.Translate (Renderer.Render.Instance.Width / -2f, Renderer.Render.Instance.Height / -2f, -0.5);
+					
+				Renderer.Render.Instance.drawAxes (0, 0, 0);
+					
+				if (Interfaces.ContainsKey (lastState)) {
+					Interfaces [lastState].Draw ();
+				}
 				GL.Enable(EnableCap.CullFace);
 			GL.PopMatrix();
 
@@ -90,39 +75,10 @@ namespace BeatDown.Renderer
 			}
 		}
 		public void OnStateChange(State.States state){
-
-
-			Menu.Hide();
-			Lobby.Hide ();
-			Victory.Hide ();
-			Game.Hide ();
-			Loading.Hide();
-
-			switch(state){
-				case State.States.MENU:
-					Menu.Show();
-					break;
-			
-				case State.States.INGAME:
-					Game.Show();
-					break;
-		
-				case State.States.DEFEAT:
-				case State.States.VICTORY:
-					Victory.Show();
-					break;
-			
-				case State.States.LOBBY:
-					Lobby.Show ();
-					break;
-		
-				case State.States.LOADING:
-				default:
-					Loading.Show();
-				break;
-			}
 			lastState = state;
 		}
+
+
 	}
 }
 

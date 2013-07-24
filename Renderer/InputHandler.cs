@@ -49,22 +49,26 @@ namespace BeatDown.Renderer
 								//attack?
 								if(selected.CanAttack(target)){
 									target.TakeDamage(selected.Weapon.MaxDamage);
-									new Resources.Texture(selected.Weapon.MaxDamage.ToString(), System.Drawing.Brushes.Red, 24,24);								}
+									new Resources.Texture(SharedResources.InGameFont, selected.Weapon.MaxDamage.ToString(), System.Drawing.Brushes.Red, 24,24);								}
 
 							}
 						}
 					}
 				}
 			}
-			Renderer.Render.Instance.gui.Input.ProcessMouseMessage(args);
+			if(Renderer.Render.Instance.gui.WasClicked(args.X, args.Y)){
+				Renderer.Render.Instance.gui.MouseUp(args);
+			}
+			else{
 
+			}
 		}
 
 		public static void OnMouseDown (object sender, MouseButtonEventArgs args)
 		{
 			//switch( Render.Instance.theGame.State//
 			SharedResources.MouseIsDown = true;
-			Renderer.Render.Instance.gui.Input.ProcessMouseMessage(args);
+			
 
 		}
 
@@ -73,16 +77,16 @@ namespace BeatDown.Renderer
 		}
 
 		public static void OnMouseWheeled(object sender, MouseWheelEventArgs args){
-			Renderer.Render.Instance.gui.Input.ProcessMouseMessage(args);
+		//	Renderer.Render.Instance.gui.Input.ProcessMouseMessage(args);
 
 		}
 
 		public static void OnKeyDown(object sender, KeyboardKeyEventArgs e){
-			Renderer.Render.Instance.gui.Input.ProcessKeyDown(e);
+		//	Renderer.Render.Instance.gui.Input.ProcessKeyDown(e);
 		}
 
 		public static void OnKeyUp (object sender, KeyboardKeyEventArgs e){
-			Renderer.Render.Instance.gui.Input.ProcessKeyUp(e);
+		//	Renderer.Render.Instance.gui.Input.ProcessKeyUp(e);
 
 		}
 

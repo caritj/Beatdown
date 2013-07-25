@@ -17,7 +17,10 @@ namespace BeatDown.Renderer
 
 			//select with left click
 			if (args.Button == MouseButton.Left) {
-				Game.Selection.SelectedId = Game.Selection.HoveredId;
+				if(Game.Selection.SelectedId != Game.Selection.HoveredId){
+					Game.Selection.SelectedId = Game.Selection.HoveredId;
+					//TODO SELECTION EVENT?
+				}
 			}
 			//act with right click
 			if (args.Button == MouseButton.Right) {
@@ -25,32 +28,38 @@ namespace BeatDown.Renderer
 
 					Unit selected = Game.Game.Instance.Manager.Units [Game.Selection.SelectedId];
 
-					if (Game.Selection.HoveredId == Game.Selection.NONE ) {
-						//move order
-						if( Game.Selection.Maploc > 0){
-							//TODO can move to.here
-							selected.MoveTo (Game.Selection.MapCoords, Game.Selection.MapCoords.Direction(selected.Position));
+					//only allow orders to ones own team
+					if(Game.Game.Instance.LocalPlayer.Team == selected.Team){
+						//aonly let the current person  issue orders
+					   if(Game.Game.Instance.LocalPlayer.Id == Game.Game.Instance.WhoseTurn.Id){
+							if (Game.Selection.HoveredId == Game.Selection.NONE ) {
+								//move order
+								if( Game.Selection.Maploc > 0){
+									//TODO can move to.here
+									selected.MoveTo (Game.Selection.MapCoords, Game.Selection.MapCoords.Direction(selected.Position));
 
-							//this should deduct action points.
-							if(selected.ActionPoints ==0){
-								Game.Selection.SelectedId = Game.Selection.NONE;
-							}
-						}
-					} else {
-						//did we click a unit?
-						if(Game.Selection.HoveredId != Game.Selection.NONE){
-							Unit target = Game.Game.Instance.Manager.Units [Game.Selection.HoveredId];
-						
-							if(target.Team == selected.Team){
-								//aid?
+									//this should deduct action points.
+									if(selected.ActionPoints ==0){
+										Game.Selection.SelectedId = Game.Selection.NONE;
+									}
+								}
+							} else {
+								//did we click a unit?
+								if(Game.Selection.HoveredId != Game.Selection.NONE){
+									Unit target = Game.Game.Instance.Manager.Units [Game.Selection.HoveredId];
+								
+									if(target.Team == selected.Team){
+										//aid?
 
-							}
-							else{
-								//attack?
-								if(selected.CanAttack(target)){
-									target.TakeDamage(selected.Weapon.MaxDamage);
-									new Resources.Texture(SharedResources.InGameFont, selected.Weapon.MaxDamage.ToString(), System.Drawing.Brushes.Red, 24,24);								}
+									}
+									else{
+										//attack?
+										if(selected.CanAttack(target)){
+											target.TakeDamage(selected.Weapon.MaxDamage);
+											new Resources.Texture(SharedResources.InGameFont, selected.Weapon.MaxDamage.ToString(), System.Drawing.Brushes.Red, 24,24);								}
 
+									}
+								}
 							}
 						}
 					}

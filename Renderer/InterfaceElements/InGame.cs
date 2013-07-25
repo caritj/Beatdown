@@ -7,7 +7,7 @@ namespace BeatDown.Renderer.InterfaceElements
 	public class InGame:InterfaceElement
 	{
 
-
+		SelectedUnitInfo unitInfo;
 
 		public InGame ()
 		{
@@ -23,13 +23,7 @@ namespace BeatDown.Renderer.InterfaceElements
 				Console.WriteLine ("Faked ending the turn");
 			};
 
-			Base unitInfo = new Base(this);
-			unitInfo.Width = 128;
-			unitInfo.Height = 64;
-			unitInfo.BackgroundColor = System.Drawing.Color.Black;
-			unitInfo.ShowBackgroundColor =false;
-			unitInfo.Y =65;
-			unitInfo.Text = "Unit Details";
+			unitInfo = new SelectedUnitInfo(this);
 
 
 
@@ -52,7 +46,10 @@ namespace BeatDown.Renderer.InterfaceElements
 
 		}
 
+		public void updateSelectedUnit(Unit selected){
+			unitInfo.Draw();
 
+		}
 
 
 

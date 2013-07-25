@@ -16,6 +16,8 @@ namespace BeatDown.Renderer.InterfaceElements
 		public virtual event onMouseUp  OnMouseUp;
 		
 		public virtual event onMouseDown OnMouseDown;
+
+		public bool UseParentOffset =true;
 		
 
 		public float X,Y,Z;
@@ -108,16 +110,27 @@ namespace BeatDown.Renderer.InterfaceElements
 			ShouldDraw= false;
 		}
 
-		public void Draw ()
+		public virtual void Draw ()
 		{
 			if (ShouldDraw) {
+
 				GL.PushMatrix();
+
+				//offsets base on parent enable
+				//if(UseParentOffset &&parent !=null){
+				//	GL.Translate(parent.X,parent.Y, parent.Z);
+				//}
+
+				//draw colored box if needed
 				if (ShowBackgroundColor) {
 					DrawBackgroundColor ();
 				}
+				//draw texture if needed
 				if (Texture != null) {
 					DrawTexture (Texture);
 				}
+
+				//draw text if needed;
 				if (StringTexture != null) {
 					DrawTexture (StringTexture);
 				}
@@ -136,6 +149,7 @@ namespace BeatDown.Renderer.InterfaceElements
 				GL.Vertex3(X+Width,Y,Z);
 				GL.Vertex3(X+Width,Y+Height,Z);
 				GL.Vertex3(X,Y+Height,Z);
+				GL.Color3(1f,1f,1f);
 			GL.End();
 		}
 

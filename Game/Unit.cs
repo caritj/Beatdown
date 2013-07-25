@@ -19,7 +19,8 @@ namespace BeatDown.Game
 
 		protected int actionPoints =5;
 		public int ActionPoints { get { return actionPoints; } }
-
+		protected int maxActionPoints =5;
+		public int MaxActionPoints { get { return maxActionPoints; } }
 
 		public List<ITask> Plan;
 
@@ -31,6 +32,9 @@ namespace BeatDown.Game
 
 		protected int health =5;
 		public int Health {get{ return health;}}
+
+		protected int maxHealth =5;
+		public int MaxHealth {get{ return maxHealth;}}
 
 		protected int maxSlope;
 		public int MaxSlope { get { return this.maxSlope; } }
@@ -140,7 +144,7 @@ namespace BeatDown.Game
 		public void Update (double time)
 		{
 		 //does nothing
-			if (health < 0) {
+			if (health <= 0) {
 				Game.Instance.Manager.AddToRemovalQueue(this.glId);
 			}
 

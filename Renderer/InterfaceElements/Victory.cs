@@ -3,37 +3,31 @@ using Gwen.Control;
 
 namespace BeatDown.Renderer.InterfaceElements
 {
-	public class Victory:DockBase
+	public class Victory:InterfaceElement
 	{
-		bool didWin = true;
-		Label message;
-		Button okay;
 
-		public Victory (Base parent):base(parent)
+
+		public Victory ()
 		{
-			message = new Label (this);
-			message.Alignment = Gwen.Pos.Center;
+			this.Width = 640;
+			this.Height =480;
+			this.LoadTexture("victory.png");
 
-			message.AutoSizeToContents = true;
-			//message.Font = GUI.Font;
-			message.TextColor = System.Drawing.Color.White;
-			if (didWin) {
-				message.Text = "VICTORY";
-			} else {
-				message.Text = "DEFEAT!";
-			}
+			Base Lable= new Base(this);
+			Lable.Width = 320;
+			Lable.Height =64;
+			Lable.Text = "VICTORY";
 
 
-			okay =new Button(this);
-			okay.Text ="OKAY!";
 
-			this.Hide();
+			this.children.Add(Lable);
+
+			this.OnMouseUp += delegate(OpenTK.Input.MouseButtonEventArgs args) {
+				Game.Game.State.ChangeState(BeatDown.Game.State.States.MENU);
+			};
+
+
 		}
-		protected override void Render (Gwen.Skin.Base skin)
-		{
 
-
-			base.Render (skin);
-		}
 	}
 }

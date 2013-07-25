@@ -9,6 +9,14 @@ namespace BeatDown.Renderer.InterfaceElements
 {
 	public abstract class InterfaceElement
 	{
+		public delegate void onMouseUp(MouseButtonEventArgs args);
+		public delegate void onMouseDown(MouseButtonEventArgs args);
+		public delegate void onClicked(MouseButtonEventArgs args);
+
+		public virtual event onMouseUp  OnMouseUp;
+		
+		public virtual event onMouseDown OnMouseDown;
+		
 
 		public float X,Y,Z;
 
@@ -16,14 +24,14 @@ namespace BeatDown.Renderer.InterfaceElements
 
 		public float RotationX, RotationY, RotationZ;
 
-		private InterfaceElement parent;
+		protected InterfaceElement parent;
 
 		public  bool ShouldRedraw =true;
 		public bool ShouldDraw =true;
 
 		public bool ShowBackgroundColor =false;
 		public System.Drawing.Color BackgroundColor;
-		public Brush TextBrush = Brushes.AntiqueWhite;
+		public Brush TextBrush = Brushes.White;
 
 		public Texture Texture=null;
 
@@ -32,17 +40,50 @@ namespace BeatDown.Renderer.InterfaceElements
 
 		public Texture StringTexture =null;
 
-		private List<InterfaceElement> children = new List<InterfaceElement>();
+		protected List<InterfaceElement> children = new List<InterfaceElement>();
 
 
 
-		public bool WasClicked(int mouseX,  int mouseY){
-			return(mouseX >= X && mouseX <= X+ Width && mouseY >= Y && mouseY <= Y+Height);
+		public bool WasClicked (int mouseX, int mouseY)
+		{
+			if (children.Count == 0) {
+				return(mouseX >= X && mouseX <= X + Width && mouseY >= Y && mouseY <= Y + Height);
+			}
+
+
+			bool found = false;
+			foreach (InterfaceElement child in children) {
+				found = found || child.WasClicked(mouseX,mouseY);
+ 			}
+			return found;
 		}
 
-		public abstract void MouseUp (MouseButtonEventArgs args);
-		public abstract void MouseDown (MouseButtonEventArgs args);
+		public void MouseUp (MouseButtonEventArgs args)
+		{
+			if (OnMouseUp != null) {
+				OnMouseUp(args);
+			}
 
+			foreach (InterfaceElement child in children) {
+				if(child.WasClicked(args.X,args.Y)){
+					child.MouseUp(args);
+				}
+			}
+		}
+		public  void MouseDown (MouseButtonEventArgs args){
+
+			if (OnMouseDown != null) {
+				OnMouseDown(args);
+			}
+
+			foreach (InterfaceElement child in children) {
+				if(child.WasClicked(args.X,args.Y)){
+					child.MouseDown(args);
+				}
+			}
+		}
+
+	
 		
 		public void LoadTexture(String TextureFileName){
 			if (SharedResources.TextureCache.ContainsKey (TextureFileName)) {
@@ -70,6 +111,7 @@ namespace BeatDown.Renderer.InterfaceElements
 		public void Draw ()
 		{
 			if (ShouldDraw) {
+				GL.PushMatrix();
 				if (ShowBackgroundColor) {
 					DrawBackgroundColor ();
 				}
@@ -83,6 +125,7 @@ namespace BeatDown.Renderer.InterfaceElements
 				foreach(InterfaceElement child in children){
 					child.Draw();
 				}
+				GL.PopMatrix();
 			}
 		}
 
@@ -99,6 +142,7 @@ namespace BeatDown.Renderer.InterfaceElements
 		protected void DrawTexture(Texture outputTex){
 			GL.Enable(EnableCap.Texture2D);
 			GL.BindTexture(TextureTarget.Texture2D, outputTex.glId);
+
 			GL.Begin(BeginMode.Quads);
 				GL.TexCoord2(0f,0f);
 				GL.Vertex3(X,Y,Z);

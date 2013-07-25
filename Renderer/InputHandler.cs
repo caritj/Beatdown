@@ -59,9 +59,7 @@ namespace BeatDown.Renderer
 			if(Renderer.Render.Instance.gui.WasClicked(args.X, args.Y)){
 				Renderer.Render.Instance.gui.MouseUp(args);
 			}
-			else{
 
-			}
 		}
 
 		public static void OnMouseDown (object sender, MouseButtonEventArgs args)

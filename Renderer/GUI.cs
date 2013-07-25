@@ -21,6 +21,8 @@ namespace BeatDown.Renderer
 		{
 
 			Interfaces.Add(State.States.INGAME, new InGame());
+			Interfaces.Add(State.States.MENU, new MainMenu());
+		//	Interfaces.Add(State.States.LOBBY, new Lobby());
 		}
 		public bool WasClicked (int MouseX, int MouseY)
 		{
@@ -28,6 +30,7 @@ namespace BeatDown.Renderer
 
 				return Interfaces [lastState].WasClicked(MouseX,MouseY);
 			}
+			Console.WriteLine("Invalid ui");
 			return false;
 		}
 

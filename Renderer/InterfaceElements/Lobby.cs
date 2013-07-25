@@ -1,11 +1,17 @@
 using System;
-using Gwen.Control;
+
 namespace BeatDown.Renderer.InterfaceElements
 {
-	public class Lobby:DockBase
+	public class Lobby:InterfaceElement
 	{
-		public Lobby (Base parent):base(parent)
+		//List<Games>
+
+		public Lobby ()
 		{
+
+			// this is going to be slighyl complex to do.
 		}
+
+
 	}
 }

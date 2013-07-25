@@ -1,30 +1,29 @@
 using System;
-using Gwen;
-using Gwen.Control;
-using Gwen.Control.Layout;	
+
 
 namespace BeatDown.Renderer.InterfaceElements
 {
-	public class MainMenu:Gwen.Control.DockBase
-	{
-		ListBox Menu ;
+	public class MainMenu:InterfaceElement{
 
-		public MainMenu (Base parent):base(parent)
+
+
+		public MainMenu ()
 		{
-			Menu= new ListBox(this);
-			Menu.SetPosition(Height/3, Width/6);
-			Menu.SetBounds(220, 10, 200, 200);
-			Menu.RowSelected += MenuClicked;
+			Base newGame;
 
-			Menu.AddRow("PLAY");
-			Menu.AddRow("SETTINGS");
-			Menu.AddRow("QUIT");
+			newGame = new Base(this);
+			newGame.Width = 96;
+			newGame.Height = 64;
+			newGame.Text = "new game";
 
-			Menu.SizeToContents();
+
+			newGame.OnMouseUp += delegate(OpenTK.Input.MouseButtonEventArgs args) {
+				Game.Game.State.ChangeState(BeatDown.Game.State.States.INGAME);
+			};
+			this.children.Add(newGame);
+
 		} 	
 
-		public void MenuClicked(Base contorl, EventArgs e){
 
-		}
 	}
 }

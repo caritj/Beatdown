@@ -1,58 +1,69 @@
 using System;
-using Gwen;
+
 using OpenTK.Graphics.OpenGL;
 using BeatDown.Game;
 using BeatDown.Renderer.InterfaceElements;
+using System.Collections.Generic;
+using OpenTK.Input;
 
 namespace BeatDown.Renderer
 {
 	public class GUI
 	{
-		MainMenu Menu;
-		Lobby Lobby;
-		Victory Victory;
-		InGame Game;
-		Loading Loading;
+		protected Dictionary<Game.State.States, InterfaceElement> Interfaces = new Dictionary<Game.State.States, InterfaceElement>();
+		
+
 
 		public State.States lastState = BeatDown.Game.Game.State.Current;
 
 
-		public GUI (Game.Settings s,Gwen.Control.Canvas c)
+		public GUI (Settings s)
 		{
-			Menu = new MainMenu (c);
-			Lobby = new BeatDown.Renderer.InterfaceElements.Lobby(c);
-			Victory = new BeatDown.Renderer.InterfaceElements.Victory(c);
-			Game = new InGame(c);
-			Loading = new BeatDown.Renderer.InterfaceElements.Loading(c);
 
+			Interfaces.Add(State.States.INGAME, new InGame());
+			Interfaces.Add(State.States.MENU, new MainMenu());
+		//	Interfaces.Add(State.States.LOBBY, new Lobby());
 		}
 		public bool WasClicked (int MouseX, int MouseY)
 		{
+			if (Interfaces.ContainsKey (lastState)) {
+
+				return Interfaces [lastState].WasClicked(MouseX,MouseY);
+			}
+			Console.WriteLine("Invalid ui");
 			return false;
 		}
 
-		public void Layout(){
+		public void MouseUp (MouseButtonEventArgs args)
+		{
+			if (Interfaces.ContainsKey (lastState)) {
+
+				Interfaces [lastState].MouseUp(args);
+			}
+		}
+		public void Layout(int Width, int Height){
+		
 		
 		}
-		public void Render (Gwen.Control.Canvas canvas )
+		public void Render ()
 		{
-
 			GL.PushMatrix ();
-				GL.Disable(EnableCap.CullFace);
-				GL.LoadIdentity();
-				GL.MatrixMode(MatrixMode.Projection);
-				GL.Ortho( 0, canvas.Width, 0, canvas.Height, -1, 1);
+				GL.Disable (EnableCap.CullFace);
+				GL.LoadIdentity ();
+				GL.MatrixMode (MatrixMode.Projection);
+				GL.Ortho (0, Renderer.Render.Instance.Width, 0, Renderer.Render.Instance.Height, -1, 1);
 
-				GL.LoadIdentity();
-				GL.Scale (2f/canvas.Width, -2f/canvas.Height, 1f);
-				
+				GL.LoadIdentity ();
+				GL.Scale (2f / Renderer.Render.Instance.Width, -2f / Renderer.Render.Instance.Height, 1f);
+					
 
-				GL.Translate(canvas.Width/-2f,canvas.Height/-2f, 0);
-				
-
-				//GL.Scale(-1f,1f,1f);
-			//	GL.Translate(canvas.Width,0f,0f);
-				canvas.RenderCanvas ();
+				GL.Translate (Renderer.Render.Instance.Width / -2f, Renderer.Render.Instance.Height / -2f, -0.5);
+					
+				Renderer.Render.Instance.drawAxes (0, 0, 0);
+					
+				if (Interfaces.ContainsKey (lastState)) {
+					Interfaces [lastState].Draw ();
+				}
 				GL.Enable(EnableCap.CullFace);
 			GL.PopMatrix();
 
@@ -61,45 +72,16 @@ namespace BeatDown.Renderer
 		public void CheckForStateChange (State.States state)
 		{
 			if (state != this.lastState) {
-				Console.WriteLine("GUI STATECHANGED");
+				Console.WriteLine("GUI STATECHANGED to "+ state);
 				OnStateChange(state);
 
 			}
 		}
 		public void OnStateChange(State.States state){
-
-
-			Menu.Hide();
-			Lobby.Hide ();
-			Victory.Hide ();
-			Game.Hide ();
-			Loading.Hide();
-
-			switch(state){
-				case State.States.MENU:
-					Menu.Show();
-					break;
-			
-				case State.States.INGAME:
-					Game.Show();
-					break;
-		
-				case State.States.DEFEAT:
-				case State.States.VICTORY:
-					Victory.Show();
-					break;
-			
-				case State.States.LOBBY:
-					Lobby.Show ();
-					break;
-		
-				case State.States.LOADING:
-				default:
-					Loading.Show();
-				break;
-			}
 			lastState = state;
 		}
+
+
 	}
 }
 

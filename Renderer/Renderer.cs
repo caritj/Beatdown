@@ -2,7 +2,7 @@ using System;
 using OpenTK;
 using OpenTK.Input;
 using OpenTK.Graphics.OpenGL;
-using Gwen;
+
 using BeatDown.Game;
 using System.Collections.Generic;
 using BeatDown.Renderer.GameObjects;
@@ -15,15 +15,11 @@ namespace BeatDown.Renderer
 		public  Settings settings = null;
 		public GUI gui = null;
 
-		private Gwen.Input.OpenTK input;
-		private Gwen.Renderer.OpenTK renderer;
-		private Gwen.Skin.Base skin;
-		private Gwen.Control.Canvas canvas;
 
 		public  static readonly Vector3 UP = Vector3.UnitY;
 
 		protected Vector3 InGameCameraTarget = new Vector3(Game.World.WORLD_SIZE/2, 0, Game.World.WORLD_SIZE/2);
-		protected Vector3 InGameCameraPosition= new Vector3(Game.World.WORLD_SIZE,Game.World.WORLD_SIZE,Game.World.WORLD_SIZE);
+		protected Vector3 InGameCameraPosition= new Vector3(Game.World.WORLD_SIZE+1,Game.World.WORLD_SIZE+1,Game.World.WORLD_SIZE+1);
 		
 		protected Matrix4 CameraMatrix;
 		private float rot = 0;
@@ -38,11 +34,8 @@ namespace BeatDown.Renderer
 			theGame = g;
 			settings = s;
 
-
-			//in case some one else wants to acess this bit.
+			//in case some one else wants to acess this bit.Untitled event
 			Instance = this;
-
-			//TODO setup camera
 
 			//bind events to the input handler.
 			Mouse.ButtonUp += InputHandler.OnMouseUp;
@@ -52,30 +45,17 @@ namespace BeatDown.Renderer
 			Keyboard.KeyDown+= InputHandler.OnKeyDown;
 			Keyboard.KeyUp+=InputHandler.OnKeyUp;
 
-
+			//setup vertex buttfer objects. heh
+			BaseRender.Init();
+			UnitRenderer.Init();
 
 		}
 
 		protected override void OnLoad (EventArgs e)
 		{
 
-			//setup GWEN
-			renderer = new Gwen.Renderer.OpenTK ();
-			skin = new Gwen.Skin.TexturedBase (renderer, Settings.GUI_DATA_DIR+"DefaultSkin.png");
-			canvas = new Gwen.Control.Canvas (skin);
-			input = new Gwen.Input.OpenTK (this);
-			input.Initialize(canvas);
-
-			canvas.SetSize(Width,Height);
-			canvas.ShouldDrawBackground =false;
-			canvas.BackgroundColor = System.Drawing.Color.OrangeRed;
-
-
-			SharedResources.GUIFont = new Gwen.Font(renderer, "arial",16);
-
-
 			//setup gui systems
-			gui = new GUI (settings, canvas);
+			gui = new GUI (settings);
 
 		
 
@@ -105,29 +85,32 @@ namespace BeatDown.Renderer
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadMatrix(ref projection);
 
-			//gui.Layout();
-			canvas.SetSize(Width,Height);
+			gui.Layout(Width,Height);
+		
 			base.OnResize(e);
 		}
 		protected override void OnUpdateFrame (FrameEventArgs e)
 		{
 			if (Keyboard [OpenTK.Input.Key.Left]) {
-				rot += 0.01f;
+				rot += 0.05f;
 			}
 			if (Keyboard [OpenTK.Input.Key.Right]) {
-				rot -= 0.01f;
+				rot -= 0.05f;
 			}
 
 
-			if ((Keyboard [OpenTK.Input.Key.ControlLeft] && Keyboard [OpenTK.Input.Key.C])||Keyboard[OpenTK.Input.Key.Escape]) {
+			if ((Keyboard [OpenTK.Input.Key.ControlLeft] && Keyboard [OpenTK.Input.Key.C]) || Keyboard [OpenTK.Input.Key.Escape]) {
 
 				this.Exit ();
 			}
 
-			gui.CheckForStateChange(Game.Game.State.Current);
+			gui.CheckForStateChange (Game.Game.State.Current);
 
 			//TRIGGER UNIT UPDATES
-
+			foreach (KeyValuePair<int, Unit> unit in theGame.Manager.Units) {
+				unit.Value.Update(e.Time);
+			}
+			theGame.Manager.Update(e.Time);
 
 			base.OnUpdateFrame(e);
 		}
@@ -175,7 +158,7 @@ namespace BeatDown.Renderer
 			//this.drawAxes(0,0,0);
 
 			//draw gui to the buffer.
-			gui.Render(canvas);
+			gui.Render();
 		
 
 			//draw to screen
@@ -186,9 +169,7 @@ namespace BeatDown.Renderer
 
 		protected override void OnDisposed (EventArgs e)
 		{
-			renderer.Dispose();
-			skin.Dispose();
-			canvas.Dispose();
+
 			base.OnDisposed(e);
 
 		}
@@ -254,7 +235,7 @@ namespace BeatDown.Renderer
 			
 			Game.Selection.Maploc = PickObject ();
 			//clear the buffer;
-			ClearBuffer (0.9f,1f,0.9f,0f);
+			ClearBuffer (0.5f,.5f,0.5f,0f);
 
 			GL.Enable(EnableCap.CullFace);
 			GL.Enable(EnableCap.Blend);

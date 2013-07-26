@@ -11,6 +11,9 @@ namespace BeatDown.Game
 		public static State State = new State();
 		public Manager Manager = new Manager();
 
+		public Player LocalPlayer= new Player("steve",1,1);
+		public Player WhoseTurn = new Player("steve",1,1);
+
 		public Game (Settings s)
 		{
 			Instance =this;

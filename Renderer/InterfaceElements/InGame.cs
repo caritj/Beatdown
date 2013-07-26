@@ -1,87 +1,59 @@
 using System;
-using Gwen.Control;
+
 using BeatDown.Game;
 
 namespace BeatDown.Renderer.InterfaceElements
 {
-	public class InGame:DockBase
+	public class InGame:InterfaceElement
 	{
 
-		Button menu;
-		Button endTurn;
-		Label remainingActions;
-		Label selectedName;
+		SelectedUnitInfo unitInfo;
 
-		public InGame (Base parent):base(parent)
+		public InGame ()
 		{
-			this.Dock = Gwen.Pos.Fill;
-			this.SetSize(parent.Width, parent.Height);
-			this.Clicked+= OnEndTurnClicked;
-			menu = new Button(this);
-			menu.Alignment = Gwen.Pos.Right;
-			menu.SetPosition(Width - 128,0);
-			menu.AutoSizeToContents= true;
-			menu.Font = SharedResources.GUIFont;
-			menu.TextColor = System.Drawing.Color.White;
-			menu.Text = "MENU";
-			menu.Pressed += OnMenuClicked;
+			Base endTurn = new Base(this);
+			endTurn.Width = 96;
+			endTurn.Height =64;
+			endTurn.BackgroundColor = System.Drawing.Color.BlanchedAlmond;
+			endTurn.ShowBackgroundColor =false;
+			endTurn.Text = "End Turn";
+			//this.LoadTexture("button.png");
+			endTurn.OnMouseUp += delegate(OpenTK.Input.MouseButtonEventArgs args) {
+				//Game.Game.Instance.EndTurn?
+				Console.WriteLine ("Faked ending the turn");
+			};
+
+			unitInfo = new SelectedUnitInfo(this);
 
 
-			endTurn = new Button(this);
-			endTurn.Alignment = Gwen.Pos.Center;
-			endTurn.SetPosition(Width/2,0);
-			endTurn.AutoSizeToContents= true;
-			endTurn.Font = SharedResources.GUIFont;
-			endTurn.TextColor = System.Drawing.Color.White;
-			endTurn.Text = "END TURN";
-			endTurn.Released += OnEndTurnClicked;
+
+			Base menuButton = new Base(this);
+			menuButton.Width = 64;
+			menuButton.Height = 64;
+			menuButton.BackgroundColor = System.Drawing.Color.Black;
+			menuButton.ShowBackgroundColor =false;
+			menuButton.Y =129;
+			menuButton.Text = "Menu";
+			menuButton.OnMouseUp+= delegate(OpenTK.Input.MouseButtonEventArgs args) {
+				Game.Game.State.ChangeState(State.States.MENU);
+				Console.WriteLine("Menuclicked");
+			};
 
 
-			remainingActions = new Label(this);
-			remainingActions.Alignment = Gwen.Pos.Left;
-			remainingActions.SetPosition(0,24);
-			remainingActions.AutoSizeToContents= true;
-			remainingActions.Font = SharedResources.GUIFont;
-			remainingActions.TextColor = System.Drawing.Color.White;
-			remainingActions.Text = "";
+			this.children.Add(endTurn);
+			this.children.Add(unitInfo);
+			this.children.Add(menuButton);
 
-			selectedName = new Label(this);
-			selectedName.Alignment = Gwen.Pos.Left;
-			selectedName.SetPosition(0,0);
-			selectedName.AutoSizeToContents= true;
-			selectedName.Font = SharedResources.GUIFont;
-			selectedName.TextColor = System.Drawing.Color.White;
-			selectedName.Text = "";
-		}
-		protected override void Layout (Gwen.Skin.Base skin)
-		{
-			base.Layout (skin);
 		}
 
-		protected override void Render (Gwen.Skin.Base skin)
-		{
-			if(Game.Selection.SelectedId == Game.Selection.NONE){
-				remainingActions.Text = "";
-				selectedName.Text ="";
-			}
-			else{
-				Unit selected =Game.Game.Instance.Manager.Units[Game.Selection.SelectedId];
-				remainingActions.Text = "Actions:" +selected.ActionPoints;
-				selectedName.Text =selected.Name;
-			}
+		public void updateSelectedUnit(Unit selected){
+			unitInfo.Draw();
 
-			base.Render (skin);
 		}
 
-		protected void OnMenuClicked(Base control, EventArgs args){
-			//TODO
-			Console.WriteLine("/MnueClicled");
-			Game.Game.State.ChangeState(State.States.MENU);
-		}
-		protected void OnEndTurnClicked(Base control, EventArgs args){
-			//TODO
-			Console.WriteLine("/released");
-		}
+
+
+		
+	
 	}
 }
-

@@ -8,7 +8,6 @@ namespace  BeatDown.Renderer.Resources
 {
 	public class Texture : Resource
 	{
-		public static Font font= new Font("Arial", 24f);
 
 		protected Bitmap bmp;
 		public Texture (Bitmap bmp){
@@ -75,7 +74,7 @@ namespace  BeatDown.Renderer.Resources
 
 		}
 
-		public Texture(String text, Brush b, int w, int h){
+		public Texture(Font font ,String text, Brush b, int w, int h){
 			
 			Type = Types.TEXTURE;
 			bmp = new Bitmap (w, h);

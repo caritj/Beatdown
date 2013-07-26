@@ -13,11 +13,14 @@ namespace BeatDown.Renderer
 		{
 			SharedResources.MouseIsDown = false;
 
-			Console.WriteLine(String.Format("Mouseup {0} {1} {2}",Game.Selection.HoveredId, Game.Selection.Maploc, Game.Selection.SelectedId));
+		//	Console.WriteLine(String.Format("Mouseup {0} {1} {2}",Game.Selection.HoveredId, Game.Selection.Maploc, Game.Selection.SelectedId));
 
 			//select with left click
 			if (args.Button == MouseButton.Left) {
-				Game.Selection.SelectedId = Game.Selection.HoveredId;
+				if(Game.Selection.SelectedId != Game.Selection.HoveredId){
+					Game.Selection.SelectedId = Game.Selection.HoveredId;
+					//TODO SELECTION EVENT?
+				}
 			}
 			//act with right click
 			if (args.Button == MouseButton.Right) {
@@ -25,45 +28,54 @@ namespace BeatDown.Renderer
 
 					Unit selected = Game.Game.Instance.Manager.Units [Game.Selection.SelectedId];
 
-					if (Game.Selection.HoveredId == Game.Selection.NONE ) {
-						//move order
-						if( Game.Selection.Maploc > 0){
-							//TODO can move to.here
-							selected.MoveTo (Game.Selection.MapCoords, 0d);
+					//only allow orders to ones own team
+					if(Game.Game.Instance.LocalPlayer.Team == selected.Team){
+						//aonly let the current person  issue orders
+					   if(Game.Game.Instance.LocalPlayer.Id == Game.Game.Instance.WhoseTurn.Id){
+							if (Game.Selection.HoveredId == Game.Selection.NONE ) {
+								//move order
+								if( Game.Selection.Maploc > 0){
+									//TODO can move to.here
+									selected.MoveTo (Game.Selection.MapCoords, Game.Selection.MapCoords.Direction(selected.Position));
 
-							//this should deduct action points.
-							if(selected.ActionPoints ==0){
-								Game.Selection.SelectedId = Game.Selection.NONE;
-							}
-						}
-					} else {
-						//did we click a unit?
-						if(Game.Selection.HoveredId != Game.Selection.NONE){
-							Unit target = Game.Game.Instance.Manager.Units [Game.Selection.HoveredId];
-						
-							if(target.Team == selected.Team){
-								//aid?
-
-							}
-							else{
-								//attack?
-								if(selected.CanAttack(target)){
-									target.TakeDamage(2);
+									//this should deduct action points.
+									if(selected.ActionPoints ==0){
+										Game.Selection.SelectedId = Game.Selection.NONE;
+									}
 								}
+							} else {
+								//did we click a unit?
+								if(Game.Selection.HoveredId != Game.Selection.NONE){
+									Unit target = Game.Game.Instance.Manager.Units [Game.Selection.HoveredId];
+								
+									if(target.Team == selected.Team){
+										//aid?
 
+									}
+									else{
+										//attack?
+										if(selected.CanAttack(target)){
+											target.TakeDamage(selected.Weapon.MaxDamage);
+											new Resources.Texture(SharedResources.InGameFont, selected.Weapon.MaxDamage.ToString(), System.Drawing.Brushes.Red, 24,24);								}
+
+									}
+								}
 							}
 						}
 					}
 				}
 			}
-		
+			if(Renderer.Render.Instance.gui.WasClicked(args.X, args.Y)){
+				Renderer.Render.Instance.gui.MouseUp(args);
+			}
+
 		}
 
 		public static void OnMouseDown (object sender, MouseButtonEventArgs args)
 		{
 			//switch( Render.Instance.theGame.State//
 			SharedResources.MouseIsDown = true;
-
+			
 
 		}
 
@@ -72,14 +84,16 @@ namespace BeatDown.Renderer
 		}
 
 		public static void OnMouseWheeled(object sender, MouseWheelEventArgs args){
+		//	Renderer.Render.Instance.gui.Input.ProcessMouseMessage(args);
 
 		}
 
 		public static void OnKeyDown(object sender, KeyboardKeyEventArgs e){
-
+		//	Renderer.Render.Instance.gui.Input.ProcessKeyDown(e);
 		}
 
 		public static void OnKeyUp (object sender, KeyboardKeyEventArgs e){
+		//	Renderer.Render.Instance.gui.Input.ProcessKeyUp(e);
 
 		}
 

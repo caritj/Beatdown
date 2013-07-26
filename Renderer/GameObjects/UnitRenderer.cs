@@ -10,6 +10,17 @@ namespace BeatDown.Renderer.GameObjects
 {
 	public class UnitRenderer:BaseRender
 	{
+	
+		public new static void Init ()
+		{
+			//loads the VBOS
+		/*	if (Vbos.Count == 0) {
+
+
+			}*/
+		}
+
+
 		public static void RenderViewable (Unit u)
 		{
 			if (u.Health < 0) {
@@ -63,13 +74,76 @@ namespace BeatDown.Renderer.GameObjects
 
 				GL.PopMatrix();	
 
+
+
 			}
 
 
 
 
-			BaseRender.RenderViewable(u);
+			GL.PushMatrix ();
+			{
+				GL.Translate (u.X, u.Y, u.Z);
+				GL.Rotate (u.Rotation*360/6.283f, Renderer.Render.UP);
+				GL.Scale (.75f, .75f, .75f);
+				GL.Translate (u.SizeX / -2f, 0f, u.SizeZ / -2f);
+					
+						
+				GL.Begin (BeginMode.QuadStrip);
+				{
+					GL.Color3 (Game.Game.Instance.Manager.GetTeamColor(u.Team));
+
+					GL.Vertex3 (0, 0, 0);
+					GL.Vertex3 (0, u.SizeY, 0);
+
+					GL.Vertex3 (u.SizeX, 0, 0);
+					GL.Vertex3 (u.SizeX, u.SizeY, 0);
+								
+
+					GL.Vertex3 (u.SizeX, 0, u.SizeZ);
+					GL.Vertex3 (u.SizeX, u.SizeY, u.SizeZ);
+
+
+					GL.Vertex3 (0, 0, u.SizeZ);
+					GL.Vertex3 (0, u.SizeY, u.SizeZ);
+
+					GL.Vertex3 (0, 0, 0);
+					GL.Vertex3 (0, u.SizeY, 0);
+				}
+
+				GL.End ();
+
+				GL.Begin (BeginMode.Quads);
+				{
+					GL.Vertex3 (0, u.SizeY, 0);
+					GL.Vertex3 (0, u.SizeY, u.SizeZ);
+					GL.Vertex3 (u.SizeX, u.SizeY, u.SizeZ);
+					GL.Vertex3 (u.SizeX, u.SizeY, 0);
+				}
+				GL.End ();
+
+
+				if (u.glId == Game.Selection.SelectedId) {
+
+					GL.Color3(System.Drawing.Color.PaleVioletRed);
+					GL.Begin(BeginMode.Lines);
+
+					GL.Vertex3 (0, 0, 0);
+					GL.Vertex3 (u.SizeX, 0, 0);
+					GL.Vertex3 (u.SizeX, 0, u.SizeZ);
+					GL.Vertex3 (0, 0, u.SizeZ);
+					GL.Vertex3 (0,0,0);
+					GL.End ();
+
+				}
+			}
+			WeaponRenderer.RenderViewable(u.Weapon);
+
+			GL.PopMatrix();
 		}
+
+
+
 		public static void RenderPickable(Unit u){
 			BaseRender.RenderPickable(u);
 		}

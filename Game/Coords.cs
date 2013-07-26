@@ -1,3 +1,5 @@
+using System;
+
 namespace BeatDown.Game
 {
 
@@ -10,6 +12,11 @@ namespace BeatDown.Game
 			X=x;
 			Y=y;
 			Z=z;
+		}
+		public double Direction(Coords Before){
+			//ignores y;
+
+			return Math.Atan2( this.Z - Before.Z,this.X- Before.X); 
 		}
 	}
 }

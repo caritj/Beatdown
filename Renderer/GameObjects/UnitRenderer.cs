@@ -5,6 +5,7 @@ using OpenTK.Graphics.OpenGL;
 using BeatDown.Game;
 using BeatDown.Game.Planning;
 using System.Collections.Generic;
+using BeatDown.Renderer.Resources;
 
 namespace BeatDown.Renderer.GameObjects
 {
@@ -61,35 +62,38 @@ namespace BeatDown.Renderer.GameObjects
 					for(int i = 1; i < Coords.Count;i++){
 								
 						//	Console.WriteLine(String.Format("Lines: {0},{1},{2}",Coords[i].X,Coords[i].Y, Coords[i].Z));
-						GL.Begin(BeginMode.Lines);
+						//GL.Begin(BeginMode.Quads);
 							if(i> u.ActionPoints){
 								GL.Color3(1.0f,0.0f,0.0f);
 							}
 							else{
 								GL.Color3(0.0f,1.0f,0.0f);
 							}				
-							GL.Vertex3(Coords[i].X,Coords[i].Y, Coords[i].Z);
-							GL.Vertex3(Coords[i-1].X,Coords[i-1].Y, Coords[i-1].Z);
-						GL.End ();
+						/*	GL.Vertex3(Coords[i].X,Coords[i].Y, Coords[i].Z);
+							GL.Vertex3(Coords[i].X+.1f,Coords[i].Y, Coords[i].Z+.1f);
+							GL.Vertex3(Coords[i-1].X,Coords[i-1].Y, Coords[i-1].Z+.1f);
+							GL.Vertex3(Coords[i].X+.1f,Coords[i].Y, Coords[i].Z);
+						GL.End ();*/
 						//show a number of moves at each spot.
-						GL.Begin(BeginMode.Quads);
-							GL.Color3 (1f, 1f, 1f);
-								GL.Enable(EnableCap.Texture2D);
-								GL.BindTexture(TextureTarget.Texture2D, SharedResources.StringTextureCache[i.ToString()].glId);
 
-								//do 
-								GL.TexCoord2(0,0);
-								GL.Vertex3(Coords[i].X-.5f,Coords[i].Y, Coords[i].Z+.5f);
-								GL.TexCoord2(1,0);
-								GL.Vertex3(Coords[i].X+.5f,Coords[i].Y, Coords[i].Z+.5f);
-								GL.TexCoord2(1,1);
-								GL.Vertex3(Coords[i].X+.5f,Coords[i].Y, Coords[i].Z-.5f);
+						//GL.Color3 (1f, 1f, 1f);
+						GL.Enable(EnableCap.Texture2D);
+			
+						GL.BindTexture(TextureTarget.Texture2D, SharedResources.StringTextureCache [i.ToString ()].glId);
+						GL.Begin(BeginMode.Quads);
+						//do 
 								GL.TexCoord2(0,1);
+								GL.Vertex3(Coords[i].X-.5f,Coords[i].Y, Coords[i].Z+.5f);
+								GL.TexCoord2(1,1);
+								GL.Vertex3(Coords[i].X+.5f,Coords[i].Y, Coords[i].Z+.5f);
+								GL.TexCoord2(1,0);
+								GL.Vertex3(Coords[i].X+.5f,Coords[i].Y, Coords[i].Z-.5f);
+								GL.TexCoord2(0,0);
 								GL.Vertex3(Coords[i].X-.5f,Coords[i].Y, Coords[i].Z-.5f);
-							GL.Disable(EnableCap.Texture2D);
+						//	GL.Disable(EnableCap.Texture2D);
 
 						GL.End ();
-
+					//	Console.WriteLine (GL.GetError ());
 					}
 					GL.PopMatrix();	
 

@@ -6,6 +6,10 @@ bin/
 Game/SortedList.cs
 packages/
 packages.config
+env/
+.pydevproject
+.project
+*.pyc
 
 
 

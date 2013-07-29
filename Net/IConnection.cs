@@ -8,9 +8,8 @@ namespace BeatDown.Net
 
 	public interface IConnection
 	{
-		ConnectionStatus Status { get; }
-		BeatDown.Game.Game CreateGame(string name);
-		BeatDown.Game.Game JoinGame (Int64 id);
+		BeatDown.Game.Game CreateGame(string name, Settings settings);
+		BeatDown.Game.Game JoinGame (Int64 id, Settings settings);
 		IMessage Send(IMessage message);
 	}
 }

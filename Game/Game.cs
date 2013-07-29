@@ -1,6 +1,12 @@
 using System;
 //using Game.Net;
-
+/*
+ *  This is the part taht simultes what happens in the game.
+ *  It determines things like who hits who can move an whose turn it is.
+ * 
+ * 
+ * 
+ */
 	
 namespace BeatDown.Game
 {

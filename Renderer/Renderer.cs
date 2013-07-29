@@ -57,10 +57,15 @@ namespace BeatDown.Renderer
 			//setup gui systems
 			gui = new GUI (settings);
 
+			for (int i =0; i <100; i++) {
+				SharedResources.StringTextureCache.Add(i.ToString(), 
+				                                       new BeatDown.Renderer.Resources.Texture(SharedResources.InGameFont,i.ToString(), System.Drawing.Brushes.White,32,32));
+			}
+
 		
 
 			//Decide what open gl capacities we want running.
-
+			GL.Enable (EnableCap.Texture2D);
 			GL.Enable(EnableCap.DepthTest);
 			GL.Enable(EnableCap.CullFace);
 			//GL.Enable(EnableCap.Lighting);

@@ -143,7 +143,6 @@ namespace BeatDown.Game
 
 		public void Update (double time)
 		{
-		 //does nothing
 			if (health <= 0) {
 				Game.Instance.Manager.AddToRemovalQueue(this.glId);
 			}

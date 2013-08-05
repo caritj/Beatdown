@@ -135,8 +135,8 @@ namespace BeatDown.Game
 		}	
 		public bool DidHit (Unit target, Weapon w)
 		{
-			//TODO ACTION POINTS
-			return true;
+
+			return Game.Instance.RandomNumberGenerator.NextDouble() <= w.HitPct;
 
 		}
 
@@ -146,7 +146,6 @@ namespace BeatDown.Game
 			if (health <= 0) {
 				Game.Instance.Manager.AddToRemovalQueue(this.glId);
 			}
-
 		}
 
 

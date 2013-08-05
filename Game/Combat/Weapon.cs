@@ -79,9 +79,9 @@ namespace BeatDown.Combat
 				if(Shooter.DidHit(Target, this)){
 
 					//Calculate Damage
-					int dam = maxDamage;
+					int dam = Game.Game.Instance.RandomNumberGenerator.Next(minDamage, maxDamage);
 					//apply to the Target
-					Target.TakeDamage(maxDamage, this.damageType);
+					Target.TakeDamage(dam, this.damageType);
 
 				}
 

@@ -6,6 +6,7 @@ using BeatDown.Combat;
 
 namespace BeatDown.Game
 {
+	[Serializable]
 	public class Unit:Renderable
 	{
 

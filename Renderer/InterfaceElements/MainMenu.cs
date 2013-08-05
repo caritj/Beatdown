@@ -9,7 +9,7 @@ namespace BeatDown.Renderer.InterfaceElements
 
 		public MainMenu ()
 		{
-			Base newGame, lobby;
+			Base newGame, lobby,dimmer;
 
 			newGame = new Base(this);
 			newGame.Width = 128;
@@ -21,6 +21,11 @@ namespace BeatDown.Renderer.InterfaceElements
 			lobby.Height = 32;
 			lobby.Text = "OnlineLobby";
 
+			dimmer = new Base (this);
+			dimmer.Width = Renderer.Render.Instance.Width;
+			dimmer.Height = Renderer.Render.Instance.Height;
+			dimmer.BackgroundColor = System.Drawing.Color.FromArgb (128, 0, 0, 0);
+			dimmer.ShowBackgroundColor = true;
 
 
 
@@ -32,6 +37,11 @@ namespace BeatDown.Renderer.InterfaceElements
 			this.children.Add(newGame);
 
 		} 	
+
+		public override void Layout (int width, int height)
+		{
+			//?
+		}
 
 
 	}

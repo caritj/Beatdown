@@ -50,6 +50,13 @@ namespace BeatDown.Renderer.InterfaceElements
 			unitInfo.Draw();
 
 		}
+		public override void Layout (int width, int height)
+		{
+			foreach (InterfaceElement i in children) {
+				i.Layout (width, height);
+
+			}
+		}
 
 
 

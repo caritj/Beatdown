@@ -103,6 +103,8 @@ namespace BeatDown.Renderer.InterfaceElements
 		public void Layout(){
 
 		}
+		public abstract  void Layout (int width, int height);
+
 		public void Show(){
 			ShouldDraw= true;
 		}

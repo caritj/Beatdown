@@ -1,21 +1,8 @@
-
-Hashtable of units
- descends from renderable 
-Map{
-	2d array the world. height map
-}
+the gmae needs to be implemented very differently
 
 
-GUI is inverted. balls.
+at init i want to set the renderer to be loading
+then load async each of the various items while showing some sor tof slideshow or splash screen.
 
-we need a way to take a glId and get a unit from teh game
-
-also teams.
-
-a way to iterate the units in teh game
-
-
-
-see if we can hack gwen to accept a fontfamily instead of a string.
-
+when the load finishes we should show the main menu
 

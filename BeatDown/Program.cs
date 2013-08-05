@@ -2,7 +2,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Text;
 using BeatDown.Game;
-using BeatDown.Net;
+//using BeatDown.Net;
 
 
 namespace BeatDown
@@ -16,10 +16,10 @@ namespace BeatDown
 			CheckforFonts ();
 
 			Settings s = new Settings ();
-			IConnection connection = Connection.GetControlConnection ();
-			connection.Send (new TestMessage ());
+		///	IConnection connection = Connection.GetControlConnection ();
+		//	connection.Send (new TestMessage ());
 
-			using (Game.Game g = connection.CreateGame("A Winner Is You", s)) {
+			using (Game.Game g = new Game.Game(s)){//connection.CreateGame("A Winner Is You", s)) {
 				using (Renderer.Render renderer = new Renderer.Render(ref g, ref s)){
 					renderer.Run (30.0);
 				}

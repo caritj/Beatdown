@@ -59,6 +59,12 @@ namespace BeatDown.Renderer.InterfaceElements
 			}
 			base.Draw ();
 		}
+
+		public override void Layout (int width, int height)
+		{
+			this.X = width - this.Width;
+			this.Y = height - this.Height;
+		}
 	}
 }
 

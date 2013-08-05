@@ -13,6 +13,14 @@ namespace BeatDown.Renderer
 		{
 			SharedResources.MouseIsDown = false;
 
+			if(Renderer.Render.Instance.gui.WasClicked(args.X, args.Y)){
+				Renderer.Render.Instance.gui.MouseUp(args);
+			}
+
+			if (Game.State.States.INGAME != Game.Game.State.Current) {
+				return;
+			}
+
 		//	Console.WriteLine(String.Format("Mouseup {0} {1} {2}",Game.Selection.HoveredId, Game.Selection.Maploc, Game.Selection.SelectedId));
 
 			//select with left click
@@ -65,9 +73,7 @@ namespace BeatDown.Renderer
 					}
 				}
 			}
-			if(Renderer.Render.Instance.gui.WasClicked(args.X, args.Y)){
-				Renderer.Render.Instance.gui.MouseUp(args);
-			}
+
 
 		}
 

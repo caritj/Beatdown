@@ -83,13 +83,13 @@ namespace BeatDown.Renderer.GameObjects
 						GL.Begin(BeginMode.Quads);
 						//do 
 								GL.TexCoord2(0,1);
-								GL.Vertex3(Coords[i].X-.5f,Coords[i].Y, Coords[i].Z+.5f);
+								GL.Vertex3(Coords[i].X-.5f,Coords[i].Y-.9f, Coords[i].Z+.5f);
 								GL.TexCoord2(1,1);
-								GL.Vertex3(Coords[i].X+.5f,Coords[i].Y, Coords[i].Z+.5f);
+								GL.Vertex3(Coords[i].X+.5f,Coords[i].Y-.9f, Coords[i].Z+.5f);
 								GL.TexCoord2(1,0);
-								GL.Vertex3(Coords[i].X+.5f,Coords[i].Y, Coords[i].Z-.5f);
+								GL.Vertex3(Coords[i].X+.5f,Coords[i].Y-.9f, Coords[i].Z-.5f);
 								GL.TexCoord2(0,0);
-								GL.Vertex3(Coords[i].X-.5f,Coords[i].Y, Coords[i].Z-.5f);
+								GL.Vertex3(Coords[i].X-.5f,Coords[i].Y-.9f, Coords[i].Z-.5f);
 						//	GL.Disable(EnableCap.Texture2D);
 
 						GL.End ();

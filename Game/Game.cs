@@ -13,9 +13,11 @@ namespace BeatDown.Game
 	public class Game:IDisposable
 	{
 		public static Game Instance;
+		public Settings Settings;
 
+		public Random RandomNumberGenerator = new Random();
 		public static State State = new State();
-		public Manager Manager = new Manager();
+		public Manager Manager;
 
 		public Player LocalPlayer= new Player("steve",1,1);
 		public Player WhoseTurn = new Player("steve",1,1);
@@ -23,6 +25,15 @@ namespace BeatDown.Game
 		public Game (Settings s)
 		{
 			Instance =this;
+			Settings = s;
+			Manager  = new Manager();
+		
+
+			//load data from the disk.
+			Manager.EnumerateSaves ();
+			Manager.EnumerateWorlds ();
+
+
 		}
 		
 		public static Game Create (Settings s)

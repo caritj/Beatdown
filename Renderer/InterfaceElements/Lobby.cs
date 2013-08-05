@@ -12,6 +12,11 @@ namespace BeatDown.Renderer.InterfaceElements
 			// this is going to be slighyl complex to do.
 		}
 
+		public override void Layout (int width, int height)
+		{
+			//
+		}
+
 
 	}
 }

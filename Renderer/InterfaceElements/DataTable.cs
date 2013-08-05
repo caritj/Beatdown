@@ -13,6 +13,10 @@ namespace BeatDown.Renderer.InterfaceElements
 		{
 			this.parent = parent;
 		}
+		public override void Layout (int width, int height)
+		{
+
+		}
 	}
 }
 

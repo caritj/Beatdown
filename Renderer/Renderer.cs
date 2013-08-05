@@ -79,7 +79,7 @@ namespace BeatDown.Renderer
 			base.OnLoad(e);
 
 			//TODO Tell the game Load finished
-			Game.Game.State.ChangeState(Game.State.States.INGAME);
+			Game.Game.State.ChangeState(Game.State.States.MENU);
 
 		}
 		protected override void OnResize (EventArgs e)

@@ -47,6 +47,9 @@ namespace BeatDown.Combat
 		protected int maxDamage=5;
 		public int MaxDamage{ get { return maxDamage; } }
 
+		protected double hitPct =0.75;
+		public double HitPct{ get { return hitPct; } }
+
 		public bool InRange(Coords origin, Coords target){
 			bool inRange = false;
 			switch(this.Type){

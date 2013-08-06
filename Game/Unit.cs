@@ -108,10 +108,16 @@ namespace BeatDown.Game
 
 			return APsAvailable-GetTaskAPs(task);
 		}
-
 		public void AddTask (ITask task)
 		{
-				this.Plan.Add (task);
+			AddTask (task, false);
+		}
+		public void AddTask (ITask task, bool addToQueue)
+		{
+			if (!addToQueue) {
+				Plan.Clear();
+			}
+			this.Plan.Add (task);
 
 		}
 
@@ -178,6 +184,12 @@ namespace BeatDown.Game
 
 			}
 		}
+
+		public void OnNewTurn (int turnNumber)
+		{
+			actionPoints = MaxActionPoints;
+		}
+
 		public void ExecutePlan ()
 		{
 

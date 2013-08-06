@@ -22,6 +22,11 @@ namespace BeatDown.Game
 		public Player LocalPlayer= new Player("steve",1,1);
 		public Player WhoseTurn = new Player("steve",1,1);
 
+		protected bool newTurn =true;
+
+		protected int turnNumber =0;
+		public int TurnNumber{get {return turnNumber;}}
+
 		public Game (Settings s)
 		{
 			Instance =this;
@@ -52,7 +57,30 @@ namespace BeatDown.Game
 			//TODO
 		}
 
-		public void Update(double ticks){
+		public void Update (double ticks)
+		{
+
+			if (newTurn) {
+
+				foreach(Unit u in Manager.Units.Values){
+					u.OnNewTurn(TurnNumber);
+				}
+
+				newTurn =false;
+			}
+
+		}
+		public void EndTurn(){
+			//TODO setup netowrk message
+
+
+			//TODO send Net message
+
+			//TODO get response
+
+			//update the rutn number and se the update turn flag.
+			turnNumber++;
+			newTurn =true;
 
 		}
 

@@ -19,8 +19,7 @@ namespace BeatDown.Renderer.InterfaceElements
 			endTurn.Text = "End Turn";
 			//this.LoadTexture("button.png");
 			endTurn.OnMouseUp += delegate(OpenTK.Input.MouseButtonEventArgs args) {
-				//Game.Game.Instance.EndTurn?
-				Console.WriteLine ("Faked ending the turn");
+				Game.Game.Instance.EndTurn();
 			};
 
 			unitInfo = new SelectedUnitInfo(this);

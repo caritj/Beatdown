@@ -44,7 +44,14 @@ namespace BeatDown.Renderer
 								//move order
 								if( Game.Selection.Maploc > 0){
 									//TODO can move to.here
-									selected.AddTask(new Game.Planning.Movement(selected, Render.Instance.theGame.Manager.World.GetPath(selected.X, selected.Z, Game.Selection.MapX,Game.Selection.MapZ)));
+									BeatDown.Game.Planning.Movement m = new Game.Planning.Movement(selected, 
+								                           Render.Instance.theGame.Manager.World.GetPath(
+																selected.X, 
+																selected.Z, 
+																Game.Selection.MapX,
+																Game.Selection.MapZ)
+									                                        );
+									selected.AddTask(m,Render.Instance.Keyboard[Key.ShiftLeft]);
 
 								}
 							} else {

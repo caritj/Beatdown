@@ -6,3 +6,5 @@ then load async each of the various items while showing some sor tof slideshow o
 
 when the load finishes we should show the main menu
 
+glitchy unit select through surfaces/
+

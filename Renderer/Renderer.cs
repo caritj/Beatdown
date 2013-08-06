@@ -115,7 +115,7 @@ namespace BeatDown.Renderer
 			foreach (KeyValuePair<int, Unit> unit in theGame.Manager.Units) {
 				unit.Value.Update(e.Time);
 			}
-			theGame.Update();
+			theGame.Update(e.Time);
 			theGame.Manager.Update(e.Time);
 
 			base.OnUpdateFrame(e);

@@ -56,8 +56,6 @@ namespace BeatDown
 			for (int i=0; i<found.Length; i++) {
 				if(!found[i]){
 					Console.WriteLine("Unable to load font :"+fonts[i]);
-					//TODO workarund this for gwen.net
-
 				}
 			}
 

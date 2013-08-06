@@ -23,7 +23,8 @@ namespace BeatDown.Game
 		protected int maxActionPoints =5;
 		public int MaxActionPoints { get { return maxActionPoints; } }
 
-		public List<ITask> Plan;
+		public List<ITask> Plan = new List<ITask>();
+		protected List<ITask> completedTasks  =new List<ITask>();
 
 		protected string name;
 		public string Name{ get { return this.name; } }
@@ -110,11 +111,8 @@ namespace BeatDown.Game
 
 		public void AddTask (ITask task)
 		{
-			if (GetRemainingAPs (task) > 0) {
 				this.Plan.Add (task);
-			} else {
-				throw new OutOfAtionPointsException ("Not enough action points remaining to add this task.");
-			}
+
 		}
 
 
@@ -145,9 +143,48 @@ namespace BeatDown.Game
 		public void Update (double time)
 		{
 			if (health <= 0) {
-				Game.Instance.Manager.AddToRemovalQueue(this.glId);
+				Game.Instance.Manager.AddToRemovalQueue (this.glId);
+			} else {
+				//cehck teh plan
+				//TODO SLOW DOWN for animation 
+				if(this.Plan !=null && this.Plan.Count >0 && this.ActionPoints >0){
+
+					ITask task = Plan[0].Execute(this.ActionPoints);
+					this.actionPoints  -= task.GetCost();
+
+					if(task is Movement){
+						//TODO SLWOLY AND ANIMATE
+						Movement m = ((Movement)task);
+						if(task.GetCost() > 0){
+							Coords dest = m.Path[m.Path.Count-1];
+							this.MoveTo(dest, dest.Direction(this.Position));
+						}
+					}
+
+					if(task is Attack){
+
+					}
+					if(task is Idle){
+
+					}
+
+					completedTasks.Add(task);
+
+					if(this.Plan[0].GetCompleted()){
+						this.Plan.RemoveAt(0);
+					}
+
+				}
+
 			}
 		}
+		public void ExecutePlan ()
+		{
+
+		}
+
+		
+
 
 
 	}

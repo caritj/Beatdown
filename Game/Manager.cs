@@ -167,7 +167,7 @@ namespace BeatDown.Game
 					this.saves[key] = new Save(File.ReadAllText(key));
 				}
 				else{
-					this.saves[key] =  new Save();
+					this.saves[key] =  new Save(Game.Instance.Settings.SaveDirectory+"new.save");
 				}
 				return this.saves [key];
 

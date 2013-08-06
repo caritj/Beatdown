@@ -44,12 +44,8 @@ namespace BeatDown.Renderer
 								//move order
 								if( Game.Selection.Maploc > 0){
 									//TODO can move to.here
-									selected.MoveTo (Game.Selection.MapCoords, Game.Selection.MapCoords.Direction(selected.Position));
+									selected.AddTask(new Game.Planning.Movement(selected, Render.Instance.theGame.Manager.World.GetPath(selected.X, selected.Z, Game.Selection.MapX,Game.Selection.MapZ)));
 
-									//this should deduct action points.
-									if(selected.ActionPoints ==0){
-										Game.Selection.SelectedId = Game.Selection.NONE;
-									}
 								}
 							} else {
 								//did we click a unit?
@@ -63,7 +59,8 @@ namespace BeatDown.Renderer
 									else{
 										//attack?
 										if(selected.CanAttack(target)){
-											target.TakeDamage(selected.Weapon.MaxDamage);
+											selected.AddTask(new BeatDown.Game.Planning.Attack(selected,target));
+											//target.TakeDamage(selected.Weapon.MaxDamage);
 											new Resources.Texture(SharedResources.InGameFont, selected.Weapon.MaxDamage.ToString(), System.Drawing.Brushes.Red, 24,24);								}
 
 									}

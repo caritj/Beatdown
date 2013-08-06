@@ -19,7 +19,8 @@ namespace BeatDown.Renderer.InterfaceElements
 			lobby = new Base (this);
 			lobby.Width = 128;
 			lobby.Height = 32;
-			lobby.Text = "OnlineLobby";
+			lobby.Y = 32;
+			lobby.Text = "Lobby";
 
 			dimmer = new Base (this);
 			dimmer.Width = Renderer.Render.Instance.Width;
@@ -35,6 +36,8 @@ namespace BeatDown.Renderer.InterfaceElements
 				Game.Game.State.ChangeState(BeatDown.Game.State.States.INGAME);
 			};
 			this.children.Add(newGame);
+			this.children.Add (lobby);
+			this.children.Add (dimmer);
 
 		} 	
 

@@ -50,6 +50,9 @@ namespace BeatDown.Combat
 		protected double hitPct =0.75;
 		public double HitPct{ get { return hitPct; } }
 
+		protected int apCost =1;
+		public int APCost{ get { return apCost; } }
+
 		public bool InRange(Coords origin, Coords target){
 			bool inRange = false;
 			switch(this.Type){

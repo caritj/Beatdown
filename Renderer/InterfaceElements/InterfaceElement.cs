@@ -145,14 +145,15 @@ namespace BeatDown.Renderer.InterfaceElements
 		}
 
 		protected void DrawBackgroundColor(){
+			GL.Color4(BackgroundColor);
 			GL.Begin(BeginMode.Quads);
-				GL.Color3(BackgroundColor);
 				GL.Vertex3(X,Y,Z);
 				GL.Vertex3(X+Width,Y,Z);
 				GL.Vertex3(X+Width,Y+Height,Z);
 				GL.Vertex3(X,Y+Height,Z);
-				GL.Color3(1f,1f,1f);
+				
 			GL.End();
+			GL.Color4(1f,1f,1f,1f);
 		}
 
 		protected void DrawTexture(Texture outputTex){

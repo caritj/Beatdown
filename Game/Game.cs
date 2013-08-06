@@ -52,6 +52,9 @@ namespace BeatDown.Game
 			//TODO
 		}
 
+		public void Update(double ticks){
+
+		}
 
 
 

@@ -42,7 +42,9 @@ namespace BeatDown.Renderer
 			}
 		}
 		public void Layout(int Width, int Height){
-		
+			foreach (InterfaceElement element in Interfaces.Values) {
+				element.Layout (Width, Height);
+			}
 		
 		}
 		public void Render ()

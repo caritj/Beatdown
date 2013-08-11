@@ -2,12 +2,17 @@ using System;
 
 namespace BeatDown.Renderer.InterfaceElements
 {
-	public class PartyCompositor:Gwen.Control.DockBase
+	public class PartyCompositor:InterfaceElement
 	{
-		public PartyCompositor (Gwen.Control.Base parent):base(parent)
+		public PartyCompositor (InterfaceElement  parent)
 		{
 
 		}
+		public override void Layout (int width, int height)
+		{
+
+		}
+		 
 	}
 }
 

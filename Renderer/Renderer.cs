@@ -57,10 +57,15 @@ namespace BeatDown.Renderer
 			//setup gui systems
 			gui = new GUI (settings);
 
+			for (int i =0; i <100; i++) {
+				SharedResources.StringTextureCache.Add(i.ToString(), 
+				                                       new BeatDown.Renderer.Resources.Texture(SharedResources.InGameFont,i.ToString(), System.Drawing.Brushes.White,32,32));
+			}
+
 		
 
 			//Decide what open gl capacities we want running.
-
+			GL.Enable (EnableCap.Texture2D);
 			GL.Enable(EnableCap.DepthTest);
 			GL.Enable(EnableCap.CullFace);
 			//GL.Enable(EnableCap.Lighting);
@@ -74,7 +79,7 @@ namespace BeatDown.Renderer
 			base.OnLoad(e);
 
 			//TODO Tell the game Load finished
-			Game.Game.State.ChangeState(Game.State.States.INGAME);
+			Game.Game.State.ChangeState(Game.State.States.MENU);
 
 		}
 		protected override void OnResize (EventArgs e)
@@ -110,6 +115,7 @@ namespace BeatDown.Renderer
 			foreach (KeyValuePair<int, Unit> unit in theGame.Manager.Units) {
 				unit.Value.Update(e.Time);
 			}
+			theGame.Update(e.Time);
 			theGame.Manager.Update(e.Time);
 
 			base.OnUpdateFrame(e);

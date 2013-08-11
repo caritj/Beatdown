@@ -6,6 +6,10 @@ namespace BeatDown.Game.Planning
 
 	public interface ITask
 	{
+		int GetCost();
+		ITask Execute(int ActionPoints);
+		bool GetCompleted();
+
 	}
 
 	public class Path:ITask
@@ -20,7 +24,23 @@ namespace BeatDown.Game.Planning
 		{
 			this.Coords = new List<Coords>();
 			this.Coords.Add (c);
+		}		#region ITask implementation
+		public int GetCost ()
+		{
+			throw new System.NotImplementedException ();
 		}
+
+		public ITask Execute (int ActionPoints)
+		{
+			throw new System.NotImplementedException ();
+		}
+
+		public bool GetCompleted ()
+		{
+			throw new System.NotImplementedException ();
+		}
+		#endregion
+
 
 	}
 

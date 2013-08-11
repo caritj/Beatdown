@@ -11,6 +11,12 @@ env/
 .project
 *.pyc
 
+
+
+
+
+# dropbox cruft
+*'s conflicted copy*
 # Compiled source #
 ###################
 *.com

@@ -47,6 +47,12 @@ namespace BeatDown.Combat
 		protected int maxDamage=5;
 		public int MaxDamage{ get { return maxDamage; } }
 
+		protected double hitPct =0.75;
+		public double HitPct{ get { return hitPct; } }
+
+		protected int apCost =1;
+		public int APCost{ get { return apCost; } }
+
 		public bool InRange(Coords origin, Coords target){
 			bool inRange = false;
 			switch(this.Type){
@@ -79,9 +85,9 @@ namespace BeatDown.Combat
 				if(Shooter.DidHit(Target, this)){
 
 					//Calculate Damage
-					int dam = maxDamage;
+					int dam = Game.Game.Instance.RandomNumberGenerator.Next(minDamage, maxDamage);
 					//apply to the Target
-					Target.TakeDamage(maxDamage, this.damageType);
+					Target.TakeDamage(dam, this.damageType);
 
 				}
 

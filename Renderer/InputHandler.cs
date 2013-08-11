@@ -13,6 +13,14 @@ namespace BeatDown.Renderer
 		{
 			SharedResources.MouseIsDown = false;
 
+			if(Renderer.Render.Instance.gui.WasClicked(args.X, args.Y)){
+				Renderer.Render.Instance.gui.MouseUp(args);
+			}
+
+			if (Game.State.States.INGAME != Game.Game.State.Current) {
+				return;
+			}
+
 		//	Console.WriteLine(String.Format("Mouseup {0} {1} {2}",Game.Selection.HoveredId, Game.Selection.Maploc, Game.Selection.SelectedId));
 
 			//select with left click
@@ -36,12 +44,15 @@ namespace BeatDown.Renderer
 								//move order
 								if( Game.Selection.Maploc > 0){
 									//TODO can move to.here
-									selected.MoveTo (Game.Selection.MapCoords, Game.Selection.MapCoords.Direction(selected.Position));
+									BeatDown.Game.Planning.Movement m = new Game.Planning.Movement(selected, 
+								                           Render.Instance.theGame.Manager.World.GetPath(
+																selected.X, 
+																selected.Z, 
+																Game.Selection.MapX,
+																Game.Selection.MapZ)
+									                                        );
+									selected.AddTask(m,Render.Instance.Keyboard[Key.ShiftLeft]);
 
-									//this should deduct action points.
-									if(selected.ActionPoints ==0){
-										Game.Selection.SelectedId = Game.Selection.NONE;
-									}
 								}
 							} else {
 								//did we click a unit?
@@ -55,7 +66,8 @@ namespace BeatDown.Renderer
 									else{
 										//attack?
 										if(selected.CanAttack(target)){
-											target.TakeDamage(selected.Weapon.MaxDamage);
+											selected.AddTask(new BeatDown.Game.Planning.Attack(selected,target));
+											//target.TakeDamage(selected.Weapon.MaxDamage);
 											new Resources.Texture(SharedResources.InGameFont, selected.Weapon.MaxDamage.ToString(), System.Drawing.Brushes.Red, 24,24);								}
 
 									}
@@ -65,9 +77,7 @@ namespace BeatDown.Renderer
 					}
 				}
 			}
-			if(Renderer.Render.Instance.gui.WasClicked(args.X, args.Y)){
-				Renderer.Render.Instance.gui.MouseUp(args);
-			}
+
 
 		}
 

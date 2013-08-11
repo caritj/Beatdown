@@ -11,6 +11,10 @@ namespace BeatDown.Renderer.InterfaceElements
 		public Base (){
 
 		}
+		public override void Layout (int width, int height)
+		{
+			//does nothing;
+		}
 			
 
 	}

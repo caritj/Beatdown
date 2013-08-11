@@ -1,20 +1,22 @@
 #!/usr/bin/env python
 
 from optparse import OptionParser
-import Lobby
-import Hello_world
+import LobbyServer
+import GameServer
 
 if __name__ == "__main__":
     parser = OptionParser()
-    parser.add_option("-l", "--lobby", action="store_true", dest='lobby', default=False)
-    parser.add_option("", "--hello_world", action="store_true", dest='hello_world', default=False)
+    parser.add_option("-l", "--lobby", action="store_false", dest='game', default=False)
+    parser.add_option("-g", "--game", action="store_true", dest='game', default=True)
+    parser.add_option("-b", "--broker", dest='broker', default="127.0.0.1")
+    parser.add_option("-p", "--port", dest='port', default=5672)
     (options, args) = parser.parse_args()
-    
+
     server = None
-    
-    if options.lobby: server = Lobby.Server()
-    elif options.hello_world: server = Hello_world.Server()
+
+    if options.game: server = GameServer.Server(broker=options.broker, port=options.port)
+    else: server = LobbyServer.Server(broker=options.broker, port=options.port)
+
     server.serve()
-    
-    
-    
+
+

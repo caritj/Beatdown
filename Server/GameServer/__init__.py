@@ -18,6 +18,7 @@ class Server:
     channel = None
 
     game_list = None
+    id = None
 
     def __init__(self, broker, port):
       self.connection = pika.BlockingConnection(pika.ConnectionParameters(broker, port))
@@ -39,7 +40,7 @@ class Server:
       params = json.loads(body)
 
       game_id = params['id']
-      game_instance = Game.instance(game_id)
+      game_instance = Game.instance(game_id, self, ch)
 
       game_dict = {'params': params, 'instance': game_instance }
 

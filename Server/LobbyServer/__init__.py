@@ -8,6 +8,9 @@ import json
 import uuid
 import random
 import logging
+import thread
+from datetime import datetime
+from time import sleep
 
 
 class Server:
@@ -16,6 +19,9 @@ class Server:
     channel = None
     game_list = None
     game_servers = None
+
+    ping_wait = 0.5
+    ping_interval = 5
 
     def __init__(self, broker, port):
 
@@ -26,6 +32,44 @@ class Server:
         self.channel = self.connection.channel()
 
         print 'Server started in Lobby Server mode.'
+
+    def __on_ping_ack(self, ch, method, props, body):
+      params = json.loads(body)
+      try:
+        self.game_servers[params['ack']]['last_ping'] = datetime.now()
+      except:
+        pass
+
+    def start_pinging(self):
+      while True:
+        if len(self.game_servers.keys()) > 0:
+          game_server_id = random.choice(self.game_servers.keys())
+          self.__ping(game_server_id)
+        sleep(self.ping_interval)
+
+    def __ping(self, game_server_id):
+      print 'Ping %s' % game_server_id
+
+      corr_id = str(uuid.uuid4())
+
+      self.channel.basic_publish(exchange=game_server_id,
+                       routing_key='ping',
+                       properties=pika.BasicProperties(),
+                       body="")
+
+      sleep(self.ping_wait)
+      if not (game_server_id in self.game_servers):
+        print "Server %s left without saying goodbye. :( " % (game_server_id)
+
+      elif not ('last_ping' in self.game_servers[game_server_id]):
+        print "Server %s left without saying goodbye. :( " % (game_server_id)
+        del self.game_servers[game_server_id]
+      elif((datetime.now() - self.game_servers[game_server_id]['last_ping']).total_seconds() > self.ping_wait):
+          print "Server %s left without saying goodbye. :( " % (game_server_id)
+          del self.game_servers[game_server_id]
+
+
+
 
     # Create a game to be joined by other players
     def __process_create_game(self, ch, method, props, body):
@@ -91,8 +135,6 @@ class Server:
                                                        ),
                        body=json.dumps(server_params))
 
-      #self.channel.exchange_declare(exchange=self.id, type="topic")
-
       ch.basic_ack(delivery_tag = method.delivery_tag)
 
     def serve(self):
@@ -104,15 +146,22 @@ class Server:
         self.channel.basic_consume(self.__process_create_game, queue='create_game')
 
 
+        # Set up ping queues
+        self.channel.queue_declare(queue='ping')
+        self.channel.basic_consume(self.__on_ping_ack, queue='ping')
+
         # Set up server registration queues
         self.channel.exchange_declare(exchange="game_admin", type='direct')
+        self.channel.queue_declare(queue='game_server_announce')
 
         self.channel.queue_bind(exchange='game_admin',
                        queue='game_server_announce',
                        routing_key='game_server_announce')
 
+
         self.channel.basic_consume(self.__register_game_server, queue='game_server_announce')
 
-
         # Start serving
+        thread.start_new_thread ( self.start_pinging, () )
+
         self.channel.start_consuming()

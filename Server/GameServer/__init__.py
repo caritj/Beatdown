@@ -36,11 +36,15 @@ class Server:
       self.name = params['name']
       self.id = params['id']
 
+
     def __on_create_game(self, ch, method, props, body):
+
+      print 'Creating game...'
+      print method.__dict__
       params = json.loads(body)
 
       game_id = params['id']
-      game_instance = Game.instance(game_id, self, ch)
+      game_instance = Game.instance(game_id, self)
 
       game_dict = {'params': params, 'instance': game_instance }
 
@@ -48,6 +52,13 @@ class Server:
 
       print game_dict
 
+    def __on_ping(self, ch, method, props, body):
+      print '%s Got a ping!' % self.id
+      ch.basic_publish(exchange='',
+                       routing_key='ping',
+                       properties=pika.BasicProperties(),
+                       body=json.dumps({'ack': self.id}))
+      print 'Acked.'
 
     def serve(self):
 
@@ -56,8 +67,6 @@ class Server:
         lobby_reg_result = self.channel.queue_declare(exclusive=True)
         lobby_reg_callback_queue = lobby_reg_result.method.queue
         lobby_reg_correlation_id = str(uuid.uuid4())
-
-        self.channel.exchange_declare(exchange="game_admin", type='direct')
 
         self.channel.queue_bind(exchange='game_admin',
                        queue=lobby_reg_callback_queue,
@@ -86,7 +95,6 @@ class Server:
 
 
         self.channel.exchange_declare(exchange=self.id, type="topic")
-
         admin_queue = self.channel.queue_declare(exclusive=True)
         admin_queue_name = admin_queue.method.queue
 
@@ -94,10 +102,21 @@ class Server:
                                 queue=admin_queue_name,
                                 routing_key='create_game')
 
+
+        ping_queue = self.channel.queue_declare(exclusive=True)
+        ping_queue_name = ping_queue.method.queue
+        self.channel.queue_bind(exchange=self.id,
+                                queue=ping_queue_name,
+                                routing_key='ping')
+
         self.channel.basic_consume(
                           self.__on_create_game,
                           no_ack=True, queue=admin_queue_name
                           )
+        self.channel.basic_consume(
+                                   self.__on_ping,
+                                   no_ack=True, queue=ping_queue_name
+                                   )
 
 
         print 'Ready!'

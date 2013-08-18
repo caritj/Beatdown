@@ -74,6 +74,9 @@ class Server:
     # Create a game to be joined by other players
     def __process_create_game(self, ch, method, props, body):
 
+        if not len(self.game_servers) > 0:
+          return
+
         params = json.loads(body)
 
         game_id = str(uuid.uuid4())
@@ -89,16 +92,11 @@ class Server:
 
         self.game_list[game_id] = game_params
 
-        ch.basic_publish(exchange='',
-                     routing_key=props.reply_to,
-                     properties=pika.BasicProperties(
-                         correlation_id = props.correlation_id
-                         ),
-                     body=json.dumps(game_params))
-
         ch.basic_publish(exchange=server,
                          routing_key='create_game',
-                         properties=pika.BasicProperties(),
+                         properties=pika.BasicProperties(
+                                                         reply_to = props.reply_to,
+                                                         correlation_id = props.correlation_id),
                          body=json.dumps(game_params))
 
 

@@ -29,6 +29,7 @@ class Server:
 
       print 'Server started in Game Server mode.'
 
+
     def __on_lobby_reg(self, ch, method, props, body, correlation_id):
       params = json.loads(body)
       print 'Registered with lobby as %s (%s).' % (params['name'], params['id'])
@@ -40,7 +41,6 @@ class Server:
     def __on_create_game(self, ch, method, props, body):
 
       print 'Creating game...'
-      print method.__dict__
       params = json.loads(body)
 
       game_id = params['id']
@@ -51,14 +51,20 @@ class Server:
       self.game_list[game_id] = game_dict
 
       print game_dict
+      print 'Sending message to game server...'
+      ch.basic_publish(exchange='',
+                       routing_key=props.reply_to,
+                       properties=pika.BasicProperties(
+                                                       correlation_id = props.correlation_id),
+                       body=json.dumps({'params': params, 'server': self.id}))
+
+
 
     def __on_ping(self, ch, method, props, body):
-      print '%s Got a ping!' % self.id
       ch.basic_publish(exchange='',
                        routing_key='ping',
                        properties=pika.BasicProperties(),
                        body=json.dumps({'ack': self.id}))
-      print 'Acked.'
 
     def serve(self):
 
@@ -110,16 +116,20 @@ class Server:
                                 routing_key='ping')
 
         self.channel.basic_consume(
-                          self.__on_create_game,
-                          no_ack=True, queue=admin_queue_name
-                          )
-        self.channel.basic_consume(
                                    self.__on_ping,
                                    no_ack=True, queue=ping_queue_name
                                    )
+
+        self.channel.basic_consume(
+                          self.__on_create_game,
+                          no_ack=True, queue=admin_queue_name
+                          )
+
+
 
 
         print 'Ready!'
 
         # Start serving
-        self.channel.start_consuming()
+        while True:
+          self.channel.start_consuming()

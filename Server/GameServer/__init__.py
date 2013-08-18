@@ -20,106 +20,106 @@ class Server:
     game_list = None
     id = None
 
+
     def __init__(self, broker, port):
       self.connection = pika.BlockingConnection(pika.ConnectionParameters(broker, port))
       self.channel = self.connection.channel()
       self.id = None
       self.name = None
+      self.registered = False
       self.game_list = {}
+      self.callbacks_waiting = {}
 
       print 'Server started in Game Server mode.'
 
-    def __on_lobby_reg(self, ch, method, props, body, correlation_id):
+
+    def __on_callback(self, ch, method, props, body):
+      if props.correlation_id in self.callbacks_waiting:
+        f = self.callbacks_waiting[props.correlation_id]
+        del(self.callbacks_waiting[props.correlation_id])
+        f(ch, method, props, body)
+
+
+
+    def __on_lobby_reg(self, ch, method, props, body):
+
       params = json.loads(body)
-      print 'Registered with lobby as %s (%s).' % (params['name'], params['id'])
+      self.registered = True
 
-      self.name = params['name']
-      self.id = params['id']
-
-
-    def __on_create_game(self, ch, method, props, body):
-
-      print 'Creating game...'
-      print method.__dict__
-      params = json.loads(body)
-
-      game_id = params['id']
-      game_instance = Game.instance(game_id, self)
-
-      game_dict = {'params': params, 'instance': game_instance }
-
-      self.game_list[game_id] = game_dict
-
-      print game_dict
 
     def __on_ping(self, ch, method, props, body):
-      print '%s Got a ping!' % self.id
       ch.basic_publish(exchange='',
-                       routing_key='ping',
-                       properties=pika.BasicProperties(),
+                       routing_key=props.reply_to,
+                       properties=pika.BasicProperties(correlation_id = props.correlation_id),
                        body=json.dumps({'ack': self.id}))
-      print 'Acked.'
+
+    def __on_create_game(self, ch, method, props, body):
+      print body
+      print "... ..."
+      #params = json.loads(body)
+
 
     def serve(self):
 
-        # Register with lobby server
+      self.id = str(uuid.uuid4())
 
-        lobby_reg_result = self.channel.queue_declare(exclusive=True)
-        lobby_reg_callback_queue = lobby_reg_result.method.queue
-        lobby_reg_correlation_id = str(uuid.uuid4())
+      self.channel.exchange_declare(exchange=self.id, type="topic")
 
-        self.channel.queue_bind(exchange='game_admin',
-                       queue=lobby_reg_callback_queue,
-                       routing_key=lobby_reg_callback_queue)
 
-        self.channel.basic_consume(
-                          partial(self.__on_lobby_reg, correlation_id=lobby_reg_correlation_id),
-                          no_ack=True, queue=lobby_reg_callback_queue
+      # Set up callback queue
+
+      callback_result = self.channel.queue_declare(exclusive=True)
+      callback_queue = callback_result.method.queue
+
+      self.channel.basic_consume(
+                          self.__on_callback,
+                          queue=callback_queue
                           )
 
-        self.channel.basic_publish(
-                           exchange='game_admin',
-                           routing_key='game_server_announce',
-                           properties=pika.BasicProperties(
-                                content_type="application/json",
-                                reply_to = lobby_reg_callback_queue,
-                                correlation_id = lobby_reg_correlation_id),
-                           body=json.dumps({'name': 'Test Server!'})
-                        )
 
-
-        # Wait for id assignment from lobby server before serving games
-
-        while self.id is None:
-          self.connection.process_data_events()
-
-
-        self.channel.exchange_declare(exchange=self.id, type="topic")
-        admin_queue = self.channel.queue_declare(exclusive=True)
-        admin_queue_name = admin_queue.method.queue
-
-        self.channel.queue_bind(exchange=self.id,
-                                queue=admin_queue_name,
-                                routing_key='create_game')
-
-
-        ping_queue = self.channel.queue_declare(exclusive=True)
-        ping_queue_name = ping_queue.method.queue
-        self.channel.queue_bind(exchange=self.id,
+      ping_queue = self.channel.queue_declare(exclusive=True)
+      ping_queue_name = ping_queue.method.queue
+      self.channel.queue_bind(exchange=self.id,
                                 queue=ping_queue_name,
                                 routing_key='ping')
-
-        self.channel.basic_consume(
-                          self.__on_create_game,
-                          no_ack=True, queue=admin_queue_name
-                          )
-        self.channel.basic_consume(
-                                   self.__on_ping,
-                                   no_ack=True, queue=ping_queue_name
+      self.channel.basic_consume(
+                                 self.__on_ping,
+                                 no_ack=True, queue=ping_queue_name
                                    )
 
+      # Register with lobby server
 
-        print 'Ready!'
+      lobby_reg_corr_id = str(uuid.uuid4())
+      self.callbacks_waiting[lobby_reg_corr_id] = self.__on_lobby_reg
 
-        # Start serving
-        self.channel.start_consuming()
+      self.channel.basic_publish(
+                        exchange='lobby',
+                        routing_key='game_server_announce',
+                        properties=pika.BasicProperties(
+                                                        content_type="application/json",
+                                                        reply_to = callback_queue,
+                                                        correlation_id = lobby_reg_corr_id),
+                        body=json.dumps({'name': 'Test Server!', 'id': self.id})
+                        )
+
+      print "Waiting or acknowledgement from lobby server..."
+
+      while not self.registered:
+        self.connection.process_data_events()
+
+      print 'Registered with lobby as %s (%s).' % (self.name, self.id)
+
+      create_game_queue = self.channel.queue_declare(exclusive=True)
+      create_game_name = ping_queue.method.queue
+      self.channel.queue_bind(exchange=self.id,
+                                queue=create_game_name,
+                                routing_key='create_game')
+      self.channel.basic_consume(
+                                 self.__on_create_game,
+                                 no_ack=True, queue=create_game_name
+                                   )
+
+      # Start serving'
+      self.channel.start_consuming()
+
+

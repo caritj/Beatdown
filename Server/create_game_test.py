@@ -17,31 +17,31 @@ if __name__ == "__main__":
         print "-----------------------"
         print body
 
-    connection = pika.BlockingConnection(pika.ConnectionParameters('127.0.0.1', 5672))
+    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', 5672))
     channel = connection.channel()
 
     result = channel.queue_declare(exclusive=True)
     callback_queue = result.method.queue
 
 
-    #game_list_result = channel.queue_declare(exclusive=True)
-    #game_list_queue = game_list_result.method.queue
-    #channel.queue_bind(exchange='game_list',
-    #               queue=game_list_queue)
+    game_list_result = channel.queue_declare(exclusive=True)
+    game_list_queue = game_list_result.method.queue
+    channel.queue_bind(exchange='game_list',
+                   queue=game_list_queue)
 
 
     corr_id = str(uuid.uuid4())
 
-    #channel.basic_consume(
-    #                      partial(on_response, correlation_id=corr_id),
-    #                      no_ack=True, queue=callback_queue)
-    #
-    #channel.basic_consume(
-    #                      on_game_list,
-    #                      no_ack=True,
-    #                      queue = game_list_queue
-    #                      )
-    print "OK..."
+    channel.basic_consume(
+                          partial(on_response, correlation_id=corr_id),
+                          no_ack=True, queue=callback_queue)
+
+    channel.basic_consume(
+                          on_game_list,
+                          no_ack=True,
+                          queue = game_list_queue
+                          )
+
     channel.basic_publish(
                            exchange='',
                            routing_key='create_game',

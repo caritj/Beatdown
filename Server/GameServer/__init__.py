@@ -9,6 +9,7 @@ import json
 import uuid
 import logging
 import Game
+from util import *
 
 from functools import partial
 
@@ -50,14 +51,7 @@ class Server:
 
       self.game_list[game_id] = game_dict
 
-      print game_dict
-      print 'Sending message to game server...'
-      ch.basic_publish(exchange='',
-                       routing_key=props.reply_to,
-                       properties=pika.BasicProperties(
-                                                       correlation_id = props.correlation_id),
-                       body=json.dumps({'params': params, 'server': self.id}))
-
+      bind_game_to_exchange(game_instance, ch, self.id)
 
 
     def __on_ping(self, ch, method, props, body):
